@@ -49,7 +49,7 @@ impl CUScannerLogger {
 
     /// 创建新的日志记录器实例，指定输出目标
     pub fn with_target(target: LogTarget) -> Self {
-        todo!()
+        CUScannerLogger { target }
     }
 
     /// 初始化日志记录器
