@@ -127,17 +127,18 @@ impl OvalDefinitions {
 
     /// 获取测试数量
     pub fn get_test_count(&self) -> usize {
-        todo!()
+        self.tests.rpminfo_tests.len()
     }
 
     /// 添加对象
     pub fn add_rpm_info_object(&mut self, object: RpmInfoObject) {
-        todo!()
+        debug!("添加RPM信息对象: {}", object.id);
+        self.objects.add_rpm_info(object);
     }
 
     /// 获取对象数量
     pub fn get_object_count(&self) -> usize {
-        todo!()
+        self.objects.len()
     }
 
     /// 添加状态
