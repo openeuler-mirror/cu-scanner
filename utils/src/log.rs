@@ -38,7 +38,12 @@ impl Default for CUScannerLogger {
 impl CUScannerLogger {
     /// 创建新的日志记录器实例
     pub fn new() -> Self {
-        todo!()
+        let target = if let Ok(log_file) = env::var("CU_SCANNER_LOG_FILE") {
+            LogTarget::File(log_file)
+        } else {
+            LogTarget::Stdout
+        };
+        todo!();
     }
 
     /// 创建新的日志记录器实例，指定输出目标
