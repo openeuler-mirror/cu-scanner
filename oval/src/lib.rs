@@ -98,22 +98,31 @@ impl OvalDefinitions {
     /// 返回一个新的OvalDefinitions实例，包含默认值
     pub fn new() -> Self {
         info!("创建新的OvalDefinitions实例");
-        todo!();
+        Self {
+            schema_location: XSI_SCHEMALOCATION.to_string(),
+            generator: Generator::new(),
+            definitions: Definitions::new(),
+            tests: Tests::new(),
+            objects: Objects::new(),
+            states: States::new(),
+        }
     }
 
     /// 添加定义
     pub fn add_definition(&mut self, definition: Definition) {
-        todo!()
+        debug!("添加定义: {}", definition.id);
+        self.definitions.items.push(definition);
     }
 
     /// 获取定义数量
     pub fn get_definition_count(&self) -> usize {
-        todo!()
+        self.definitions.items.len()
     }
 
     /// 添加测试
     pub fn add_rpminfo_test(&mut self, test: RpmInfoTest) {
-        todo!()
+        debug!("添加RPM信息测试: {}", test.id);
+        self.tests.rpminfo_tests.push(test);
     }
 
     /// 获取测试数量
