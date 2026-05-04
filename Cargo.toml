@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+members = [ "csaf","cu-scanner", "database", "networking/actix_server", "oval", "parser", "test", "csaf_database", "networking/csaf_fetcher"]
+
+[workspace.package]
+edition = "2021"
+license = "MulanPSL-2.0"
+
+[profile.release]
+lto = "thin"
+debug = 1
