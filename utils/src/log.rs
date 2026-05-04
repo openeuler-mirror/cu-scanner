@@ -31,7 +31,7 @@ pub struct CUScannerLogger {
 
 impl Default for CUScannerLogger {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
