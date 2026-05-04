@@ -43,7 +43,8 @@ impl CUScannerLogger {
         } else {
             LogTarget::Stdout
         };
-        todo!();
+
+        CUScannerLogger { target }
     }
 
     /// 创建新的日志记录器实例，指定输出目标
