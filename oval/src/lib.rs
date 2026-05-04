@@ -86,7 +86,7 @@ pub struct OvalDefinitions {
 
 impl Default for OvalDefinitions {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -97,7 +97,8 @@ impl OvalDefinitions {
     ///
     /// 返回一个新的OvalDefinitions实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        info!("创建新的OvalDefinitions实例");
+        todo!();
     }
 
     /// 添加定义
