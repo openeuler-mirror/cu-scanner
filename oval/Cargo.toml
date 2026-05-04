@@ -1,1 +1,12 @@
 [package]
+name = "oval"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+const_format = "0.2.34"
+serde = { version = "1.0.219", features = ["derive"] }
+serde-xml-rs = "0.8.1"
+log = "0.4"
+chrono = "0.4"
