@@ -231,6 +231,62 @@ impl OvalDefinitions {
         use std::collections::HashSet;
 
         // 1. 合并 definitions（去重）
+        let mut existing_def_ids: HashSet<String> =
+            self.definitions.items.iter().map(|d| d.id.clone()).collect();
+
+        for def in other.definitions.items {
+            if !existing_def_ids.contains(&def.id) {
+                debug!("添加新的 definition: {}", def.id);
+                existing_def_ids.insert(def.id.clone());
+                self.definitions.items.push(def);
+            } else {
+                debug!("跳过重复的 definition: {}", def.id);
+            }
+        }
+
+        // 2. 合并 tests（去重）
+        let mut existing_test_ids: HashSet<String> =
+            self.tests.rpminfo_tests.iter().map(|t| t.id.clone()).collect();
+
+        for test in other.tests.rpminfo_tests {
+            if !existing_test_ids.contains(&test.id) {
+                debug!("添加新的 rpminfo_test: {}", test.id);
+                existing_test_ids.insert(test.id.clone());
+                self.tests.rpminfo_tests.push(test);
+            } else {
+                debug!("跳过重复的 rpminfo_test: {}", test.id);
+            }
+        }
+
+        // 合并 rpmverifyfile_tests
+        let mut existing_verify_test_ids: HashSet<String> =
+            self.tests.rpmverifyfile_tests.iter().map(|t| t.id.clone()).collect();
+
+        for test in other.tests.rpmverifyfile_tests {
+            if !existing_verify_test_ids.contains(&test.id) {
+                debug!("添加新的 rpmverifyfile_test: {}", test.id);
+                existing_verify_test_ids.insert(test.id.clone());
+                self.tests.rpmverifyfile_tests.push(test);
+            } else {
+                debug!("跳过重复的 rpmverifyfile_test: {}", test.id);
+            }
+        }
+
+        // 3. 合并 objects（去重）
+        let mut existing_obj_ids: HashSet<String> =
+            self.objects.rpm_info_objects.iter().map(|o| o.id.clone()).collect();
+
+        for obj in other.objects.rpm_info_objects {
+            if !existing_obj_ids.contains(&obj.id) {
+                debug!("添加新的 rpminfo_object: {}", obj.id);
+                existing_obj_ids.insert(obj.id.clone());
+                self.objects.rpm_info_objects.push(obj);
+            } else {
+                debug!("跳过重复的 rpminfo_object: {}", obj.id);
+            }
+        }
+
+        // 合并 rpmverifyfile_objects
         todo!();
     }
 
