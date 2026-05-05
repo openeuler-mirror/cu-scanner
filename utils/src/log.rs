@@ -128,7 +128,7 @@ impl log::Log for CUScannerLogger {
     }
 
     fn flush(&self) {
-        todo!()
+        // 由于我们每次写入都flush，这里不需要额外操作
     }
 }
 
