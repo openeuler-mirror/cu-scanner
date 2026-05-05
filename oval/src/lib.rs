@@ -443,7 +443,7 @@ pub struct Definitions {
 
 impl Default for Definitions {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -454,12 +454,13 @@ impl Definitions {
     ///
     /// 返回一个新的Definitions实例，包含空的定义列表
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Definitions实例");
+        Self { items: Vec::new() }
     }
 
     /// 添加定义
     pub fn add(&mut self, definition: Definition) {
-        todo!()
+        self.items.push(definition);
     }
 
     /// 获取定义数量
