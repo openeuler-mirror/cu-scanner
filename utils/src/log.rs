@@ -54,7 +54,9 @@ impl CUScannerLogger {
 
     /// 初始化日志记录器
     pub fn init(level: Level) -> Result<(), SetLoggerError> {
-        todo!()
+        let logger = Self::new();
+        log::set_logger(Box::leak(Box::new(logger)))
+            .map(|()| log::set_max_level(level.to_level_filter()))
     }
 
     /// 初始化日志记录器，指定输出目标
