@@ -598,17 +598,28 @@ impl Metadata {
     ///
     /// 返回一个新的Metadata实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Metadata实例");
+        Self {
+            title: "".to_string(),
+            affected: Affected::new(),
+            references: None,
+            description: "".to_string(),
+            advisory: Advisory::new(),
+        }
     }
 
     /// 添加引用
     pub fn add_reference(&mut self, reference: Reference) {
-        todo!()
+        if let Some(ref mut refs) = self.references {
+            refs.push(reference);
+        } else {
+            self.references = Some(vec![reference]);
+        }
     }
 
     /// 获取引用数量
     pub fn get_reference_count(&self) -> usize {
-        todo!()
+        self.references.as_ref().map(|r| r.len()).unwrap_or(0)
     }
 }
 
