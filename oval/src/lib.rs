@@ -554,12 +554,12 @@ impl Definition {
 
     /// 获取ID
     pub fn get_id(&self) -> &str {
-        todo!()
+        &self.id
     }
 
     /// 获取标题
     pub fn get_title(&self) -> &str {
-        todo!()
+        &self.metadata.title
     }
 }
 
@@ -587,7 +587,7 @@ pub struct Metadata {
 
 impl Default for Metadata {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
