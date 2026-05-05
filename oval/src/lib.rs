@@ -287,7 +287,75 @@ impl OvalDefinitions {
         }
 
         // 合并 rpmverifyfile_objects
-        todo!();
+        let mut existing_verify_obj_ids: HashSet<String> =
+            self.objects.rpmverifyfile_objects.iter().map(|o| o.id.clone()).collect();
+
+        for obj in other.objects.rpmverifyfile_objects {
+            if !existing_verify_obj_ids.contains(&obj.id) {
+                debug!("添加新的 rpmverifyfile_object: {}", obj.id);
+                existing_verify_obj_ids.insert(obj.id.clone());
+                self.objects.rpmverifyfile_objects.push(obj);
+            } else {
+                debug!("跳过重复的 rpmverifyfile_object: {}", obj.id);
+            }
+        }
+
+        // 4. 合并 states（去重）
+        if let Some(other_states) = other.states.rpminfo_states {
+            let mut existing_state_ids: HashSet<String> = if let Some(ref states) = self.states.rpminfo_states {
+                states.iter().map(|s| s.id.clone()).collect()
+            } else {
+                HashSet::new()
+            };
+
+            let mut merged_states = self.states.rpminfo_states.take().unwrap_or_default();
+
+            for state in other_states {
+                if !existing_state_ids.contains(&state.id) {
+                    debug!("添加新的 rpminfo_state: {}", state.id);
+                    existing_state_ids.insert(state.id.clone());
+                    merged_states.push(state);
+                } else {
+                    debug!("跳过重复的 rpminfo_state: {}", state.id);
+                }
+            }
+
+            self.states.rpminfo_states = Some(merged_states);
+        }
+
+        // 合并 rpmverifyfile_states
+        if let Some(other_verify_states) = other.states.rpmverifyfile_states {
+            let mut existing_verify_state_ids: HashSet<String> = if let Some(ref states) = self.states.rpmverifyfile_states {
+                states.iter().map(|s| s.id.clone()).collect()
+            } else {
+                HashSet::new()
+            };
+
+            let mut merged_verify_states = self.states.rpmverifyfile_states.take().unwrap_or_default();
+
+            for state in other_verify_states {
+                if !existing_verify_state_ids.contains(&state.id) {
+                    debug!("添加新的 rpmverifyfile_state: {}", state.id);
+                    existing_verify_state_ids.insert(state.id.clone());
+                    merged_verify_states.push(state);
+                } else {
+                    debug!("跳过重复的 rpmverifyfile_state: {}", state.id);
+                }
+            }
+
+            self.states.rpmverifyfile_states = Some(merged_verify_states);
+        }
+
+        // 5. 更新时间戳为最新
+        self.generator.time_stamp = other.generator.time_stamp;
+
+        info!("合并完成，最终 definitions: {}, tests: {}, objects: {}, states: {}",
+              self.definitions.items.len(),
+              self.tests.rpminfo_tests.len(),
+              self.objects.rpm_info_objects.len(),
+              self.states.rpminfo_states.as_ref().map(|s| s.len()).unwrap_or(0));
+
+        Ok(())
     }
 
     /// 批量合并多个 OvalDefinitions 到一个新实例
@@ -300,7 +368,26 @@ impl OvalDefinitions {
     ///
     /// 返回 Result<OvalDefinitions>，成功时包含合并后的实例
     pub fn merge_multiple(oval_list: Vec<OvalDefinitions>) -> Result<OvalDefinitions> {
-        todo!()
+        info!("开始批量合并 {} 个 OvalDefinitions", oval_list.len());
+
+        if oval_list.is_empty() {
+            info!("输入列表为空，返回空的 OvalDefinitions");
+            return Ok(OvalDefinitions::new());
+        }
+
+        let mut iter = oval_list.into_iter();
+        let mut merged = iter.next().unwrap();
+
+        for oval in iter {
+            merged.merge(oval)?;
+        }
+
+        // 更新时间戳为当前时间
+        let now = chrono::Utc::now();
+        merged.generator.time_stamp = now.to_rfc3339();
+
+        info!("批量合并完成，最终包含 {} 个 definitions", merged.definitions.items.len());
+        Ok(merged)
     }
 }
 
