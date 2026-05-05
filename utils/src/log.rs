@@ -73,7 +73,7 @@ impl CUScannerLogger {
 
     /// 获取日志输出目标
     pub fn target(&self) -> &LogTarget {
-        todo!()
+        &self.target
     }
 }
 
