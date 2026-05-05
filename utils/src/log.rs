@@ -152,7 +152,8 @@ pub fn init_logger_with_target(target: LogTarget) {
 
 /// 初始化日志系统，指定日志级别和输出目标
 pub fn init_logger_with_level_and_target(level: Level, target: LogTarget) -> Result<(), SetLoggerError> {
-    todo!()
+    // 尝试设置日志记录器，如果已经设置则只更新全局目标
+    todo!();
 }
 
 /// 创建一个临时的stdout日志记录器，用于在配置加载之前记录日志
