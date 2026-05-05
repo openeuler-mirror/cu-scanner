@@ -146,7 +146,8 @@ pub fn init_logger_with_level(level: Level) {
 
 /// 初始化日志系统，指定输出目标
 pub fn init_logger_with_target(target: LogTarget) {
-    todo!()
+    // 忽略重复初始化的错误
+    let _ = CUScannerLogger::init_with_target(Level::Info, target);
 }
 
 /// 初始化日志系统，指定日志级别和输出目标
