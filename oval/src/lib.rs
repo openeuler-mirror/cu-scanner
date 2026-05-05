@@ -530,22 +530,26 @@ impl Definition {
 
     /// 设置类别
     pub fn with_class(mut self, class: String) -> Self {
-        todo!()
+        self.class = class;
+        self
     }
 
     /// 设置版本
     pub fn with_version(mut self, version: u32) -> Self {
-        todo!()
+        self.version = version;
+        self
     }
 
     /// 设置元数据
     pub fn with_metadata(mut self, metadata: Metadata) -> Self {
-        todo!()
+        self.metadata = metadata;
+        self
     }
 
     /// 设置条件
     pub fn with_criteria(mut self, criteria: Criteria) -> Self {
-        todo!()
+        self.criteria = criteria;
+        self
     }
 
     /// 获取ID
