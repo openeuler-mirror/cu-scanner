@@ -501,7 +501,7 @@ pub struct Definition {
 
 impl Default for Definition {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -512,12 +512,20 @@ impl Definition {
     ///
     /// 返回一个新的Definition实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Definition实例");
+        Self {
+            class: "patch".to_string(),
+            id: "".to_string(),
+            version: 0,
+            metadata: Metadata::new(),
+            criteria: Criteria::new(),
+        }
     }
 
     /// 设置ID
     pub fn with_id(mut self, id: String) -> Self {
-        todo!()
+        self.id = id;
+        self
     }
 
     /// 设置类别
