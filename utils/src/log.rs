@@ -83,7 +83,48 @@ impl log::Log for CUScannerLogger {
     }
 
     fn log(&self, record: &Record) {
-        todo!()
+        if self.enabled(record.metadata()) {
+            // 使用指定的格式：[2025-10-24 11:24:00] [INFO] module - message
+            let timestamp = Local::now().format("%Y-%m-%d %H:%M:%S");
+            let log_line = format!(
+                "[{}] [{}] {} - {}\n",
+                timestamp,
+                record.level(),
+                record.target(),
+                record.args()
+            );
+
+            // 获取当前的日志目标配置
+            let target = if let Ok(guard) = GLOBAL_LOG_TARGET.read() {
+                guard.clone()
+            } else {
+                None
+            };
+
+            // 如果全局目标未设置，使用当前记录器的目标
+            let effective_target = target.unwrap_or_else(|| self.target.clone());
+
+            match effective_target {
+                LogTarget::File(path) => {
+                    // 写入文件
+                    let file = OpenOptions::new().create(true).append(true).open(&path);
+                    match file {
+                        Ok(mut f) => {
+                            let _ = f.write_all(log_line.as_bytes());
+                            let _ = f.flush();
+                        }
+                        Err(e) => {
+                            eprintln!("Failed to open log file {}: {}, falling back to stdout", path, e);
+                            print!("{}", log_line);
+                        }
+                    }
+                }
+                LogTarget::Stdout => {
+                    // 写入标准输出
+                    print!("{}", log_line);
+                }
+            }
+        }
     }
 
     fn flush(&self) {
