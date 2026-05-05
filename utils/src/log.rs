@@ -65,7 +65,10 @@ impl CUScannerLogger {
         if let Ok(mut guard) = GLOBAL_LOG_TARGET.write() {
             *guard = Some(target.clone());
         }
-        todo!();
+
+        let logger = Self::with_target(target);
+        log::set_logger(Box::leak(Box::new(logger)))
+            .map(|()| log::set_max_level(level.to_level_filter()))
     }
 
     /// 获取日志输出目标
