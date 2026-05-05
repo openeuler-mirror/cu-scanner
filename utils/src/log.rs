@@ -134,7 +134,8 @@ impl log::Log for CUScannerLogger {
 
 /// 初始化日志系统
 pub fn init_logger() {
-    todo!()
+    // 忽略重复初始化的错误
+    let _ = CUScannerLogger::init(Level::Info);
 }
 
 /// 初始化日志系统并设置日志级别
