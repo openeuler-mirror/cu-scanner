@@ -412,7 +412,7 @@ pub struct Generator {
 
 impl Default for Generator {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -423,7 +423,13 @@ impl Generator {
     ///
     /// 返回一个新的Generator实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Generator实例");
+        Self {
+            product_name: DEF_PRODUCT_NAME.into(),
+            schema_version: DEF_SCHEMA_VERSION.into(),
+            time_stamp: "".to_string(),
+            // content_version: 0,
+        }
     }
 }
 
