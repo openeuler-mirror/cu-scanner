@@ -79,7 +79,7 @@ impl CUScannerLogger {
 
 impl log::Log for CUScannerLogger {
     fn enabled(&self, metadata: &Metadata) -> bool {
-        todo!()
+        metadata.level() <= Level::Info
     }
 
     fn log(&self, record: &Record) {
