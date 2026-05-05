@@ -465,17 +465,17 @@ impl Definitions {
 
     /// 获取定义数量
     pub fn len(&self) -> usize {
-        todo!()
+        self.items.len()
     }
 
     /// 检查是否为空
     pub fn is_empty(&self) -> bool {
-        todo!()
+        self.items.is_empty()
     }
 
     /// 根据ID查找定义
     pub fn find_by_id(&self, id: &str) -> Option<&Definition> {
-        todo!()
+        self.items.iter().find(|d| d.id == id)
     }
 }
 
