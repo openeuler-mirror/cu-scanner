@@ -180,12 +180,37 @@ impl OvalDefinitions {
     ///
     /// 返回Result<String>，成功时包含格式化的XML字符串，失败时包含错误信息
     pub fn to_oval_string(&self) -> Result<String> {
-        todo!()
+        info!("将OVAL定义转换为XML字符串");
+        // for serd_xml_rs we need add xmlns for oval
+        let config = serde_xml_rs::SerdeXml::new()
+            .namespace("", XMLNS)
+            .namespace("oval", OVAL)
+            .namespace("unix-def", UNIX_DEF)
+            .namespace("red-def", RED_DEF)
+            .namespace("xsi", XMLNS_XSI)
+            .namespace("ind-def", IND_DEF);
+        let oval_res = config.to_string(&self);
+        match oval_res {
+            Ok(oval) => {
+                debug!("成功转换OVAL定义为XML字符串，长度: {}", oval.len());
+                Ok(oval)
+            }
+            Err(error) => {
+                error!("转换OVAL定义为XML字符串失败: {}", error);
+                Err(error.into())
+            }
+        }
+        //TODO:
+        // oval xml string format and beatify the string
     }
 
     /// 保存到文件
     pub fn save_to_file(&self, path: &str) -> Result<()> {
-        todo!()
+        info!("保存OVAL定义到文件: {}", path);
+        let xml_string = self.to_oval_string()?;
+        std::fs::write(path, xml_string)?;
+        info!("成功保存OVAL定义到文件: {}", path);
+        Ok(())
     }
 
     /// 合并另一个 OvalDefinitions 到当前实例
@@ -200,7 +225,13 @@ impl OvalDefinitions {
     ///
     /// 返回 Result<()>，成功时为 Ok(())，失败时包含错误信息
     pub fn merge(&mut self, other: OvalDefinitions) -> Result<()> {
-        todo!()
+        info!("开始合并 OvalDefinitions，当前 definitions: {}, 新增 definitions: {}",
+              self.definitions.items.len(), other.definitions.items.len());
+
+        use std::collections::HashSet;
+
+        // 1. 合并 definitions（去重）
+        todo!();
     }
 
     /// 批量合并多个 OvalDefinitions 到一个新实例
