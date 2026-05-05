@@ -143,22 +143,35 @@ impl OvalDefinitions {
 
     /// 添加状态
     pub fn add_rpminfo_state(&mut self, state: RpmInfoState) {
-        todo!()
+        debug!("添加RPM信息状态: {}", state.id);
+        if let Some(ref mut states) = self.states.rpminfo_states {
+            states.push(state);
+        } else {
+            self.states.rpminfo_states = Some(vec![state]);
+        }
     }
 
     /// 获取状态数量
     pub fn get_state_count(&self) -> usize {
-        todo!()
+        self.states
+            .rpminfo_states
+            .as_ref()
+            .map(|s| s.len())
+            .unwrap_or(0)
     }
 
     /// 检查是否为空（没有任何定义）
     pub fn is_empty(&self) -> bool {
-        todo!()
+        self.definitions.items.is_empty()
     }
 
     /// 清空所有内容
     pub fn clear(&mut self) {
-        todo!()
+        info!("清空所有OVAL定义内容");
+        self.definitions.items.clear();
+        self.tests.rpminfo_tests.clear();
+        self.objects.clear();
+        self.states.rpminfo_states = None;
     }
 
     /// 将OVAL定义转换为XML字符串
