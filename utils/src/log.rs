@@ -61,7 +61,11 @@ impl CUScannerLogger {
 
     /// 初始化日志记录器，指定输出目标
     pub fn init_with_target(level: Level, target: LogTarget) -> Result<(), SetLoggerError> {
-        todo!()
+        // 更新全局日志目标配置
+        if let Ok(mut guard) = GLOBAL_LOG_TARGET.write() {
+            *guard = Some(target.clone());
+        }
+        todo!();
     }
 
     /// 获取日志输出目标
