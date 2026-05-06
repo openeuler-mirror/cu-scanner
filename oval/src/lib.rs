@@ -742,17 +742,26 @@ impl Advisory {
     ///
     /// 返回一个新的Advisory实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Advisory实例");
+        Self {
+            from: ADVISORY_FROM.to_string(),
+            rights: CU_LINUX_COPY_RIGHT.to_string(),
+            severity: "".to_string(),
+            issued: Issued::new(),
+            updated: Updated::new(),
+            cve: Vec::new(),
+        }
     }
 
     /// 添加CVE
     pub fn add_cve(&mut self, cve: CVE) {
-        todo!()
+        debug!("添加CVE: {}", cve.content);
+        self.cve.push(cve);
     }
 
     /// 获取CVE数量
     pub fn get_cve_count(&self) -> usize {
-        todo!()
+        self.cve.len()
     }
 
     /// 获取所有CVE ID
