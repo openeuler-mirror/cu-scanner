@@ -170,5 +170,10 @@ pub fn init_logger_with_level_and_target(level: Level, target: LogTarget) -> Res
 /// 创建一个临时的stdout日志记录器，用于在配置加载之前记录日志
 pub fn init_temporary_stdout_logger() {
     // 只有在还没有设置日志记录器时才初始化
-    todo!();
+    if log::set_logger(Box::leak(Box::new(CUScannerLogger::with_target(
+        LogTarget::Stdout,
+    )))).is_err() {
+        // 如果设置失败（可能已经设置过了），则忽略错误
+    }
+    log::set_max_level(LevelFilter::Info);
 }
