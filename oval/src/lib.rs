@@ -766,12 +766,12 @@ impl Advisory {
 
     /// 获取所有CVE ID
     pub fn get_cve_ids(&self) -> Vec<&str> {
-        todo!()
+        self.cve.iter().map(|c| c.content.as_str()).collect()
     }
 
     /// 检查是否包含指定CVE
     pub fn contains_cve(&self, cve_id: &str) -> bool {
-        todo!()
+        self.cve.iter().any(|c| c.content == cve_id)
     }
 }
 
@@ -785,7 +785,7 @@ pub struct Issued {
 
 impl Default for Issued {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
