@@ -1007,7 +1007,7 @@ pub struct Criteria {
 
 impl Default for Criteria {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -1018,17 +1018,26 @@ impl Criteria {
     ///
     /// 返回一个新的Criteria实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Criteria实例");
+        Self {
+            operator: "".to_string(),
+            criterion: Vec::new(),
+            sub_criteria: None,
+        }
     }
 
     /// 添加条件
     pub fn add_criterion(&mut self, criterion: Criterion) {
-        todo!()
+        self.criterion.push(criterion);
     }
 
     /// 添加子条件
     pub fn add_sub_criteria(&mut self, criteria: Criteria) {
-        todo!()
+        if let Some(ref mut subs) = self.sub_criteria {
+            subs.push(criteria);
+        } else {
+            self.sub_criteria = Some(vec![criteria]);
+        }
     }
 
     /// 获取条件数量
