@@ -796,7 +796,10 @@ impl Issued {
     ///
     /// 返回一个新的Issued实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Issued实例");
+        Self {
+            date: "".to_string(),
+        }
     }
 }
 
@@ -810,7 +813,7 @@ pub struct Updated {
 
 impl Default for Updated {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
