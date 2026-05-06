@@ -153,7 +153,18 @@ pub fn init_logger_with_target(target: LogTarget) {
 /// 初始化日志系统，指定日志级别和输出目标
 pub fn init_logger_with_level_and_target(level: Level, target: LogTarget) -> Result<(), SetLoggerError> {
     // 尝试设置日志记录器，如果已经设置则只更新全局目标
-    todo!();
+    let logger_result = CUScannerLogger::init_with_target(level, target.clone());
+    if logger_result.is_err() {
+        // 如果设置失败（可能已经初始化过了），只更新全局目标
+        if let Ok(mut guard) = GLOBAL_LOG_TARGET.write() {
+            *guard = Some(target);
+            // 更新日志级别
+            log::set_max_level(level.to_level_filter());
+        }
+        Ok(())
+    } else {
+        logger_result
+    }
 }
 
 /// 创建一个临时的stdout日志记录器，用于在配置加载之前记录日志
