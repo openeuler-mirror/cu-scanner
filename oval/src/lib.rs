@@ -641,7 +641,7 @@ pub struct Reference {
 
 impl Default for Reference {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -652,7 +652,12 @@ impl Reference {
     ///
     /// 返回一个新的Reference实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Reference实例");
+        Self {
+            ref_id: "".to_string(),
+            ref_url: "".to_string(),
+            source: "".to_string(),
+        }
     }
 }
 
