@@ -931,7 +931,15 @@ impl SeverityLevel {
     /// 转换为字符串表示
     #[allow(clippy::inherent_to_string)]
     pub fn to_string(&self) -> String {
-        todo!()
+        match self {
+            SeverityLevel::Critical => "Critical".to_string(),
+            SeverityLevel::High => "High".to_string(),
+            SeverityLevel::Important => "Important".to_string(),
+            SeverityLevel::Moderate => "Moderate".to_string(),
+            SeverityLevel::Medium => "Medium".to_string(),
+            SeverityLevel::Low => "Low".to_string(),
+            SeverityLevel::None => "None".to_string(),
+        }
     }
 }
 
@@ -945,7 +953,20 @@ impl SeverityLevel {
 ///
 /// 返回最高严重性级别的字符串表示
 pub fn calculate_max_severity(cves: &[CVE]) -> String {
-    todo!()
+    if cves.is_empty() {
+        debug!("CVE列表为空，返回默认严重性级别");
+        return "".to_string();
+    }
+
+    let max_level = cves
+        .iter()
+        .map(|cve| SeverityLevel::from_str(&cve.impact))
+        .max()
+        .unwrap_or(SeverityLevel::None);
+
+    let severity_str = max_level.to_string();
+    info!("从 {} 个CVE中计算得到最高严重性级别: {}", cves.len(), severity_str);
+    severity_str
 }
 
 /*
