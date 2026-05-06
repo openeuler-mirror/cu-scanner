@@ -865,20 +865,28 @@ impl CVE {
     /// 返回一个新的CVE实例，包含默认值
     pub fn new() -> Self {
         debug!("创建新的CVE实例");
-        todo!();
+        Self {
+            cvss3: "".to_string(),
+            href: "".to_string(),
+            impact: "".to_string(),
+            content: "".to_string(),
+        }
     }
 
     /// 使用构建器模式设置属性
     pub fn with_content(mut self, content: String) -> Self {
-        todo!()
+        self.content = content;
+        self
     }
 
     pub fn with_cvss3(mut self, cvss3: String) -> Self {
-        todo!()
+        self.cvss3 = cvss3;
+        self
     }
 
     pub fn with_href(mut self, href: String) -> Self {
-        todo!()
+        self.href = href;
+        self
     }
 
     pub fn with_impact(mut self, impact: String) -> Self {
