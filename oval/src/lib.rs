@@ -1114,22 +1114,26 @@ impl Tests {
     ///
     /// 返回一个新的Tests实例，包含空的测试列表
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Tests实例");
+        Self {
+            rpminfo_tests: Vec::new(),
+            rpmverifyfile_tests: Vec::new(),
+        }
     }
 
     /// 添加RPM信息测试
     pub fn add_rpminfo_test(&mut self, test: RpmInfoTest) {
-        todo!()
+        self.rpminfo_tests.push(test);
     }
 
     /// 获取测试数量
     pub fn len(&self) -> usize {
-        todo!()
+        self.rpminfo_tests.len()
     }
 
     /// 检查是否为空
     pub fn is_empty(&self) -> bool {
-        todo!()
+        self.rpminfo_tests.is_empty()
     }
 
     /// 根据ID查找测试
