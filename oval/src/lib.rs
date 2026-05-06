@@ -1138,7 +1138,7 @@ impl Tests {
 
     /// 根据ID查找测试
     pub fn find_by_id(&self, id: &str) -> Option<&RpmInfoTest> {
-        todo!()
+        self.rpminfo_tests.iter().find(|t| t.id == id)
     }
 }
 
@@ -1172,7 +1172,7 @@ pub struct RpmInfoTest {
 
 impl Default for RpmInfoTest {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -1183,7 +1183,8 @@ impl RpmInfoTest {
     ///
     /// 返回一个新的RpmInfoTest实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的RpmInfoTest实例");
+        todo!();
     }
 
     /// 使用构建器模式设置属性
