@@ -675,7 +675,7 @@ pub struct Affected {
 
 impl Default for Affected {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -686,7 +686,11 @@ impl Affected {
     ///
     /// 返回一个新的Affected实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Affected实例");
+        Self {
+            family: "unix".to_string(),
+            platform: "".to_string(),
+        }
     }
 }
 
@@ -727,7 +731,7 @@ pub struct Advisory {
 
 impl Default for Advisory {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
