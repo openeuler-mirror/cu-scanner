@@ -169,5 +169,6 @@ pub fn init_logger_with_level_and_target(level: Level, target: LogTarget) -> Res
 
 /// 创建一个临时的stdout日志记录器，用于在配置加载之前记录日志
 pub fn init_temporary_stdout_logger() {
-    todo!()
+    // 只有在还没有设置日志记录器时才初始化
+    todo!();
 }
