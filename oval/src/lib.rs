@@ -1042,17 +1042,18 @@ impl Criteria {
 
     /// 获取条件数量
     pub fn get_criterion_count(&self) -> usize {
-        todo!()
+        self.criterion.len()
     }
 
     /// 获取子条件数量
     pub fn get_sub_criteria_count(&self) -> usize {
-        todo!()
+        self.sub_criteria.as_ref().map(|s| s.len()).unwrap_or(0)
     }
 
     /// 设置操作符
     pub fn with_operator(mut self, operator: String) -> Self {
-        todo!()
+        self.operator = operator;
+        self
     }
 }
 
