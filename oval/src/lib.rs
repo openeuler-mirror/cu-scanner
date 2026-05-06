@@ -1071,7 +1071,7 @@ pub struct Criterion {
 
 impl Default for Criterion {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -1082,7 +1082,11 @@ impl Criterion {
     ///
     /// 返回一个新的Criterion实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Criterion实例");
+        Self {
+            comment: "".to_string(),
+            test_ref: "".to_string(),
+        }
     }
 }
 
@@ -1099,7 +1103,7 @@ pub struct Tests {
 
 impl Default for Tests {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
