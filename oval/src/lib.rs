@@ -824,7 +824,10 @@ impl Updated {
     ///
     /// 返回一个新的Updated实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Updated实例");
+        Self {
+            date: "".to_string(),
+        }
     }
 }
 
@@ -850,7 +853,7 @@ pub struct CVE {
 
 impl Default for CVE {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -861,7 +864,8 @@ impl CVE {
     ///
     /// 返回一个新的CVE实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的CVE实例");
+        todo!();
     }
 
     /// 使用构建器模式设置属性
