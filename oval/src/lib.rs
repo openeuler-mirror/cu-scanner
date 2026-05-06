@@ -890,12 +890,13 @@ impl CVE {
     }
 
     pub fn with_impact(mut self, impact: String) -> Self {
-        todo!()
+        self.impact = impact;
+        self
     }
 
     /// 获取CVE ID
     pub fn get_id(&self) -> &str {
-        todo!()
+        &self.content
     }
 }
 
@@ -915,7 +916,16 @@ impl SeverityLevel {
     /// 从字符串解析严重性级别（注意：不是 std::str::FromStr trait 的实现）
     #[allow(clippy::should_implement_trait)]
     pub fn from_str(s: &str) -> Self {
-        todo!()
+        match s.to_lowercase().as_str() {
+            "critical" => SeverityLevel::Critical,
+            "high" => SeverityLevel::High,
+            "important" => SeverityLevel::Important,
+            "moderate" => SeverityLevel::Moderate,
+            "medium" => SeverityLevel::Medium,
+            "low" => SeverityLevel::Low,
+            "none" => SeverityLevel::None,
+            _ => SeverityLevel::None,
+        }
     }
 
     /// 转换为字符串表示
