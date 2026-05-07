@@ -1256,14 +1256,21 @@ pub struct RpmVerifyFileTest {
 
 impl Default for RpmVerifyFileTest {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
 impl RpmVerifyFileTest {
     /// 创建新的RpmVerifyFileTest实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            check: "".to_string(),
+            comment: "".to_string(),
+            id: "".to_string(),
+            version: 0,
+            object: ObjectReference::new(),
+            state: StateReference::new(),
+        }
     }
 }
 
@@ -1277,7 +1284,7 @@ pub struct ObjectReference {
 
 impl Default for ObjectReference {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
