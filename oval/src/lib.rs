@@ -1211,15 +1211,18 @@ impl RpmInfoTest {
     }
 
     pub fn with_version(mut self, version: u32) -> Self {
-        todo!()
+        self.version = version;
+        self
     }
 
     pub fn with_object_ref(mut self, object_ref: String) -> Self {
-        todo!()
+        self.object.object_ref = object_ref;
+        self
     }
 
     pub fn with_state_ref(mut self, state_ref: String) -> Self {
-        todo!()
+        self.state.state_ref = state_ref;
+        self
     }
 }
 
