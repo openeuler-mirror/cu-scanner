@@ -1342,7 +1342,7 @@ pub struct Objects {
 
 impl Default for Objects {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -1354,13 +1354,18 @@ impl Objects {
     ///
     /// 返回一个新的Objects实例，包含空的对象列表
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Objects实例");
+        Objects {
+            rpm_info_objects: Vec::new(),
+            rpmverifyfile_objects: Vec::new(),
+        }
     }
 
     // 清空所有对象
     /// 清空所有对象
     pub fn clear(&mut self) {
-        todo!()
+        debug!("清空所有对象");
+        self.rpm_info_objects.clear();
     }
 
     // 检查是否为空
