@@ -1375,7 +1375,7 @@ impl Objects {
     ///
     /// 如果对象列表为空返回true，否则返回false
     pub fn is_empty(&self) -> bool {
-        todo!()
+        self.rpm_info_objects.is_empty()
     }
 
     // 获取总对象数
@@ -1385,7 +1385,7 @@ impl Objects {
     ///
     /// 返回对象列表中的对象数量
     pub fn len(&self) -> usize {
-        todo!()
+        self.rpm_info_objects.len()
     }
 
     // 是否包含 rpm_info 对象
@@ -1395,7 +1395,7 @@ impl Objects {
     ///
     /// 如果包含RPM信息对象返回true，否则返回false
     pub fn has_rpm_info_objects(&self) -> bool {
-        todo!()
+        !self.rpm_info_objects.is_empty()
     }
 
     // 添加一个 RpmInfoObject
@@ -1405,7 +1405,8 @@ impl Objects {
     ///
     /// * `obj` - 要添加的RpmInfoObject实例
     pub fn add_rpm_info(&mut self, obj: RpmInfoObject) {
-        todo!()
+        debug!("添加RPM信息对象: {}", obj.rpm_name);
+        self.rpm_info_objects.push(obj);
     }
 
     // 获取 rpm_info_objects 的只读迭代器
