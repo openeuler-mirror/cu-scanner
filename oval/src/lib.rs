@@ -1184,20 +1184,30 @@ impl RpmInfoTest {
     /// 返回一个新的RpmInfoTest实例，包含默认值
     pub fn new() -> Self {
         debug!("创建新的RpmInfoTest实例");
-        todo!();
+        Self {
+            check: "".to_string(),
+            comment: "".to_string(),
+            id: "".to_string(),
+            version: 0,
+            object: ObjectReference::new(),
+            state: StateReference::new(),
+        }
     }
 
     /// 使用构建器模式设置属性
     pub fn with_id(mut self, id: String) -> Self {
-        todo!()
+        self.id = id;
+        self
     }
 
     pub fn with_check(mut self, check: String) -> Self {
-        todo!()
+        self.check = check;
+        self
     }
 
     pub fn with_comment(mut self, comment: String) -> Self {
-        todo!()
+        self.comment = comment;
+        self
     }
 
     pub fn with_version(mut self, version: u32) -> Self {
