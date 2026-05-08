@@ -1721,17 +1721,20 @@ impl States {
 
     /// 获取状态数量
     pub fn len(&self) -> usize {
-        todo!()
+        self.rpminfo_states.as_ref().map(|s| s.len()).unwrap_or(0)
     }
 
     /// 检查是否为空
     pub fn is_empty(&self) -> bool {
-        todo!()
+        self.rpminfo_states
+            .as_ref()
+            .map(|s| s.is_empty())
+            .unwrap_or(true)
     }
 
     /// 根据ID查找状态
     pub fn find_by_id(&self, id: &str) -> Option<&RpmInfoState> {
-        todo!()
+        self.rpminfo_states.as_ref()?.iter().find(|s| s.id == id)
     }
 }
 
