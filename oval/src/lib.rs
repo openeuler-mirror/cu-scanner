@@ -2084,12 +2084,28 @@ mod tests {
         let test1 = RpmInfoTest::new()
             .with_id("test1".to_string())
             .with_check("all".to_string());
-        todo!();
+        tests.add_rpminfo_test(test1);
+
+        assert_eq!(tests.len(), 1);
+        assert!(!tests.is_empty());
+        assert!(tests.find_by_id("test1").is_some());
+        assert!(tests.find_by_id("test2").is_none());
     }
 
     #[test]
     fn test_rpminfo_test_builder() {
-        todo!()
+        let test = RpmInfoTest::new()
+            .with_id("oval:test:tst:100".to_string())
+            .with_check("all".to_string())
+            .with_comment("测试注释".to_string())
+            .with_version(1)
+            .with_object_ref("oval:test:obj:100".to_string())
+            .with_state_ref("oval:test:ste:100".to_string());
+
+        assert_eq!(test.id, "oval:test:tst:100");
+        assert_eq!(test.check, "all");
+        assert_eq!(test.object.object_ref, "oval:test:obj:100");
+        assert_eq!(test.state.state_ref, "oval:test:ste:100");
     }
 
     #[test]
