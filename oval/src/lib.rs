@@ -1692,7 +1692,7 @@ pub struct States {
 
 impl Default for States {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -1703,12 +1703,20 @@ impl States {
     ///
     /// 返回一个新的States实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的States实例");
+        Self {
+            rpminfo_states: None,
+            rpmverifyfile_states: None,
+        }
     }
 
     /// 添加RPM信息状态
     pub fn add_rpminfo_state(&mut self, state: RpmInfoState) {
-        todo!()
+        if let Some(ref mut states) = self.rpminfo_states {
+            states.push(state);
+        } else {
+            self.rpminfo_states = Some(vec![state]);
+        }
     }
 
     /// 获取状态数量
