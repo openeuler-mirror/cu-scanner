@@ -2171,17 +2171,35 @@ mod tests {
             .with_evr(Some(evr.clone()));
 
         assert_eq!(state.id, "oval:test:ste:300");
-        todo!();
+        assert_eq!(state.version, "1");
+        assert!(state.evr.is_some());
+
+        if let Some(evr_val) = state.evr {
+            assert_eq!(evr_val.evr, "0:1.2.3-4");
+            assert_eq!(evr_val.operation, "less than");
+        }
     }
 
     #[test]
     fn test_evr_builder() {
-        todo!()
+        let evr = Evr::new()
+            .with_datatype("evr_string".to_string())
+            .with_operation("less than".to_string())
+            .with_evr("0:2.0.0-1".to_string());
+
+        assert_eq!(evr.datatype, "evr_string");
+        assert_eq!(evr.operation, "less than");
+        assert_eq!(evr.evr, "0:2.0.0-1");
     }
 
     #[test]
     fn test_complete_oval_workflow() {
-        todo!()
+        // 创建完整的OVAL定义
+        let mut oval = OvalDefinitions::new();
+        oval.generator.time_stamp = "2024-01-01T00:00:00".to_string();
+
+        // 创建定义
+        todo!();
     }
 
     #[test]
