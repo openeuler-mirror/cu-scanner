@@ -1416,7 +1416,7 @@ impl Objects {
     ///
     /// 返回RPM信息对象列表的只读迭代器
     pub fn iter_rpm_info(&self) -> impl Iterator<Item = &RpmInfoObject> {
-        todo!()
+        self.rpm_info_objects.iter()
     }
 
     // 获取 rpm_info_objects 的可变迭代器
@@ -1426,7 +1426,7 @@ impl Objects {
     ///
     /// 返回RPM信息对象列表的可变迭代器
     pub fn iter_mut_rpm_info(&mut self) -> impl Iterator<Item = &mut RpmInfoObject> {
-        todo!()
+        self.rpm_info_objects.iter_mut()
     }
 
     // 获取 rpm_info_objects 的数量
@@ -1436,7 +1436,7 @@ impl Objects {
     ///
     /// 返回RPM信息对象列表中的对象数量
     pub fn rpm_info_count(&self) -> usize {
-        todo!()
+        self.rpm_info_objects.len()
     }
 }
 
