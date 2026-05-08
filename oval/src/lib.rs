@@ -1502,7 +1502,9 @@ impl RpmInfoObject {
     ///
     /// 返回修改后的RpmInfoObject实例
     pub fn with_ver(mut self, ver: u64) -> Self {
-        todo!()
+        debug!("设置RpmInfoObject版本: {}", ver);
+        self.ver = ver;
+        self
     }
 
     /// 设置RPM名称
@@ -1515,7 +1517,9 @@ impl RpmInfoObject {
     ///
     /// 返回修改后的RpmInfoObject实例
     pub fn with_rpm_name(mut self, rpm_name: String) -> Self {
-        todo!()
+        debug!("设置RpmInfoObject RPM名称: {}", rpm_name);
+        self.rpm_name = rpm_name;
+        self
     }
 }
 
@@ -1561,7 +1565,7 @@ pub struct RpmVerifyFileObject {
 
 impl Default for RpmVerifyFileObject {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
