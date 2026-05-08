@@ -1893,14 +1893,17 @@ pub struct StateData {
 
 impl Default for StateData {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
 impl StateData {
     /// 创建新的StateData实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            operation: "".to_string(),
+            content: "".to_string(),
+        }
     }
 }
 
@@ -1926,7 +1929,7 @@ pub struct RpmVerifyFileState {
 
 impl Default for RpmVerifyFileState {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
