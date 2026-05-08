@@ -2021,17 +2021,41 @@ mod tests {
 
         let ref1 = Reference::new();
         metadata.add_reference(ref1);
-        todo!();
+        assert_eq!(metadata.get_reference_count(), 1);
+
+        let ref2 = Reference::new();
+        metadata.add_reference(ref2);
+        assert_eq!(metadata.get_reference_count(), 2);
     }
 
     #[test]
     fn test_advisory_cve_operations() {
-        todo!()
+        let mut advisory = Advisory::new();
+        assert_eq!(advisory.get_cve_count(), 0);
+        assert_eq!(advisory.get_cve_ids().len(), 0);
+
+        let cve1 = CVE::new()
+            .with_content("CVE-2024-1234".to_string())
+            .with_cvss3("7.5".to_string())
+            .with_impact("High".to_string());
+        advisory.add_cve(cve1);
+
+        assert_eq!(advisory.get_cve_count(), 1);
+        assert_eq!(advisory.get_cve_ids().len(), 1);
+        assert!(advisory.contains_cve("CVE-2024-1234"));
+        assert!(!advisory.contains_cve("CVE-9999-9999"));
     }
 
     #[test]
     fn test_cve_builder() {
-        todo!()
+        let cve = CVE::new()
+            .with_content("CVE-2024-5678".to_string())
+            .with_cvss3("9.8".to_string())
+            .with_href("https://example.com/cve-2024-5678".to_string())
+            .with_impact("Critical".to_string());
+
+        assert_eq!(cve.get_id(), "CVE-2024-5678");
+        todo!();
     }
 
     #[test]
