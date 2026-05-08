@@ -1820,7 +1820,9 @@ impl RpmInfoState {
     ///
     /// 返回修改后的RpmInfoState实例
     pub fn with_evr(mut self, evr: Option<Evr>) -> Self {
-        todo!()
+        debug!("设置RpmInfoState EVR信息");
+        self.evr = evr;
+        self
     }
 }
 
@@ -1842,7 +1844,7 @@ pub struct Evr {
 
 impl Default for Evr {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -1853,7 +1855,12 @@ impl Evr {
     ///
     /// 返回一个新的Evr实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Evr实例");
+        Self {
+            datatype: "".to_string(),
+            operation: "".to_string(),
+            evr: "".to_string(),
+        }
     }
 
     /// 使用构建器模式设置属性
