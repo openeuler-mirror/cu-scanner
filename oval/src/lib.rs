@@ -1458,7 +1458,7 @@ pub struct RpmInfoObject {
 
 impl Default for RpmInfoObject {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -1469,7 +1469,12 @@ impl RpmInfoObject {
     ///
     /// 返回一个新的RpmInfoObject实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的RpmInfoObject实例");
+        Self {
+            id: "".to_string(),
+            ver: 0,
+            rpm_name: "".to_string(),
+        }
     }
 
     /// 设置ID
@@ -1482,7 +1487,9 @@ impl RpmInfoObject {
     ///
     /// 返回修改后的RpmInfoObject实例
     pub fn with_id(mut self, id: String) -> Self {
-        todo!()
+        debug!("设置RpmInfoObject ID: {}", id);
+        self.id = id.to_string();
+        self
     }
 
     /// 设置版本
