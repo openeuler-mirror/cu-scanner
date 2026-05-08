@@ -2137,17 +2137,41 @@ mod tests {
             .with_rpm_name("nginx".to_string());
 
         assert_eq!(obj.id, "oval:test:obj:200");
-        todo!();
+        assert_eq!(obj.ver, 1);
+        assert_eq!(obj.rpm_name, "nginx");
     }
 
     #[test]
     fn test_states_operations() {
-        todo!()
+        let mut states = States::new();
+        assert!(states.is_empty());
+        assert_eq!(states.len(), 0);
+
+        let state1 = RpmInfoState::new()
+            .with_id("state1".to_string())
+            .with_version("1".to_string());
+        states.add_rpminfo_state(state1);
+
+        assert_eq!(states.len(), 1);
+        assert!(!states.is_empty());
+        assert!(states.find_by_id("state1").is_some());
+        assert!(states.find_by_id("state2").is_none());
     }
 
     #[test]
     fn test_rpminfo_state_builder() {
-        todo!()
+        let evr = Evr::new()
+            .with_datatype("evr_string".to_string())
+            .with_operation("less than".to_string())
+            .with_evr("0:1.2.3-4".to_string());
+
+        let state = RpmInfoState::new()
+            .with_id("oval:test:ste:300".to_string())
+            .with_version("1".to_string())
+            .with_evr(Some(evr.clone()));
+
+        assert_eq!(state.id, "oval:test:ste:300");
+        todo!();
     }
 
     #[test]
