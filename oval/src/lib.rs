@@ -2055,17 +2055,36 @@ mod tests {
             .with_impact("Critical".to_string());
 
         assert_eq!(cve.get_id(), "CVE-2024-5678");
-        todo!();
+        assert_eq!(cve.cvss3, "9.8");
+        assert_eq!(cve.impact, "Critical");
     }
 
     #[test]
     fn test_criteria_operations() {
-        todo!()
+        let mut criteria = Criteria::new().with_operator("AND".to_string());
+
+        assert_eq!(criteria.get_criterion_count(), 0);
+        assert_eq!(criteria.get_sub_criteria_count(), 0);
+
+        let criterion = Criterion::new();
+        criteria.add_criterion(criterion);
+        assert_eq!(criteria.get_criterion_count(), 1);
+
+        let sub_criteria = Criteria::new();
+        criteria.add_sub_criteria(sub_criteria);
+        assert_eq!(criteria.get_sub_criteria_count(), 1);
     }
 
     #[test]
     fn test_tests_operations() {
-        todo!()
+        let mut tests = Tests::new();
+        assert!(tests.is_empty());
+        assert_eq!(tests.len(), 0);
+
+        let test1 = RpmInfoTest::new()
+            .with_id("test1".to_string())
+            .with_check("all".to_string());
+        todo!();
     }
 
     #[test]
