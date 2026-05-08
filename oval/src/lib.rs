@@ -1865,15 +1865,18 @@ impl Evr {
 
     /// 使用构建器模式设置属性
     pub fn with_datatype(mut self, datatype: String) -> Self {
-        todo!()
+        self.datatype = datatype;
+        self
     }
 
     pub fn with_operation(mut self, operation: String) -> Self {
-        todo!()
+        self.operation = operation;
+        self
     }
 
     pub fn with_evr(mut self, evr: String) -> Self {
-        todo!()
+        self.evr = evr;
+        self
     }
 }
 
