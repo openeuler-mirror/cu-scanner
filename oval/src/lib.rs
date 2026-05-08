@@ -1572,7 +1572,17 @@ impl Default for RpmVerifyFileObject {
 impl RpmVerifyFileObject {
     /// 创建新的RpmVerifyFileObject实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            id: "".to_string(),
+            ver: 0,
+            behaviors: Behaviors::new(),
+            name: Data::new(),
+            epoch: Data::new(),
+            version: Data::new(),
+            release: Data::new(),
+            arch: Data::new(),
+            filepath: "".to_string(),
+        }
     }
 }
 
@@ -1613,7 +1623,7 @@ pub struct Behaviors {
 
 impl Default for Behaviors {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -1624,7 +1634,8 @@ impl Behaviors {
     ///
     /// 返回一个新的Behaviors实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Behaviors实例");
+        todo!();
     }
 }
 
