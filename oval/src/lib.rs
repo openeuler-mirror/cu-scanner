@@ -1936,7 +1936,12 @@ impl Default for RpmVerifyFileState {
 impl RpmVerifyFileState {
     /// 创建新的RpmVerifyFileState实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            id: "".to_string(),
+            version: "".to_string(),
+            name: StateData::new(),
+            os_version: None,
+        }
     }
 }
 
@@ -1946,12 +1951,24 @@ mod tests {
 
     #[test]
     fn oval_to_string() {
-        todo!()
+        let oval = OvalDefinitions::new();
+        let res_string = r#"<?xml version="1.0" encoding="UTF-8"?><oval_definitions xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5" xmlns:ind-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#independent" xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5" xmlns:red-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#linux" xmlns:unix-def="http://oval.mitre.org/XMLSchema/oval-definitions-5#unix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://oval.mitre.org/XMLSchema/oval-common-5 oval-common-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5 oval-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#unix unix-definitions-schema.xsd http://oval.mitre.org/XMLSchema/oval-definitions-5#linux linux-definitions-schema.xsd"><generator><oval:product_name>China Unicom Linux</oval:product_name><oval:schema_version>5.10</oval:schema_version><oval:timestamp></oval:timestamp></generator><definitions /><tests /><objects /><states /></oval_definitions>"#;
+        assert_eq!(oval.to_oval_string().unwrap(), res_string)
     }
 
     #[test]
     fn test_oval_definitions_basic_operations() {
-        todo!()
+        let mut oval = OvalDefinitions::new();
+
+        // 测试初始状态
+        assert_eq!(oval.get_definition_count(), 0);
+        assert_eq!(oval.get_test_count(), 0);
+        assert_eq!(oval.get_object_count(), 0);
+        assert_eq!(oval.get_state_count(), 0);
+        assert!(oval.is_empty());
+
+        // 添加定义
+        todo!();
     }
 
     #[test]
