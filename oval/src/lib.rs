@@ -2110,12 +2110,34 @@ mod tests {
 
     #[test]
     fn test_objects_operations() {
-        todo!()
+        let mut objects = Objects::new();
+        assert!(objects.is_empty());
+        assert_eq!(objects.len(), 0);
+        assert!(!objects.has_rpm_info_objects());
+
+        let obj = RpmInfoObject::new()
+            .with_id("obj1".to_string())
+            .with_rpm_name("test-package".to_string());
+        objects.add_rpm_info(obj);
+
+        assert_eq!(objects.len(), 1);
+        assert!(!objects.is_empty());
+        assert!(objects.has_rpm_info_objects());
+        assert_eq!(objects.rpm_info_count(), 1);
+
+        objects.clear();
+        assert!(objects.is_empty());
     }
 
     #[test]
     fn test_rpminfo_object_builder() {
-        todo!()
+        let obj = RpmInfoObject::new()
+            .with_id("oval:test:obj:200".to_string())
+            .with_ver(1)
+            .with_rpm_name("nginx".to_string());
+
+        assert_eq!(obj.id, "oval:test:obj:200");
+        todo!();
     }
 
     #[test]
