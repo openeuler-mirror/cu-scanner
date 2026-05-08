@@ -1761,7 +1761,7 @@ pub struct RpmInfoState {
 
 impl Default for RpmInfoState {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -1772,7 +1772,12 @@ impl RpmInfoState {
     ///
     /// 返回一个新的RpmInfoState实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的RpmInfoState实例");
+        Self {
+            id: "".to_string(),
+            version: "".to_string(),
+            evr: None,
+        }
     }
 
     /// 设置ID
@@ -1785,7 +1790,9 @@ impl RpmInfoState {
     ///
     /// 返回修改后的RpmInfoState实例
     pub fn with_id(mut self, id: String) -> Self {
-        todo!()
+        debug!("设置RpmInfoState ID: {}", id);
+        self.id = id;
+        self
     }
 
     /// 设置版本
@@ -1798,7 +1805,9 @@ impl RpmInfoState {
     ///
     /// 返回修改后的RpmInfoState实例
     pub fn with_version(mut self, version: String) -> Self {
-        todo!()
+        debug!("设置RpmInfoState版本: {}", version);
+        self.version = version;
+        self
     }
 
     /// 设置EVR信息
