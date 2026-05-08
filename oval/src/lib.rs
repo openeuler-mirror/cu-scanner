@@ -1635,7 +1635,18 @@ impl Behaviors {
     /// 返回一个新的Behaviors实例，包含默认值
     pub fn new() -> Self {
         debug!("创建新的Behaviors实例");
-        todo!();
+        Self {
+            noconfigfiles: true,
+            noghostfiles: true,
+            nogroup: true,
+            nolinkto: true,
+            nomd5: true,
+            nomode: true,
+            nomtime: true,
+            nordev: true,
+            nosize: true,
+            nouser: true,
+        }
     }
 }
 
@@ -1649,7 +1660,7 @@ pub struct Data {
 
 impl Default for Data {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
@@ -1660,7 +1671,10 @@ impl Data {
     ///
     /// 返回一个新的Data实例，包含默认值
     pub fn new() -> Self {
-        todo!()
+        debug!("创建新的Data实例");
+        Self {
+            operation: "".to_string(),
+        }
     }
 }
 
