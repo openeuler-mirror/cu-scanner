@@ -1968,12 +1968,30 @@ mod tests {
         assert!(oval.is_empty());
 
         // 添加定义
-        todo!();
+        let def = Definition::new()
+            .with_id("测试ID".to_string())
+            .with_class("patch".to_string())
+            .with_version(1);
+        oval.add_definition(def);
+        assert_eq!(oval.get_definition_count(), 1);
+        assert!(!oval.is_empty());
+
+        // 清空
+        oval.clear();
+        assert_eq!(oval.get_definition_count(), 0);
+        assert!(oval.is_empty());
     }
 
     #[test]
     fn test_definition_builder() {
-        todo!()
+        let def = Definition::new()
+            .with_id("oval:test:def:1".to_string())
+            .with_class("patch".to_string())
+            .with_version(1);
+
+        assert_eq!(def.get_id(), "oval:test:def:1");
+        assert_eq!(def.class, "patch");
+        assert_eq!(def.version, 1);
     }
 
     #[test]
