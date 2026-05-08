@@ -2199,6 +2199,54 @@ mod tests {
         oval.generator.time_stamp = "2024-01-01T00:00:00".to_string();
 
         // 创建定义
+        let mut metadata = Metadata::new();
+        metadata.title = "测试安全更新".to_string();
+        metadata.description = "这是一个测试描述".to_string();
+        metadata.advisory.add_cve(
+            CVE::new()
+                .with_content("CVE-2024-0001".to_string())
+                .with_cvss3("7.5".to_string()),
+        );
+
+        let definition = Definition::new()
+            .with_id("oval:test:def:1".to_string())
+            .with_class("patch".to_string())
+            .with_version(1)
+            .with_metadata(metadata);
+
+        oval.add_definition(definition);
+
+        // 创建测试
+        let test = RpmInfoTest::new()
+            .with_id("oval:test:tst:1".to_string())
+            .with_check("all".to_string())
+            .with_comment("检查软件包版本".to_string())
+            .with_version(1)
+            .with_object_ref("oval:test:obj:1".to_string())
+            .with_state_ref("oval:test:ste:1".to_string());
+
+        oval.add_rpminfo_test(test);
+
+        // 创建对象
+        let object = RpmInfoObject::new()
+            .with_id("oval:test:obj:1".to_string())
+            .with_ver(1)
+            .with_rpm_name("test-package".to_string());
+
+        oval.add_rpm_info_object(object);
+
+        // 创建状态
+        let evr = Evr::new()
+            .with_datatype("evr_string".to_string())
+            .with_operation("less than".to_string())
+            .with_evr("0:1.0.0-1".to_string());
+
+        let state = RpmInfoState::new()
+            .with_id("oval:test:ste:1".to_string())
+            .with_version("1".to_string())
+            .with_evr(Some(evr));
+
+        oval.add_rpminfo_state(state);
         todo!();
     }
 
