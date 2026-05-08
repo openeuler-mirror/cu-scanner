@@ -1996,12 +1996,32 @@ mod tests {
 
     #[test]
     fn test_definitions_operations() {
-        todo!()
+        let mut defs = Definitions::new();
+        assert!(defs.is_empty());
+        assert_eq!(defs.len(), 0);
+
+        let def1 = Definition::new().with_id("def1".to_string());
+        let def2 = Definition::new().with_id("def2".to_string());
+
+        defs.add(def1);
+        defs.add(def2);
+
+        assert_eq!(defs.len(), 2);
+        assert!(!defs.is_empty());
+
+        // 测试查找
+        assert!(defs.find_by_id("def1").is_some());
+        assert!(defs.find_by_id("def3").is_none());
     }
 
     #[test]
     fn test_metadata_references() {
-        todo!()
+        let mut metadata = Metadata::new();
+        assert_eq!(metadata.get_reference_count(), 0);
+
+        let ref1 = Reference::new();
+        metadata.add_reference(ref1);
+        todo!();
     }
 
     #[test]
