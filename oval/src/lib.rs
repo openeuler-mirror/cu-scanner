@@ -2314,12 +2314,40 @@ mod tests {
         oval1.add_definition(def1);
 
         // 创建第二个 OVAL（包含相同ID）
-        todo!();
+        let mut oval2 = OvalDefinitions::new();
+        let def2 = Definition::new()
+            .with_id("oval:test:def:1".to_string())  // 相同ID
+            .with_class("patch".to_string())
+            .with_version(2);
+        oval2.add_definition(def2);
+
+        let def3 = Definition::new()
+            .with_id("oval:test:def:3".to_string())
+            .with_class("patch".to_string())
+            .with_version(1);
+        oval2.add_definition(def3);
+
+        // 合并
+        oval1.merge(oval2).unwrap();
+
+        // 验证：应该跳过重复ID，只保留原有的
+        assert_eq!(oval1.get_definition_count(), 2);  // def:1 (保留) + def:3 (新增)
     }
 
     #[test]
     fn test_merge_multiple() {
-        todo!()
+        // 创建3个 OVAL
+        let mut oval1 = OvalDefinitions::new();
+        oval1.add_definition(Definition::new().with_id("oval:test:def:1".to_string()));
+
+        let mut oval2 = OvalDefinitions::new();
+        oval2.add_definition(Definition::new().with_id("oval:test:def:2".to_string()));
+
+        let mut oval3 = OvalDefinitions::new();
+        oval3.add_definition(Definition::new().with_id("oval:test:def:3".to_string()));
+
+        // 批量合并
+        todo!();
     }
 
     #[test]
