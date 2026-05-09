@@ -2280,12 +2280,41 @@ mod tests {
         oval1.add_rpminfo_test(test1);
 
         // 创建第二个 OVAL
-        todo!();
+        let mut oval2 = OvalDefinitions::new();
+        oval2.generator.time_stamp = "2024-01-02T00:00:00".to_string();
+
+        let def2 = Definition::new()
+            .with_id("oval:test:def:2".to_string())
+            .with_class("patch".to_string())
+            .with_version(1);
+        oval2.add_definition(def2);
+
+        let test2 = RpmInfoTest::new()
+            .with_id("oval:test:tst:2".to_string())
+            .with_check("all".to_string());
+        oval2.add_rpminfo_test(test2);
+
+        // 合并
+        oval1.merge(oval2).unwrap();
+
+        // 验证合并结果
+        assert_eq!(oval1.get_definition_count(), 2);
+        assert_eq!(oval1.get_test_count(), 2);
+        assert_eq!(oval1.generator.time_stamp, "2024-01-02T00:00:00");
     }
 
     #[test]
     fn test_merge_with_duplicate_ids() {
-        todo!()
+        // 创建第一个 OVAL
+        let mut oval1 = OvalDefinitions::new();
+        let def1 = Definition::new()
+            .with_id("oval:test:def:1".to_string())
+            .with_class("patch".to_string())
+            .with_version(1);
+        oval1.add_definition(def1);
+
+        // 创建第二个 OVAL（包含相同ID）
+        todo!();
     }
 
     #[test]
