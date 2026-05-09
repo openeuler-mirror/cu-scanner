@@ -2247,12 +2247,40 @@ mod tests {
             .with_evr(Some(evr));
 
         oval.add_rpminfo_state(state);
-        todo!();
+
+        // 验证结果
+        assert_eq!(oval.get_definition_count(), 1);
+        assert_eq!(oval.get_test_count(), 1);
+        assert_eq!(oval.get_object_count(), 1);
+        assert_eq!(oval.get_state_count(), 1);
+
+        // 生成XML并验证不为空
+        let xml = oval.to_oval_string();
+        assert!(xml.is_ok());
+        let xml_str = xml.unwrap();
+        assert!(xml_str.contains("oval:test:def:1"));
+        assert!(xml_str.contains("CVE-2024-0001"));
     }
 
     #[test]
     fn test_merge_two_ovals() {
-        todo!()
+        // 创建第一个 OVAL
+        let mut oval1 = OvalDefinitions::new();
+        oval1.generator.time_stamp = "2024-01-01T00:00:00".to_string();
+
+        let def1 = Definition::new()
+            .with_id("oval:test:def:1".to_string())
+            .with_class("patch".to_string())
+            .with_version(1);
+        oval1.add_definition(def1);
+
+        let test1 = RpmInfoTest::new()
+            .with_id("oval:test:tst:1".to_string())
+            .with_check("all".to_string());
+        oval1.add_rpminfo_test(test1);
+
+        // 创建第二个 OVAL
+        todo!();
     }
 
     #[test]
