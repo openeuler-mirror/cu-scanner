@@ -2347,16 +2347,28 @@ mod tests {
         oval3.add_definition(Definition::new().with_id("oval:test:def:3".to_string()));
 
         // 批量合并
-        todo!();
+        let merged = OvalDefinitions::merge_multiple(vec![oval1, oval2, oval3]).unwrap();
+
+        // 验证
+        assert_eq!(merged.get_definition_count(), 3);
+        assert!(!merged.generator.time_stamp.is_empty());
     }
 
     #[test]
     fn test_merge_empty_oval() {
-        todo!()
+        let mut oval1 = OvalDefinitions::new();
+        oval1.add_definition(Definition::new().with_id("oval:test:def:1".to_string()));
+
+        let oval2 = OvalDefinitions::new();  // 空的
+
+        oval1.merge(oval2).unwrap();
+        assert_eq!(oval1.get_definition_count(), 1);
     }
 
     #[test]
     fn test_merge_multiple_empty() {
-        todo!()
+        let merged = OvalDefinitions::merge_multiple(vec![]).unwrap();
+        assert_eq!(merged.get_definition_count(), 0);
+        assert!(merged.is_empty());
     }
 }
