@@ -30,7 +30,9 @@ pub struct PackageEpochs {
 impl PackageEpochs {
     /// 创建新的 PackageEpochs 实例
     pub fn new() -> Self {
-        todo!()
+        PackageEpochs {
+            packages: Vec::new(),
+        }
     }
 
     /// 从配置中指定的 JSON 文件加载数据
