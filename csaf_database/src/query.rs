@@ -14,7 +14,7 @@ pub struct CsafQuery {
 impl CsafQuery {
     /// 创建新的 CSAF 查询器
     pub async fn new(db_manager: DatabaseManager) -> Result<Self, DatabaseError> {
-        todo!()
+        Ok(Self { db_manager })
     }
 
     /// 根据 ID 获取单个安全公告信息
