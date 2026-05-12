@@ -18,7 +18,7 @@ pub struct CsafDatabase;
 
 impl Default for CsafDatabase {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
