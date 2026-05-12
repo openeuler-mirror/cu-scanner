@@ -26,7 +26,11 @@ pub struct LoggingConfig {
 
 impl Default for LoggingConfig {
     fn default() -> Self {
-        todo!()
+        Self {
+            level: "info".to_string(),
+            file: String::new(),
+            stdout: false,
+        }
     }
 }
 
