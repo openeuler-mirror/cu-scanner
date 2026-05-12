@@ -27,7 +27,13 @@ pub struct DatabaseConfig {
 impl DatabaseConfig {
     /// 创建新的数据库配置
     pub fn new(host: &str, port: u16, database: &str, username: &str, password: &str) -> Self {
-        todo!()
+        Self {
+            host: host.to_string(),
+            port,
+            database: database.to_string(),
+            username: username.to_string(),
+            password: password.to_string(),
+        }
     }
 
     /// 生成连接字符串
