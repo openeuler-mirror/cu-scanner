@@ -33,7 +33,21 @@ pub type FullOvalDefinitionResult = (
 ///
 /// 返回转换后的数据库OvalDefinition
 pub fn convert_oval_definition_to_db(definition: &oval::Definition) -> OvalDefinition {
-    todo!()
+    OvalDefinition {
+        id: definition.id.clone(),
+        class: definition.class.clone(),
+        version: definition.version,
+        title: definition.metadata.title.clone(),
+        description: definition.metadata.description.clone(),
+        family: definition.metadata.affected.family.clone(),
+        platform: definition.metadata.affected.platform.clone(),
+        severity: definition.metadata.advisory.severity.clone(),
+        rights: definition.metadata.advisory.rights.clone(),
+        from: definition.metadata.advisory.from.clone(),
+        issued_date: definition.metadata.advisory.issued.date.clone(),
+        updated_date: definition.metadata.advisory.updated.date.clone(),
+        os_info_id: None, // 将在存储时根据软件包版本匹配
+    }
 }
 
 /// 转换完整的OVAL定义（包括所有子项目）
