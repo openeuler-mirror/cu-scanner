@@ -6,5 +6,18 @@ use utils::config::AppConfig;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    todo!()
+    println!("开始从数据库导出OVAL文件示例...");
+
+    // 从配置文件加载数据库配置
+    let config = AppConfig::from_file("config/cu-scanner.toml")?;
+    let db_config = DatabaseConfig::new(
+        &config.database.host,
+        config.database.port,
+        &config.database.database,
+        &config.database.username,
+        &config.database.password,
+    );
+
+    // 连接数据库
+    todo!();
 }
