@@ -19,7 +19,8 @@ impl CsafQuery {
 
     /// 根据 ID 获取单个安全公告信息
     pub async fn get_sa_info_by_id(&self, id: i32) -> Result<Option<SaInfo>, DatabaseError> {
-        todo!()
+        info!("查询安全公告信息，ID: {}", id);
+        todo!();
     }
 
     /// 根据 SA ID 获取安全公告信息
