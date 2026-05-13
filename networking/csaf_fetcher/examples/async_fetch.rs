@@ -6,5 +6,11 @@ use csaf_fetcher::{AsyncCsafFetcher, FetcherConfig};
 
 #[tokio::main]
 async fn main() {
-    todo!()
+    // 初始化日志
+    env_logger::init();
+
+    println!("=== CSAF 异步获取示例 ===\n");
+
+    // 1. 使用默认配置创建异步获取器
+    todo!();
 }
