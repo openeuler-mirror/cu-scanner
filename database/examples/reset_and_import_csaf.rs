@@ -7,5 +7,8 @@ use utils::config::AppConfig;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    todo!()
+    println!("清空数据库并重新导入CSAF文件示例程序");
+
+    // 从配置文件加载数据库配置
+    todo!();
 }
