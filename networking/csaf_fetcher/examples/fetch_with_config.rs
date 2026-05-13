@@ -7,5 +7,11 @@ use utils::config::AppConfig;
 
 #[tokio::main]
 async fn main() {
-    todo!()
+    // 初始化日志
+    env_logger::init();
+
+    println!("=== 使用配置文件批量获取 CSAF 文件示例 ===\n");
+
+    // 1. 加载配置文件
+    todo!();
 }
