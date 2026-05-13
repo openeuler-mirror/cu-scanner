@@ -43,7 +43,14 @@ static GLOBAL_CONFIG: OnceLock<config::AppConfig> = OnceLock::new();
 /// assert_eq!(evr, "0:9.6p1-6.ule4");
 /// ```
 pub fn add_epoch_prefix(package_name: &str, version_release: &str) -> String {
-    todo!()
+    // 如果有全局配置和 epoch 数据，使用优先级查询
+    if let (Some(config), Some(epochs)) = (GLOBAL_CONFIG.get(), EPOCH_DATA.get()) {
+        let epoch = epochs.get_epoch_with_priority(package_name, config);
+        return format!("{}:{}", epoch, version_release);
+    }
+
+    // 如果只有 epoch 数据没有配置，尝试从 JSON 获取
+    todo!();
 }
 
 /// 设置全局 epoch 数据
