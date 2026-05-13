@@ -35,7 +35,25 @@ pub async fn post_csaf_file(
     body: String,
     db_config: web::Data<DatabaseConfig>,
 ) -> impl Responder {
-    todo!()
+    info!("收到上传CSAF文件请求，文件名: {}", file_name);
+
+    // 解析CSAF内容
+    let csaf = match serde_json::from_str::<CSAF>(&body) {
+        Ok(csaf) => {
+            info!("CSAF文件解析成功");
+            csaf
+        }
+        Err(e) => {
+            error!("CSAF文件解析失败: {}", e);
+            let response = UploadResponse {
+                success: false,
+                message: format!("CSAF文件解析失败: {}", e),
+                oval_id: None,
+            };
+            return HttpResponse::BadRequest().json(response);
+        }
+    };
+    todo!();
 }
 
 /// 配置文件处理相关的路由
