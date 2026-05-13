@@ -13,7 +13,10 @@ pub struct IdCounterManager {
 impl IdCounterManager {
     /// 创建新的ID计数器管理器
     pub fn new(initial_counter: u64) -> Self {
-        todo!()
+        debug!("创建新的ID计数器管理器，初始计数器值: {}", initial_counter);
+        Self {
+            current_counter: initial_counter,
+        }
     }
 
     /// 获取当前计数器值
