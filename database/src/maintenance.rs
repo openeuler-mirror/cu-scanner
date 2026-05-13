@@ -8,7 +8,12 @@ use log::info;
 impl DatabaseManager {
     /// 检查表结构
     pub async fn check_table_structure(&self, table_name: &str) -> Result<(), DatabaseError> {
-        todo!()
+        println!("检查{}表结构...", table_name);
+        let rows = self.client.query(
+            "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = $1 ORDER BY ordinal_position",
+            &[&table_name]
+        ).await?;
+        todo!();
     }
 
     /// 检查rpminfo_objects表中的数据
