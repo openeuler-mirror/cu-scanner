@@ -40,7 +40,16 @@ pub async fn export_monthly(
     query: web::Query<ExportQuery>,
     db_config: web::Data<DatabaseConfig>,
 ) -> impl Responder {
-    todo!()
+    let (year, month) = path.into_inner();
+    let os_type = query.os_type.as_deref();
+
+    info!(
+        "收到按月导出请求: {}-{:02}, 系统类型过滤: {:?}",
+        year, month, os_type
+    );
+
+    // 参数验证
+    todo!();
 }
 
 /// 按周导出OVAL定义
