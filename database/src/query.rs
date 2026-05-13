@@ -14,7 +14,20 @@ impl DatabaseManager {
         &self,
         id: &str,
     ) -> Result<Option<crate::FullOvalDefinitionResult>, DatabaseError> {
-        todo!()
+        info!("正在从数据库获取OVAL定义: {}", id);
+
+        // 获取OVAL定义主信息
+        let definition = match self.get_oval_definition(id).await? {
+            Some(def) => def,
+            None => {
+                info!("未找到OVAL定义: {}", id);
+                return Ok(None);
+            }
+        };
+
+        // 获取引用信息
+        let references = self.get_references_for_definition(id).await?;
+        todo!();
     }
 
     /// 根据ID获取OVAL定义并转换为XML字符串
