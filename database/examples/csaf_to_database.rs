@@ -8,5 +8,8 @@ use utils::config::AppConfig;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    todo!()
+    println!("CSAF到数据库存储示例程序");
+
+    // 获取命令行参数
+    todo!();
 }
