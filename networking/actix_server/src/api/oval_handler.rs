@@ -23,7 +23,10 @@ use serde::{Deserialize, Serialize};
 /// assert_eq!(filename, "security-oval-2025-1001.xml");
 /// ```
 fn format_oval_id_to_filename(oval_id: &str) -> String {
-    todo!()
+    // 从OVAL ID中提取最后的数字部分
+    // 例如: "oval:com.culinux:def:20251001" -> "20251001"
+    let numeric_id = oval_id.split(':').next_back().unwrap_or(oval_id);
+    todo!();
 }
 
 /// 从文件名解析出OVAL ID
