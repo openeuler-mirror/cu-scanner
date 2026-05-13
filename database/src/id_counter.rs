@@ -27,7 +27,11 @@ impl PersistentIdCounter {
         counter_id: String,
         initial_counter: u64,
     ) -> Self {
-        todo!()
+        debug!(
+            "创建新的持久化ID计数器: {}, 初始计数器值: {}",
+            counter_id, initial_counter
+        );
+        todo!();
     }
 
     /// 从数据库加载计数器值
