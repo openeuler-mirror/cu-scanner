@@ -25,6 +25,6 @@ impl Default for CsafDatabase {
 impl CsafDatabase {
     /// 创建新的 CSAF 数据库访问实例
     pub fn new() -> Self {
-        todo!()
+        Self
     }
 }
