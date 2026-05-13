@@ -5,5 +5,11 @@
 use csaf_fetcher::{CsafFetcher, FetcherConfig};
 
 fn main() {
-    todo!()
+    // 初始化日志
+    env_logger::init();
+
+    println!("=== CSAF 同步获取示例 ===\n");
+
+    // 1. 使用默认配置创建获取器
+    todo!();
 }
