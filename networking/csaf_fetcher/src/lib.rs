@@ -67,7 +67,12 @@ pub struct FetcherConfig {
 
 impl Default for FetcherConfig {
     fn default() -> Self {
-        todo!()
+        Self {
+            timeout_secs: 30,
+            max_retries: 3,
+            retry_delay_ms: 1000,
+            user_agent: "CSAF-Fetcher/0.1.0".to_string(),
+        }
     }
 }
 
