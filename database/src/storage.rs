@@ -12,7 +12,21 @@ impl DatabaseManager {
     /// 从软件包版本中提取dist标识
     /// 例如: "ansible-2.9-1.oe1" -> Some("oe1")
     fn extract_dist_from_package(package_version: &str) -> Option<String> {
-        todo!()
+        let exact_patterns = vec!["oe2403", "oe2203", "oe1", "el9", "el8", "el7", "ule4"];
+        for pattern in exact_patterns {
+            if package_version.contains(pattern) {
+                debug!(
+                    "从软件包版本 {} 中精确匹配到dist: {}",
+                    package_version, pattern
+                );
+                return Some(pattern.to_string());
+            }
+        }
+        // 模糊匹配
+        if package_version.contains("oe2003") || package_version.contains("oe20.03") {
+            return Some("oe1".to_string());
+        }
+        todo!();
     }
 
     /// 根据dist标识查询os_info_id
