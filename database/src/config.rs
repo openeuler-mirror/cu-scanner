@@ -15,7 +15,11 @@ pub enum DatabaseError {
 
 impl std::fmt::Display for DatabaseError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        match self {
+            DatabaseError::ConnectionError(e) => write!(f, "数据库连接错误: {}", e),
+            DatabaseError::QueryError(e) => write!(f, "查询错误: {}", e),
+            DatabaseError::SerializationError(e) => write!(f, "序列化错误: {}", e),
+        }
     }
 }
 
