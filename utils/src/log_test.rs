@@ -6,7 +6,13 @@ mod tests {
 
     #[test]
     fn test_logger_with_file_output() {
-        todo!()
+        let log_file = "tmp/test_log.txt";
+
+        // 确保tmp目录存在
+        let _ = std::fs::create_dir_all("tmp");
+
+        // 初始化文件日志
+        todo!();
     }
 
     #[test]
