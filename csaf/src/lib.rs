@@ -375,7 +375,7 @@ pub struct VulThreat {
 
 impl Default for CSAF {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
