@@ -43,7 +43,7 @@ impl PackageEpochs {
     /// # 返回值
     /// 返回Result<PackageEpochs, Box<dyn std::error::Error>>，成功时包含加载的数据，失败时包含错误信息
     pub fn from_config(config: &AppConfig) -> Result<Self, Box<dyn std::error::Error>> {
-        todo!()
+        Self::from_json_file(&config.package.epoch_file)
     }
 
     /// 从 JSON 文件加载数据
