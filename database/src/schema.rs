@@ -8,7 +8,23 @@ use log::info;
 impl DatabaseManager {
     /// 清空并重新创建数据库表结构
     pub async fn reinit_tables(&mut self) -> Result<(), DatabaseError> {
-        todo!()
+        info!("正在清空并重新创建数据库表结构");
+
+        // 删除现有表（按依赖顺序）
+        let drop_tables = vec![
+            "DROP TABLE IF EXISTS rpminfo_states CASCADE",
+            "DROP TABLE IF EXISTS rpminfo_objects CASCADE",
+            "DROP TABLE IF EXISTS rpminfo_tests CASCADE",
+            "DROP TABLE IF EXISTS cves CASCADE",
+            "DROP TABLE IF EXISTS references_info CASCADE",
+            "DROP TABLE IF EXISTS oval_definitions CASCADE",
+            "DROP TABLE IF EXISTS os_info CASCADE",
+        ];
+
+        for drop_query in drop_tables {
+            self.client.execute(drop_query, &[]).await?;
+        }
+        todo!();
     }
 
     /// 初始化简化版数据库表结构
