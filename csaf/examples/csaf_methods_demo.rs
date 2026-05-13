@@ -6,5 +6,12 @@ use csaf::CSAF;
 use utils::Result;
 
 fn main() -> Result<()> {
-    todo!()
+    println!("=== CSAF 数据结构方法使用示例 ===\n");
+
+    // 从测试文件加载 CSAF 数据
+    let test_file = "test/csaf/csaf-openeuler-sa-2025-1004.json";
+    println!("正在从文件加载 CSAF 数据: {}\n", test_file);
+
+    let csaf = CSAF::from_file(test_file)?;
+    todo!();
 }
