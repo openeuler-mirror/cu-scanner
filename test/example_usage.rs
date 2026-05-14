@@ -10,7 +10,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     for file in config.get_csaf_files() {
         println!("  {}", file);
     }
-    todo!();
+
+    println!("\n=== Parser测试文件 ===");
+    for file in config.get_parser_files() {
+        println!("  {}", file);
+    }
+
+    println!("\n=== 通用测试文件 ===");
+    for file in config.get_common_files() {
+        println!("  {}", file);
+    }
+
+    Ok(())
 }
 
 #[cfg(test)]
