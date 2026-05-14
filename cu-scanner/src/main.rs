@@ -58,7 +58,9 @@ struct CliArgs {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    todo!()
+    // 在配置加载之前，先初始化一个临时的stdout日志记录器
+    utils::log::init_temporary_stdout_logger();
+    todo!();
 }
 
 /// 从CSAF文件名中提取OVAL ID
