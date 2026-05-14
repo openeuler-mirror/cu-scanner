@@ -8,7 +8,11 @@ use utils::config::AppConfig;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    todo!()
+    println!("批量导出并合并OVAL定义示例程序");
+
+    // 获取命令行参数
+    let args: Vec<String> = env::args().collect();
+    todo!();
 }
 
 /// 保存OVAL定义到文件
