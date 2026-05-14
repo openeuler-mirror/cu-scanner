@@ -42,7 +42,9 @@ pub struct ApiConfig {
 
 impl Default for ApiConfig {
     fn default() -> Self {
-        todo!()
+        Self {
+            group_name: "api".to_string(),
+        }
     }
 }
 
