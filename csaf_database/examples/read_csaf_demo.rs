@@ -18,5 +18,10 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // 连接数据库
     println!("正在连接数据库...");
+    let db_manager = DatabaseManager::new(&db_config).await?;
+    println!("数据库连接成功!");
+
+    // 创建 CSAF 查询器
+    let csaf_query = CsafQuery::new(db_manager).await?;
     todo!();
 }
