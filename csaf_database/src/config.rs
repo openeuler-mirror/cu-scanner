@@ -38,7 +38,10 @@ impl DatabaseConfig {
 
     /// 生成连接字符串
     fn connection_string(&self) -> String {
-        todo!()
+        format!(
+            "host={} port={} dbname={} user={} password={}",
+            self.host, self.port, self.database, self.username, self.password
+        )
     }
 }
 
