@@ -382,7 +382,11 @@ impl Default for CSAF {
 impl CSAF {
     /// 创建新的空CSAF实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            document: Document::new(),
+            product_tree: ProductTree::new(),
+            vulnerabilities: Vec::new(),
+        }
     }
 
     /// 获取CSAF文档的ID
