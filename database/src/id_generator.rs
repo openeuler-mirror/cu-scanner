@@ -38,7 +38,14 @@ impl DatabaseIdGenerator {
             "创建新的基于数据库的ID生成器，计数器ID: {}, 初始计数器值: {}",
             counter_id, initial_counter
         );
-        todo!();
+        let id_counter = PersistentIdCounter::new(db_manager.clone(), counter_id, initial_counter);
+        Self {
+            object_ids: HashMap::new(),
+            state_ids: HashMap::new(),
+            test_ids: HashMap::new(),
+            definition_ids: HashMap::new(),
+            id_counter,
+        }
     }
 
     /// 生成唯一ID
