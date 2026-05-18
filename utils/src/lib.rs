@@ -50,7 +50,14 @@ pub fn add_epoch_prefix(package_name: &str, version_release: &str) -> String {
     }
 
     // 如果只有 epoch 数据没有配置，尝试从 JSON 获取
-    todo!();
+    if let Some(epochs) = EPOCH_DATA.get() {
+        if let Some(epoch) = epochs.get_epoch(package_name) {
+            return format!("{}:{}", epoch, version_release);
+        }
+    }
+
+    // 默认返回 "0:" 作为 epoch 前缀
+    format!("0:{}", version_release)
 }
 
 /// 设置全局 epoch 数据
