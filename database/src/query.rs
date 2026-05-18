@@ -27,6 +27,14 @@ impl DatabaseManager {
 
         // 获取引用信息
         let references = self.get_references_for_definition(id).await?;
+
+        // 获取CVE信息
+        let cves = self.get_cves_for_definition(id).await?;
+
+        // 获取RPM信息测试
+        let rpminfo_tests = self.get_rpminfo_tests_for_definition(id).await?;
+
+        // 获取RPM信息对象
         todo!();
     }
 
