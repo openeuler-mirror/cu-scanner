@@ -27,7 +27,7 @@ impl std::error::Error for DatabaseError {}
 
 impl From<PgError> for DatabaseError {
     fn from(error: PgError) -> Self {
-        todo!()
+        DatabaseError::ConnectionError(error)
     }
 }
 
