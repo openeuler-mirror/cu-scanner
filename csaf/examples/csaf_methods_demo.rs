@@ -13,5 +13,11 @@ fn main() -> Result<()> {
     println!("正在从文件加载 CSAF 数据: {}\n", test_file);
 
     let csaf = CSAF::from_file(test_file)?;
+
+    // 使用 CSAF 的便捷方法
+    println!("【CSAF 文档信息】");
+    println!("  文档 ID: {}", csaf.get_id());
+    println!("  版本: {}", csaf.get_version());
+    println!("  标题: {}", csaf.get_title());
     todo!();
 }
