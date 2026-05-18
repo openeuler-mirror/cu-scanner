@@ -12,5 +12,9 @@ async fn main() {
     println!("=== CSAF 异步获取示例 ===\n");
 
     // 1. 使用默认配置创建异步获取器
+    println!("【1. 创建异步获取器】");
+    let fetcher = AsyncCsafFetcher::with_defaults().expect("创建异步获取器失败");
+    println!("  ✓ 成功创建异步获取器（默认配置）");
+    println!();
     todo!();
 }
