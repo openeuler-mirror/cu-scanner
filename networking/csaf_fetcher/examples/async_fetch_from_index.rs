@@ -13,5 +13,17 @@ async fn main() {
 
     // 1. 创建异步获取器
     println!("【1. 创建异步获取器】");
+    let config = FetcherConfig {
+        timeout_secs: 60,
+        max_retries: 3,
+        retry_delay_ms: 1000,
+        user_agent: "CSAF-Async-Fetcher/1.0".to_string(),
+    };
+
+    let fetcher = AsyncCsafFetcher::new(config).expect("创建异步获取器失败");
+    println!("  ✓ 成功创建异步获取器");
+    println!();
+
+    // 2. 配置 URL
     todo!();
 }
