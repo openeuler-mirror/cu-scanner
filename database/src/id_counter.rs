@@ -31,7 +31,12 @@ impl PersistentIdCounter {
             "创建新的持久化ID计数器: {}, 初始计数器值: {}",
             counter_id, initial_counter
         );
-        todo!();
+        Self {
+            db_manager,
+            counter_id,
+            current_counter: initial_counter,
+            loaded: false,
+        }
     }
 
     /// 从数据库加载计数器值
