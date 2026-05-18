@@ -13,7 +13,15 @@ impl DatabaseManager {
             "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = $1 ORDER BY ordinal_position",
             &[&table_name]
         ).await?;
-        todo!();
+
+        println!("{}表列信息:", table_name);
+        for row in rows {
+            let column_name: String = row.get(0);
+            let data_type: String = row.get(1);
+            println!("  - {}: {}", column_name, data_type);
+        }
+
+        Ok(())
     }
 
     /// 检查rpminfo_objects表中的数据
