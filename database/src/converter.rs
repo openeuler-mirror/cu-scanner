@@ -68,7 +68,14 @@ pub fn convert_full_oval_definition(
     objects: &oval::Objects,
     states: &oval::States,
 ) -> FullOvalDefinitionResult {
-    todo!()
+    (
+        convert_oval_definition_to_db(definition),
+        convert_references(&definition.metadata.references),
+        convert_cves(&definition.metadata.advisory.cve),
+        convert_rpminfo_tests(tests),
+        convert_rpminfo_objects(objects),
+        convert_rpminfo_states(states),
+    )
 }
 
 /// 转换引用信息
