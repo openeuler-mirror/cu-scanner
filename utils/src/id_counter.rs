@@ -21,7 +21,8 @@ impl IdCounterManager {
 
     /// 获取当前计数器值
     pub fn get_current_counter(&self) -> u64 {
-        todo!()
+        debug!("获取当前计数器值: {}", self.current_counter);
+        self.current_counter
     }
 
     /// 设置当前计数器值
