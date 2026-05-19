@@ -19,5 +19,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
 
     // 连接数据库
-    todo!();
+    let db_manager = DatabaseManager::new(&db_config)
+        .await
+        .map_err(|e| format!("数据库连接失败: {:?}", e))?;
+
+    // 检查rpminfo_objects表中的数据
+    db_manager
+        .check_rpminfo_objects()
+        .await
+        .map_err(|e| format!("检查rpminfo_objects表失败: {:?}", e))?;
+
+    println!("\n检查完成");
+    Ok(())
 }
