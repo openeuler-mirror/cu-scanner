@@ -19,5 +19,10 @@ async fn main() -> Result<(), Box<dyn Error>> {
         "cu_cveadmin",   // 用户名
         "Ninjia1000SX",  // 密码
     );
+
+    println!("CSAF 数据库配置:");
+    println!("  主机: {}", csaf_db_config.host);
+    println!("  端口: {}", csaf_db_config.port);
+    println!("  数据库: {}", csaf_db_config.database);
     todo!();
 }
