@@ -19,5 +19,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
 
     // 连接数据库
+    let mut db_manager = DatabaseManager::new(&db_config).await?;
+
+    // 初始化数据库表结构（如果尚未初始化）
+    db_manager.init_tables().await?;
+
+    // 获取第一个OVAL定义的ID（这里使用示例ID，您需要根据实际情况修改）
+    // 在实际使用中，您可能需要先查询数据库获取有效的ID
     todo!();
 }
