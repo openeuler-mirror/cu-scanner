@@ -12,6 +12,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 获取命令行参数
     let args: Vec<String> = env::args().collect();
+
+    if args.len() < 2 {
+        print_usage(&args[0]);
+        std::process::exit(1);
+    }
+
+    // 加载数据库配置
+    let config = AppConfig::from_file("config/cu-scanner.toml")
+        .map_err(|e| format!("配置文件加载失败: {}", e))?;
     todo!();
 }
 
