@@ -26,7 +26,14 @@ impl DatabaseManager {
         if package_version.contains("oe2003") || package_version.contains("oe20.03") {
             return Some("oe1".to_string());
         }
-        todo!();
+        if package_version.contains("oe2203") || package_version.contains("oe22.03") {
+            return Some("oe2203".to_string());
+        }
+        if package_version.contains("oe2403") || package_version.contains("oe24.03") {
+            return Some("oe2403".to_string());
+        }
+        warn!("无法从软件包版本 {} 中提取dist标识", package_version);
+        None
     }
 
     /// 根据dist标识查询os_info_id
