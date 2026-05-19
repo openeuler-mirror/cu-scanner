@@ -10,5 +10,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 从配置文件加载配置
     let config_path = "config/cu-scanner.toml";
     println!("正在加载配置文件: {}", config_path);
+
+    let config = AppConfig::from_file(config_path)?;
+
+    // 显示主数据库配置
+    println!("\n【主数据库配置】");
+    println!("  主机: {}", config.database.host);
     todo!();
 }
