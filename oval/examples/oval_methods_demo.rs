@@ -34,5 +34,34 @@ fn main() -> Result<()> {
     println!("  引用数量: {}", metadata.get_reference_count());
 
     // 添加 CVE
+    let cve1 = CVE::new()
+        .with_content("CVE-2024-1234".to_string())
+        .with_cvss3("7.5".to_string())
+        .with_href("https://nvd.nist.gov/vuln/detail/CVE-2024-1234".to_string())
+        .with_impact("High".to_string());
+
+    let cve2 = CVE::new()
+        .with_content("CVE-2024-5678".to_string())
+        .with_cvss3("9.8".to_string())
+        .with_href("https://nvd.nist.gov/vuln/detail/CVE-2024-5678".to_string())
+        .with_impact("Critical".to_string());
+
+    metadata.advisory.add_cve(cve1);
+    metadata.advisory.add_cve(cve2);
+    metadata.advisory.severity = "High".to_string();
+    metadata.advisory.issued.date = "2024-01-01".to_string();
+    metadata.advisory.updated.date = "2024-01-02".to_string();
+
+    println!("  CVE 数量: {}", metadata.advisory.get_cve_count());
+    println!("  CVE 列表: {:?}", metadata.advisory.get_cve_ids());
+    println!(
+        "  包含 CVE-2024-1234: {}",
+        metadata.advisory.contains_cve("CVE-2024-1234")
+    );
+    println!(
+        "  包含 CVE-9999-9999: {}",
+        metadata.advisory.contains_cve("CVE-9999-9999")
+    );
+    println!();
     todo!();
 }
