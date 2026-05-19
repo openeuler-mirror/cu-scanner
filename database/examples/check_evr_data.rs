@@ -16,5 +16,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         &config.database.username,
         &config.database.password,
     );
-    todo!();
+
+    // 连接数据库
+    let db_manager = DatabaseManager::new(&db_config).await?;
+
+    // 检查rpminfo_states表中的数据（包含EVR信息）
+    db_manager.check_rpminfo_states().await?;
+
+    Ok(())
 }
