@@ -24,7 +24,12 @@ impl DatabaseManager {
         for drop_query in drop_tables {
             self.client.execute(drop_query, &[]).await?;
         }
-        todo!();
+
+        // 重新创建表结构
+        self.init_tables().await?;
+
+        info!("数据库表结构重新创建完成");
+        Ok(())
     }
 
     /// 初始化简化版数据库表结构
