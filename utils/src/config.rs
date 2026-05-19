@@ -63,7 +63,7 @@ pub struct PackageConfig {
 }
 
 fn default_epoch_file() -> String {
-    todo!()
+    "/etc/cu-scanner/rpm_epoch.json".to_string()
 }
 
 impl Default for PackageConfig {
