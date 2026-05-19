@@ -60,6 +60,9 @@ struct CliArgs {
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 在配置加载之前，先初始化一个临时的stdout日志记录器
     utils::log::init_temporary_stdout_logger();
+    log::info!("cu-scanner初始化中...");
+
+    // 解析命令行参数
     todo!();
 }
 
