@@ -16,5 +16,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         &config.database.username,
         &config.database.password,
     );
+
+    // 连接数据库
+    let db_manager = DatabaseManager::new(&db_config).await?;
+
+    // 检查所有OVAL定义
+    println!("检查所有OVAL定义:");
     todo!();
 }
