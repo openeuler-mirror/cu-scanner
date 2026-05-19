@@ -48,7 +48,11 @@ impl PackageEpochs {
 
     /// 从 JSON 文件加载数据
     pub fn from_json_file<P: AsRef<Path>>(path: P) -> Result<Self, Box<dyn std::error::Error>> {
-        todo!()
+        let mut file = File::open(path)?;
+        let mut contents = String::new();
+        file.read_to_string(&mut contents)?;
+        let epochs: PackageEpochs = serde_json::from_str(&contents)?;
+        Ok(epochs)
     }
 
     /// 保存数据到 JSON 文件
