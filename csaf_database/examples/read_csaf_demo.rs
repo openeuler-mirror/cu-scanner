@@ -23,5 +23,27 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // 创建 CSAF 查询器
     let csaf_query = CsafQuery::new(db_manager).await?;
+
+    // 示例1: 获取所有安全公告信息
+    println!("\n=== 获取所有安全公告信息 ===");
+    match csaf_query.get_all_sa_info().await {
+        Ok(sa_list) => {
+            println!("找到 {} 条安全公告信息", sa_list.len());
+            for sa in sa_list {
+                println!(
+                    "  - ID: {}, SA ID: {}, 标题: {}, 严重性: {}",
+                    sa.id,
+                    sa.sa_id,
+                    sa.topic.as_deref().unwrap_or("N/A"),
+                    sa.severity.as_deref().unwrap_or("N/A")
+                );
+            }
+        }
+        Err(e) => {
+            eprintln!("获取安全公告信息失败: {}", e);
+        }
+    }
+
+    // 示例2: 根据 ID 获取安全公告信息
     todo!();
 }
