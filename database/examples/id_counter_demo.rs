@@ -18,5 +18,21 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         &config.database.username,
         &config.database.password,
     );
+
+    // 创建数据库管理器
+    let db_manager = Arc::new(Mutex::new(DatabaseManager::new(&db_config).await?));
+
+    // 初始化数据库表
+    {
+        let mut db = db_manager.lock().await;
+        db.init_tables().await?;
+    }
+
+    // 创建持久化ID计数器
+    let mut id_counter =
+        PersistentIdCounter::new(db_manager.clone(), "demo_counter".to_string(), 10000);
+
+    // 获取当前计数器值
+    let current_counter = id_counter.get_current_counter().await?;
     todo!();
 }
