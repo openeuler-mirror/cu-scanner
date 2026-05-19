@@ -30,6 +30,12 @@ mod tests {
 
     #[test]
     fn test_example_usage() {
-        todo!()
+        // 这只是一个示例，展示如何使用测试配置
+        let config = TestConfig::load_from_file("test_config.toml").unwrap();
+
+        // 验证CSAF文件配置
+        let csaf_files = config.get_csaf_files();
+        assert!(!csaf_files.is_empty());
+        todo!();
     }
 }
