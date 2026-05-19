@@ -27,7 +27,8 @@ impl IdCounterManager {
 
     /// 设置当前计数器值
     pub fn set_current_counter(&mut self, counter: u64) {
-        todo!()
+        debug!("设置当前计数器值: {} -> {}", self.current_counter, counter);
+        self.current_counter = counter;
     }
 
     /// 生成唯一ID
