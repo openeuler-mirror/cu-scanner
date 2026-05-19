@@ -11,5 +11,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("CSAF到数据库存储示例程序");
 
     // 获取命令行参数
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        eprintln!("使用方法: {} <csaf_file_path>", args[0]);
+        std::process::exit(1);
+    }
     todo!();
 }
