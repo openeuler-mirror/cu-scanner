@@ -17,6 +17,17 @@ mod tests {
         let _ = init_logger_with_level_and_target(log::Level::Info, target);
 
         // 记录一些日志
+        log::info!("Test info message");
+        log::warn!("Test warning message");
+        log::error!("Test error message");
+
+        // 读取日志文件内容
+        let mut file = fs::File::open(log_file).expect("Failed to open log file");
+        let mut contents = String::new();
+        file.read_to_string(&mut contents)
+            .expect("Failed to read log file");
+
+        // 验证日志内容
         todo!();
     }
 
