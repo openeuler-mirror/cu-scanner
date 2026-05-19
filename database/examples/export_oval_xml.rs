@@ -18,5 +18,23 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     let definition_id = &args[1];
+    let output_file = if args.len() > 2 {
+        args[2].clone()
+    } else {
+        format!("{}.xml", definition_id.replace(":", "_").replace("/", "_"))
+    };
+
+    println!("正在查询OVAL定义: {}", definition_id);
+
+    // 从配置文件加载数据库配置
+    let config = AppConfig::from_file("config/cu-scanner.toml")
+        .map_err(|e| format!("配置文件加载失败: {}", e))?;
+    let db_config = DatabaseConfig::new(
+        &config.database.host,
+        config.database.port,
+        &config.database.database,
+        &config.database.username,
+        &config.database.password,
+    );
     todo!();
 }
