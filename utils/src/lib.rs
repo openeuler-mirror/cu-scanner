@@ -68,7 +68,7 @@ pub fn add_epoch_prefix(package_name: &str, version_release: &str) -> String {
 /// # 返回值
 /// 如果设置成功返回 Ok(())，如果已经设置过则返回 Err(utils::Error)
 pub fn set_global_epoch_data(epochs: epoch::PackageEpochs) -> Result<()> {
-    todo!()
+    EPOCH_DATA.set(epochs).map_err(|_| "Epoch data already set".into())
 }
 
 /// 设置全局配置
