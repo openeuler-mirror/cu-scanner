@@ -26,7 +26,17 @@ fn format_oval_id_to_filename(oval_id: &str) -> String {
     // 从OVAL ID中提取最后的数字部分
     // 例如: "oval:com.culinux:def:20251001" -> "20251001"
     let numeric_id = oval_id.split(':').next_back().unwrap_or(oval_id);
-    todo!();
+
+    // 将数字按4位分组
+    // 例如: "20251001" -> "2025-1001"
+    let formatted_id = if numeric_id.len() > 4 {
+        let (first_part, second_part) = numeric_id.split_at(numeric_id.len() - 4);
+        format!("{}-{}", first_part, second_part)
+    } else {
+        numeric_id.to_string()
+    };
+
+    format!("security-oval-{}.xml", formatted_id)
 }
 
 /// 从文件名解析出OVAL ID
