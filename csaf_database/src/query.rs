@@ -20,12 +20,26 @@ impl CsafQuery {
     /// 根据 ID 获取单个安全公告信息
     pub async fn get_sa_info_by_id(&self, id: i32) -> Result<Option<SaInfo>, DatabaseError> {
         info!("查询安全公告信息，ID: {}", id);
-        todo!();
+
+        let row = self.db_manager.client.query_opt(
+            "SELECT id, sa_id, synopsis, summary, topic, description, severity, affected_product, affected_component, status, created_time, updated_time FROM sa_info WHERE id = $1",
+            &[&id]
+        ).await?;
+
+        if let Some(row) = row {
+            let sa_info = self.row_to_sa_info(&row);
+            debug!("成功查询到安全公告信息，ID: {}", id);
+            Ok(Some(sa_info))
+        } else {
+            debug!("未找到安全公告信息，ID: {}", id);
+            Ok(None)
+        }
     }
 
     /// 根据 SA ID 获取安全公告信息
     pub async fn get_sa_info_by_sa_id(&self, sa_id: &str) -> Result<Option<SaInfo>, DatabaseError> {
-        todo!()
+        info!("查询安全公告信息，SA ID: {}", sa_id);
+        todo!();
     }
 
     /// 获取所有安全公告信息
