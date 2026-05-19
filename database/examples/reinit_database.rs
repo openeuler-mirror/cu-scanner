@@ -18,5 +18,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
 
     // 连接数据库
-    todo!();
+    let mut db_manager = DatabaseManager::new(&db_config).await?;
+
+    // 重新初始化表结构
+    db_manager.reinit_tables().await?;
+
+    println!("数据库表结构重新初始化完成");
+
+    Ok(())
 }
