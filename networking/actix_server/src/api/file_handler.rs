@@ -53,6 +53,25 @@ pub async fn post_csaf_file(
             return HttpResponse::BadRequest().json(response);
         }
     };
+
+    // 转换CSAF到OVAL
+    let oval = match csaf_to_oval(&csaf) {
+        Ok(oval) => {
+            info!("CSAF到OVAL转换成功");
+            oval
+        }
+        Err(e) => {
+            error!("CSAF到OVAL转换失败: {}", e);
+            let response = UploadResponse {
+                success: false,
+                message: format!("CSAF到OVAL转换失败: {}", e),
+                oval_id: None,
+            };
+            return HttpResponse::InternalServerError().json(response);
+        }
+    };
+
+    // 获取OVAL定义ID
     todo!();
 }
 
