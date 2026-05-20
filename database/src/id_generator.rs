@@ -50,7 +50,9 @@ impl DatabaseIdGenerator {
 
     /// 生成唯一ID
     async fn generate_unique_id(&mut self, prefix: &str) -> Result<String, DatabaseError> {
-        todo!()
+        let id = self.id_counter.generate_unique_id(prefix).await?;
+        debug!("生成唯一ID: {}{}", prefix, id);
+        Ok(id)
     }
 
     /// 获取当前计数器值
