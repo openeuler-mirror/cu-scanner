@@ -34,7 +34,10 @@ impl DatabaseManager {
 
     /// 初始化简化版数据库表结构
     pub async fn init_tables(&mut self) -> Result<(), DatabaseError> {
-        todo!()
+        info!("正在初始化数据库表结构");
+
+        // 创建操作系统信息表（基础表，无外键依赖）
+        todo!();
     }
 
     /// 初始化操作系统信息数据
