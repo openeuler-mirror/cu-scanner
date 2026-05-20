@@ -28,5 +28,20 @@ async fn main() {
     };
 
     // 2. 检查 csaf_url 配置
+    println!("\n【2. 检查 CSAF URL 配置】");
+    let csaf_url_config = match &app_config.csaf_url {
+        Some(config) => {
+            println!("  ✓ 找到 CSAF URL 配置");
+            println!("  URL: {}", config.url);
+            config
+        }
+        None => {
+            eprintln!("  ✗ 配置文件中未找到 csaf_url 配置");
+            return;
+        }
+    };
+
+    // 3. 解析 index.txt URL 和基础 URL
+    println!("\n【3. 解析 URL】");
     todo!();
 }
