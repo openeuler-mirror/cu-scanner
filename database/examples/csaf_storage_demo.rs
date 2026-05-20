@@ -25,5 +25,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
 
     // 创建数据库管理器
+    let mut db_manager = DatabaseManager::new(&db_manager_config).await?;
+
+    // 初始化数据库表
+    db_manager.init_tables().await?;
+    println!("数据库表初始化完成");
     todo!();
 }
