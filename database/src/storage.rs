@@ -38,7 +38,8 @@ impl DatabaseManager {
 
     /// 根据dist标识查询os_info_id
     async fn get_os_info_id_by_dist(&self, dist: &str) -> Result<Option<i64>, DatabaseError> {
-        todo!()
+        debug!("根据dist查询os_info_id: {}", dist);
+        todo!();
     }
 
     /// 从RPM状态列表中提取dist并获取os_info_id
