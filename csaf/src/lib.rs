@@ -391,12 +391,12 @@ impl CSAF {
 
     /// 获取CSAF文档的ID
     pub fn get_id(&self) -> &str {
-        todo!()
+        &self.document.tracking.id
     }
 
     /// 获取CSAF文档的版本
     pub fn get_version(&self) -> &str {
-        todo!()
+        &self.document.tracking.version
     }
 
     /// 获取CSAF文档的标题
