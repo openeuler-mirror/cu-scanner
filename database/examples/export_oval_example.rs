@@ -26,5 +26,23 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 获取第一个OVAL定义的ID（这里使用示例ID，您需要根据实际情况修改）
     // 在实际使用中，您可能需要先查询数据库获取有效的ID
-    todo!();
+    let oval_id = "oval:cn.chinaunicom.culinux.cusa:def:10001";
+
+    println!("正在尝试导出ID为 {} 的OVAL定义...", oval_id);
+
+    // 从数据库获取OVAL XML内容
+    match db_manager.get_oval_xml_by_id(oval_id).await? {
+        Some(xml_content) => {
+            // 保存到文件
+            let filename = format!("exported_{}.xml", oval_id.replace(":", "_"));
+            fs::write(&filename, xml_content)?;
+            println!("成功导出OVAL文件: {}", filename);
+        }
+        None => {
+            println!("未找到ID为 {} 的OVAL定义", oval_id);
+            println!("请确保数据库中存在该ID的OVAL定义，或者使用其他有效的ID");
+        }
+    }
+
+    Ok(())
 }
