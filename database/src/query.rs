@@ -35,7 +35,29 @@ impl DatabaseManager {
         let rpminfo_tests = self.get_rpminfo_tests_for_definition(id).await?;
 
         // 获取RPM信息对象
-        todo!();
+        let rpminfo_objects = self.get_rpminfo_objects_for_definition(id).await?;
+
+        // 获取RPM信息状态
+        let rpminfo_states = self.get_rpminfo_states_for_definition(id).await?;
+
+        info!(
+            "成功获取OVAL定义: {}, references: {}, cves: {}, tests: {}, objects: {}, states: {}",
+            id,
+            references.len(),
+            cves.len(),
+            rpminfo_tests.len(),
+            rpminfo_objects.len(),
+            rpminfo_states.len()
+        );
+
+        Ok(Some((
+            definition,
+            references,
+            cves,
+            rpminfo_tests,
+            rpminfo_objects,
+            rpminfo_states,
+        )))
     }
 
     /// 根据ID获取OVAL定义并转换为XML字符串
