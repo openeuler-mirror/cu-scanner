@@ -24,5 +24,11 @@ fn main() {
     println!();
 
     // 2. 配置 URL
+    // 注意：这些是示例 URL，实际使用时需要替换为真实的地址
+    let index_url = "http://csaf-website/index.txt";
+    let base_url = "http://csaf-website";
+
+    println!("【2. 配置 URL】");
+    println!("  索引文件: {}", index_url);
     todo!();
 }
