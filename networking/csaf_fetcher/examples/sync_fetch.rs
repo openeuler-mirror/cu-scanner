@@ -15,5 +15,20 @@ fn main() {
     let fetcher = CsafFetcher::with_defaults().expect("创建获取器失败");
     println!("  ✓ 成功创建同步获取器（默认配置）");
     println!();
+
+    // 2. 使用自定义配置
+    println!("【2. 自定义配置】");
+    let custom_config = FetcherConfig {
+        timeout_secs: 60,
+        max_retries: 5,
+        retry_delay_ms: 2000,
+        user_agent: "My-CSAF-Client/1.0".to_string(),
+    };
+
+    let custom_fetcher = CsafFetcher::new(custom_config).expect("创建自定义获取器失败");
+    println!("  ✓ 成功创建自定义配置的获取器");
+    println!("    - 超时: 60秒");
+    println!("    - 最大重试: 5次");
+    println!("    - 重试延迟: 2000毫秒");
     todo!();
 }
