@@ -16,5 +16,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         eprintln!("使用方法: {} <csaf_file_path>", args[0]);
         std::process::exit(1);
     }
+
+    let csaf_file_path = &args[1];
+    println!("正在处理CSAF文件: {}", csaf_file_path);
     todo!();
 }
