@@ -25,5 +25,11 @@ async fn main() {
     println!();
 
     // 2. 配置 URL
+    let index_url = "http://csaf-website/index.txt";
+    let base_url = "http://csaf-website";
+
+    println!("【2. 配置 URL】");
+    println!("  索引文件: {}", index_url);
+    println!("  基础 URL: {}", base_url);
     todo!();
 }
