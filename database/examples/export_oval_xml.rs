@@ -36,5 +36,30 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         &config.database.username,
         &config.database.password,
     );
-    todo!();
+
+    // 连接数据库
+    let db_manager = DatabaseManager::new(&db_config)
+        .await
+        .map_err(|e| format!("数据库连接失败: {:?}", e))?;
+
+    // 从数据库获取OVAL定义并转换为XML
+    match db_manager.get_oval_xml_by_id(definition_id).await {
+        Ok(Some(xml_content)) => {
+            println!("成功获取OVAL XML内容，长度: {} 字节", xml_content.len());
+
+            // 保存到文件
+            let mut file = File::create(&output_file)?;
+            file.write_all(xml_content.as_bytes())?;
+
+            println!("OVAL XML已保存到文件: {}", output_file);
+        }
+        Ok(None) => {
+            println!("未找到指定ID的OVAL定义");
+        }
+        Err(e) => {
+            eprintln!("导出OVAL定义失败: {:?}", e);
+        }
+    }
+
+    Ok(())
 }
