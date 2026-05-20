@@ -33,7 +33,7 @@ impl From<PgError> for DatabaseError {
 
 impl From<serde_json::Error> for DatabaseError {
     fn from(error: serde_json::Error) -> Self {
-        todo!()
+        DatabaseError::SerializationError(error)
     }
 }
 
