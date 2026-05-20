@@ -34,5 +34,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 获取当前计数器值
     let current_counter = id_counter.get_current_counter().await?;
+    println!("当前计数器值: {}", current_counter);
+
+    // 生成一些唯一ID
+    println!("生成唯一ID:");
+    for i in 1..=5 {
+        let id = id_counter.generate_unique_id("demo:").await?;
+        println!("  {}. {}", i, id);
+    }
     todo!();
 }
