@@ -41,7 +41,18 @@ impl PersistentIdCounter {
 
     /// 从数据库加载计数器值
     async fn load_from_database(&mut self) -> Result<(), DatabaseError> {
-        todo!()
+        if !self.loaded {
+            let db_manager = self.db_manager.lock().await;
+            if let Some(counter_value) = db_manager.get_id_counter(&self.counter_id).await? {
+                self.current_counter = counter_value;
+                info!(
+                    "从数据库加载计数器值: {} -> {}",
+                    self.counter_id, self.current_counter
+                );
+            }
+            self.loaded = true;
+        }
+        todo!();
     }
 
     /// 将计数器值保存到数据库
