@@ -22,5 +22,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 检查所有OVAL定义
     println!("检查所有OVAL定义:");
-    todo!();
+    let definitions = db_manager.list_all_oval_definitions().await?;
+
+    for (i, definition) in definitions.iter().enumerate() {
+        println!(
+            "{}. ID: {}, 标题: {}",
+            i + 1,
+            definition.id,
+            definition.title
+        );
+    }
+
+    // 检查rpminfo_states表中的数据
+    println!("\n检查rpminfo_states表中的数据:");
+    db_manager.check_rpminfo_states().await?;
+
+    Ok(())
 }
