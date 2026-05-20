@@ -25,5 +25,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
 
     // 创建数据库管理器
+    let mut db_manager = DatabaseManager::new(&db_manager_config).await?;
+
+    // 加载第二个CSAF测试文件
+    println!("加载第二个CSAF测试文件...");
+    let csaf = CSAF::from_file(
+        "/home/fatmouse/workspace/cu-scanner/test/csaf/csaf-openeuler-sa-2025-1009.json",
+    )
+    .map_err(|e| format!("加载CSAF文件失败: {}", e))?;
     todo!();
 }
