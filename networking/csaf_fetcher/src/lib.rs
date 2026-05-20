@@ -94,7 +94,13 @@ impl CsafFetcher {
     /// 返回Result<CsafFetcher>
     pub fn new(config: FetcherConfig) -> Result<Self> {
         info!("创建CSAF同步获取器，超时: {}秒", config.timeout_secs);
-        todo!();
+
+        let client = reqwest::blocking::Client::builder()
+            .timeout(Duration::from_secs(config.timeout_secs))
+            .user_agent(&config.user_agent)
+            .build()?;
+
+        Ok(Self { client, config })
     }
 
     /// 使用默认配置创建获取器
