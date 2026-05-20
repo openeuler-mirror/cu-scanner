@@ -26,7 +26,15 @@ impl DatabaseManager {
 
     /// 检查rpminfo_objects表中的数据
     pub async fn check_rpminfo_objects(&self) -> Result<(), DatabaseError> {
-        todo!()
+        info!("检查rpminfo_objects表中的数据");
+        let rows = self
+            .client
+            .query(
+                "SELECT id, object_id, oval_definition_id FROM rpminfo_objects LIMIT 10",
+                &[],
+            )
+            .await?;
+        todo!();
     }
 
     /// 检查rpminfo_states表中的数据（包含EVR信息）
