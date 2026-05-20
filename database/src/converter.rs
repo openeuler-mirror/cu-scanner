@@ -88,7 +88,17 @@ pub fn convert_full_oval_definition(
 ///
 /// 返回转换后的数据库Reference列表
 pub fn convert_references(references: &Option<Vec<oval::Reference>>) -> Vec<Reference> {
-    todo!()
+    match references {
+        Some(refs) => refs
+            .iter()
+            .map(|r| Reference {
+                ref_id: r.ref_id.clone(),
+                ref_url: r.ref_url.clone(),
+                source: r.source.clone(),
+            })
+            .collect(),
+        None => Vec::new(),
+    }
 }
 
 /// 转换CVE信息
