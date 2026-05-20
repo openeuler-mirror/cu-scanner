@@ -19,5 +19,11 @@ fn main() -> Result<()> {
     println!("  文档 ID: {}", csaf.get_id());
     println!("  版本: {}", csaf.get_version());
     println!("  标题: {}", csaf.get_title());
+    println!("  状态: {}", csaf.get_status());
+    println!("  初始发布日期: {}", csaf.get_initial_release_date());
+    println!("  当前发布日期: {}", csaf.get_release_date());
+    println!();
+
+    // 文档属性
     todo!();
 }
