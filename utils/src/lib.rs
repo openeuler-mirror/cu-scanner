@@ -79,5 +79,5 @@ pub fn set_global_epoch_data(epochs: epoch::PackageEpochs) -> Result<()> {
 /// # 返回值
 /// 如果设置成功返回 Ok(())，如果已经设置过则返回 Err(utils::Error)
 pub fn set_global_config(config: config::AppConfig) -> Result<()> {
-    todo!()
+    GLOBAL_CONFIG.set(config).map_err(|_| "Config already set".into())
 }
