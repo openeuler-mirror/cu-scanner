@@ -56,7 +56,12 @@ fn format_oval_id_to_filename(oval_id: &str) -> String {
 /// assert_eq!(oval_id, Some("oval:com.culinux:def:20251001".to_string()));
 /// ```
 fn parse_filename_to_oval_id(filename: &str) -> Option<String> {
-    todo!()
+    // 移除 "security-oval-" 前缀和 ".xml" 后缀
+    let filename = filename.strip_prefix("security-oval-")?
+        .strip_suffix(".xml")?;
+
+    // 移除连字符，恢复原始数字
+    todo!();
 }
 
 /// OVAL文件信息
