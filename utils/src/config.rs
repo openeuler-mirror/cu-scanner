@@ -68,7 +68,11 @@ fn default_epoch_file() -> String {
 
 impl Default for PackageConfig {
     fn default() -> Self {
-        todo!()
+        Self {
+            epoch_file: default_epoch_file(),
+            use_yum: false,
+            use_extra_yum: false,
+        }
     }
 }
 
