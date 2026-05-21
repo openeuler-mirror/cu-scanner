@@ -25,5 +25,10 @@ fn main() -> Result<()> {
     println!();
 
     // 文档属性
+    println!("【文档属性】");
+    println!("  类别: {}", csaf.document.get_category());
+    println!("  语言: {}", csaf.document.get_lang());
+    println!("  发布者: {}", csaf.document.get_publisher_name());
+    println!();
     todo!();
 }
