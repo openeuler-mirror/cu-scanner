@@ -57,7 +57,10 @@ impl PackageEpochs {
 
     /// 保存数据到 JSON 文件
     pub fn to_json_file<P: AsRef<Path>>(&self, path: P) -> Result<(), Box<dyn std::error::Error>> {
-        todo!()
+        let json = serde_json::to_string_pretty(self)?;
+        let mut file = File::create(path)?;
+        file.write_all(json.as_bytes())?;
+        Ok(())
     }
 
     /// 从 JSON 字符串加载数据
