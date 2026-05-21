@@ -28,7 +28,12 @@ mod tests {
             .expect("Failed to read log file");
 
         // 验证日志内容
-        todo!();
+        assert!(contents.contains("Test info message"));
+        assert!(contents.contains("Test warning message"));
+        assert!(contents.contains("Test error message"));
+
+        // 清理测试文件
+        let _ = fs::remove_file(log_file);
     }
 
     #[test]
