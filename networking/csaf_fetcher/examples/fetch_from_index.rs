@@ -30,5 +30,39 @@ fn main() {
 
     println!("【2. 配置 URL】");
     println!("  索引文件: {}", index_url);
+    println!("  基础 URL: {}", base_url);
+    println!();
+
+    // 3. 获取索引文件
+    println!("【3. 获取索引文件】");
+    match fetcher.fetch_index(index_url) {
+        Ok(paths) => {
+            println!("  ✓ 成功获取索引文件");
+            println!("  解析到 {} 个 CSAF 文件路径", paths.len());
+
+            // 显示前 5 个文件路径
+            println!("\n  前 5 个文件路径:");
+            for (i, path) in paths.iter().take(5).enumerate() {
+                println!("    {}. {}", i + 1, path);
+            }
+
+            if paths.len() > 5 {
+                println!("    ... 还有 {} 个文件", paths.len() - 5);
+            }
+        }
+        Err(e) => {
+            println!("  ✗ 获取索引文件失败: {}", e);
+            println!("  这是预期的，因为示例 URL 不可用");
+            println!("\n  实际使用时的示例:");
+            println!("  假设 index.txt 内容如下:");
+            println!("    2021/csaf-openeuler-sa-2021-1001.json");
+            println!("    2021/csaf-openeuler-sa-2021-1002.json");
+            println!("    2021/csaf-openeuler-sa-2021-1003.json");
+            println!("\n  解析后会得到这些路径，然后拼接为完整 URL:");
+            println!("    http://csaf-website/2021/csaf-openeuler-sa-2021-1001.json");
+            println!("    http://csaf-website/2021/csaf-openeuler-sa-2021-1002.json");
+            println!("    http://csaf-website/2021/csaf-openeuler-sa-2021-1003.json");
+        }
+    }
     todo!();
 }
