@@ -27,5 +27,31 @@ async fn main() -> Result<(), Box<dyn Error>> {
     println!();
 
     // 指定要查询的 SA ID
-    todo!();
+    let sa_id = "SA-2025-1004";
+    println!("正在根据 SA ID '{}' 创建 OVAL 定义...\n", sa_id);
+
+    // 从数据库查询信息并创建 OVAL 定义
+    match create_definition_from_sa_id(&csaf_db_config, sa_id).await {
+        Ok(definition) => {
+            println!("成功创建 OVAL 定义！\n");
+            println!("OVAL 定义信息:");
+            println!("  ID: {}", definition.id);
+            println!("  版本: {}", definition.version);
+            println!("  类别: {}", definition.class);
+            println!("  标题: {}", definition.metadata.title);
+            println!("  描述: {}", definition.metadata.description);
+            println!("  平台: {}", definition.metadata.affected.platform);
+            println!("  严重性: {}", definition.metadata.advisory.severity);
+            println!("  发布时间: {}", definition.metadata.advisory.issued.date);
+            println!("  更新时间: {}", definition.metadata.advisory.updated.date);
+
+            println!("\n示例执行成功！");
+        }
+        Err(e) => {
+            eprintln!("创建 OVAL 定义失败: {}", e);
+            return Err(e);
+        }
+    }
+
+    Ok(())
 }
