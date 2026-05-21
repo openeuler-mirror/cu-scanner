@@ -72,6 +72,31 @@ pub async fn post_csaf_file(
     };
 
     // 获取OVAL定义ID
+    let oval_id = if !oval.definitions.items.is_empty() {
+        oval.definitions.items[0].id.clone()
+    } else {
+        error!("转换后的OVAL定义为空");
+        let response = UploadResponse {
+            success: false,
+            message: "转换后的OVAL定义为空".to_string(),
+            oval_id: None,
+        };
+        return HttpResponse::InternalServerError().json(response);
+    };
+
+    // 连接数据库
+    let db_manager = match DatabaseManager::new(&db_config).await {
+        Ok(manager) => manager,
+        Err(e) => {
+            error!("数据库连接失败: {:?}", e);
+            let response = UploadResponse {
+                success: false,
+                message: format!("数据库连接失败: {:?}", e),
+                oval_id: None,
+            };
+            return HttpResponse::InternalServerError().json(response);
+        }
+    };
     todo!();
 }
 
