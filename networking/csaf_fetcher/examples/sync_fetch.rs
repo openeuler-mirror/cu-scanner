@@ -30,5 +30,11 @@ fn main() {
     println!("    - 超时: 60秒");
     println!("    - 最大重试: 5次");
     println!("    - 重试延迟: 2000毫秒");
+    println!();
+
+    // 3. 获取 CSAF 文件（使用本地测试文件的 URL 或实际 URL）
+    println!("【3. 获取 CSAF 文件（使用自定义配置的获取器）】");
+
+    // 注意：这里需要替换为实际的 CSAF URL
     todo!();
 }
