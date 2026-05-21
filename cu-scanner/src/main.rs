@@ -63,6 +63,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     log::info!("cu-scanner初始化中...");
 
     // 解析命令行参数
+    let args = CliArgs::parse();
+
+    log::info!("配置文件路径: {}", args.config);
     todo!();
 }
 
