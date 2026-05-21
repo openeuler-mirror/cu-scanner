@@ -33,7 +33,11 @@ impl IdCounterManager {
 
     /// 生成唯一ID
     pub fn generate_unique_id(&mut self, prefix: &str) -> String {
-        todo!()
+        self.current_counter += 1;
+        // 在数字ID前添加1，避免ID以0开头
+        let id = format!("{}1{}", prefix, self.current_counter);
+        debug!("生成唯一ID: {}", id);
+        id
     }
 }
 
