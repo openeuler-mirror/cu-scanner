@@ -27,5 +27,9 @@ async fn main() {
     };
 
     let custom_fetcher = AsyncCsafFetcher::new(custom_config).expect("创建自定义异步获取器失败");
+    println!("  ✓ 成功创建自定义配置的异步获取器");
+    println!("    - 超时: 60秒");
+    println!("    - 最大重试: 5次");
+    println!("    - 重试延迟: 2000毫秒");
     todo!();
 }
