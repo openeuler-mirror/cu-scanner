@@ -31,5 +31,30 @@ async fn main() {
     println!("【2. 配置 URL】");
     println!("  索引文件: {}", index_url);
     println!("  基础 URL: {}", base_url);
+    println!();
+
+    // 3. 异步获取索引文件
+    println!("【3. 异步获取索引文件】");
+    match fetcher.fetch_index(index_url).await {
+        Ok(paths) => {
+            println!("  ✓ 成功异步获取索引文件");
+            println!("  解析到 {} 个 CSAF 文件路径", paths.len());
+
+            // 显示前 5 个文件路径
+            println!("\n  前 5 个文件路径:");
+            for (i, path) in paths.iter().take(5).enumerate() {
+                println!("    {}. {}", i + 1, path);
+            }
+
+            if paths.len() > 5 {
+                println!("    ... 还有 {} 个文件", paths.len() - 5);
+            }
+        }
+        Err(e) => {
+            println!("  ✗ 异步获取索引文件失败: {}", e);
+            println!("  这是预期的，因为示例 URL 不可用");
+        }
+    }
+    println!();
     todo!();
 }
