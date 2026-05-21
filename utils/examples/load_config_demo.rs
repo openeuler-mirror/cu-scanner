@@ -16,5 +16,25 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 显示主数据库配置
     println!("\n【主数据库配置】");
     println!("  主机: {}", config.database.host);
+    println!("  端口: {}", config.database.port);
+    println!("  数据库: {}", config.database.database);
+    println!("  用户名: {}", config.database.username);
+    println!("  密码: {}", "*".repeat(config.database.password.len()));
+
+    // 显示 CSAF 数据库配置
+    if let Some(ref csaf_db) = config.csaf_db {
+        println!("\n【CSAF数据库配置】");
+        println!("  主机: {}", csaf_db.host);
+        println!("  端口: {}", csaf_db.port);
+        println!("  数据库: {}", csaf_db.database);
+        println!("  用户名: {}", csaf_db.username);
+        println!("  密码: {}", "*".repeat(csaf_db.password.len()));
+    } else {
+        println!("\n【CSAF数据库配置】");
+        println!("  未配置");
+    }
+
+    // 显示日志配置
+    println!("\n【日志配置】");
     todo!();
 }
