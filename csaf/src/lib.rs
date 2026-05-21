@@ -401,7 +401,7 @@ impl CSAF {
 
     /// 获取CSAF文档的标题
     pub fn get_title(&self) -> &str {
-        todo!()
+        &self.document.title
     }
 
     /// 获取漏洞数量
