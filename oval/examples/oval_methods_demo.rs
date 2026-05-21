@@ -63,5 +63,21 @@ fn main() -> Result<()> {
         metadata.advisory.contains_cve("CVE-9999-9999")
     );
     println!();
+
+    // 创建条件
+    println!("【3. 创建检查条件】");
+    let mut criteria = Criteria::new().with_operator("AND".to_string());
+
+    let criterion1 = Criterion::new();
+    let criterion2 = Criterion::new();
+    criteria.add_criterion(criterion1);
+    criteria.add_criterion(criterion2);
+
+    println!("  操作符: {}", criteria.operator);
+    println!("  条件数量: {}", criteria.get_criterion_count());
+    println!("  子条件数量: {}", criteria.get_sub_criteria_count());
+    println!();
+
+    // 创建定义
     todo!();
 }
