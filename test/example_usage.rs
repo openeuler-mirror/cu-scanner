@@ -36,6 +36,12 @@ mod tests {
         // 验证CSAF文件配置
         let csaf_files = config.get_csaf_files();
         assert!(!csaf_files.is_empty());
-        todo!();
+
+        // 验证Parser文件配置
+        let parser_files = config.get_parser_files();
+        assert!(!parser_files.is_empty());
+
+        println!("CSAF测试文件数量: {}", csaf_files.len());
+        println!("Parser测试文件数量: {}", parser_files.len());
     }
 }
