@@ -43,5 +43,10 @@ async fn main() {
 
     // 3. 解析 index.txt URL 和基础 URL
     println!("\n【3. 解析 URL】");
+    let index_url = &csaf_url_config.url;
+
+    // 从 index.txt URL 中提取基础 URL
+    // 例如：https://example.com/security/data/csaf/advisories/index.txt
+    //   -> https://example.com/security/data/csaf/advisories
     todo!();
 }
