@@ -105,7 +105,7 @@ impl CsafFetcher {
 
     /// 使用默认配置创建获取器
     pub fn with_defaults() -> Result<Self> {
-        todo!()
+        Self::new(FetcherConfig::default())
     }
 
     /// 从URL获取CSAF文件
