@@ -24,5 +24,10 @@ async fn main() -> Result<(), Box<dyn Error>> {
     println!("  主机: {}", csaf_db_config.host);
     println!("  端口: {}", csaf_db_config.port);
     println!("  数据库: {}", csaf_db_config.database);
+    println!("  用户名: {}", csaf_db_config.username);
+    println!();
+
+    // 设置查询的时间点
+    // 可以使用以下格式：
     todo!();
 }
