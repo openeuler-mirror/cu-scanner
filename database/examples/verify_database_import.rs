@@ -25,5 +25,33 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 列出所有OVAL定义
     println!("数据库中的所有OVAL定义:");
-    todo!();
+    let definitions = db_manager
+        .list_all_oval_definitions()
+        .await
+        .map_err(|e| format!("查询OVAL定义失败: {:?}", e))?;
+
+    for (i, definition) in definitions.iter().enumerate() {
+        println!(
+            "{}. ID: {}, 标题: {}",
+            i + 1,
+            definition.id,
+            definition.title
+        );
+
+        // 获取该定义的详细信息
+        if let Some((_, references, cves, tests, objects, states)) = db_manager
+            .get_full_oval_definition(&definition.id)
+            .await
+            .map_err(|e| format!("获取OVAL定义详情失败: {:?}", e))?
+        {
+            println!("   引用数量: {}", references.len());
+            println!("   CVE数量: {}", cves.len());
+            println!("   测试数量: {}", tests.len());
+            println!("   对象数量: {}", objects.len());
+            println!("   状态数量: {}", states.len());
+        }
+    }
+
+    println!("\n数据库导入验证完成");
+    Ok(())
 }
