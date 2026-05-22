@@ -30,5 +30,12 @@ fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 
     // 加载第二个CSAF文件
     println!("\n加载第二个CSAF文件...");
+    let csaf2 = CSAF::from_file(
+        "/home/fatmouse/workspace/cu-scanner/test/csaf/csaf-openeuler-sa-2025-1009.json",
+    )?;
+    println!("第二个CSAF文件加载成功: {}", csaf2.document.title);
+
+    // 使用计数器10000转换第二个CSAF文件
+    println!("转换第二个CSAF文件...");
     todo!();
 }
