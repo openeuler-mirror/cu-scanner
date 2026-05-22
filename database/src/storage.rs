@@ -39,7 +39,19 @@ impl DatabaseManager {
     /// 根据dist标识查询os_info_id
     async fn get_os_info_id_by_dist(&self, dist: &str) -> Result<Option<i64>, DatabaseError> {
         debug!("根据dist查询os_info_id: {}", dist);
-        todo!();
+        let row = self
+            .client
+            .query_opt("SELECT id FROM os_info WHERE dist = $1", &[&dist])
+            .await?;
+
+        if let Some(row) = row {
+            let id: i64 = row.get("id");
+            debug!("找到os_info_id: {} for dist: {}", id, dist);
+            Ok(Some(id))
+        } else {
+            warn!("未找到dist对应的os_info: {}", dist);
+            Ok(None)
+        }
     }
 
     /// 从RPM状态列表中提取dist并获取os_info_id
