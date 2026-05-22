@@ -62,7 +62,20 @@ impl DatabaseManager {
 
     /// 根据ID获取OVAL定义并转换为XML字符串
     pub async fn get_oval_xml_by_id(&self, id: &str) -> Result<Option<String>, DatabaseError> {
-        todo!()
+        info!("正在从数据库获取OVAL定义并转换为XML: {}", id);
+
+        // 获取完整的OVAL定义
+        let full_definition = match self.get_full_oval_definition(id).await? {
+            Some(def) => def,
+            None => {
+                info!("未找到OVAL定义: {}", id);
+                return Ok(None);
+            }
+        };
+
+        let (definition, references, cves, rpminfo_tests, rpminfo_objects, rpminfo_states) =
+            full_definition;
+        todo!();
     }
 
     /// 将数据库实体转换为OVAL定义
