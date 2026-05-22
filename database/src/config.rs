@@ -49,7 +49,13 @@ pub struct DatabaseConfig {
 
 impl DatabaseConfig {
     pub fn new(host: &str, port: u16, database: &str, username: &str, password: &str) -> Self {
-        todo!()
+        Self {
+            host: host.to_string(),
+            port,
+            database: database.to_string(),
+            username: username.to_string(),
+            password: password.to_string(),
+        }
     }
 
     fn connection_string(&self) -> String {
