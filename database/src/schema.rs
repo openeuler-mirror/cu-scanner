@@ -37,6 +37,24 @@ impl DatabaseManager {
         info!("正在初始化数据库表结构");
 
         // 创建操作系统信息表（基础表，无外键依赖）
+        self.client
+            .execute(
+                "CREATE TABLE IF NOT EXISTS os_info (
+                id BIGSERIAL PRIMARY KEY,
+                os_type TEXT NOT NULL,
+                os_version TEXT NOT NULL,
+                package_name TEXT NOT NULL,
+                verify_file TEXT NOT NULL,
+                verify_pattern TEXT NOT NULL,
+                dist TEXT NOT NULL UNIQUE,
+                description TEXT,
+                UNIQUE (os_type, os_version)
+            )",
+                &[],
+            )
+            .await?;
+
+        // 创建OVAL定义表（包含os_info_id外键）
         todo!();
     }
 
