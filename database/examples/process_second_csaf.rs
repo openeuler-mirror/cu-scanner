@@ -33,5 +33,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "/home/fatmouse/workspace/cu-scanner/test/csaf/csaf-openeuler-sa-2025-1009.json",
     )
     .map_err(|e| format!("加载CSAF文件失败: {}", e))?;
+    println!("CSAF文件加载成功: {}", csaf.document.title);
+
+    // 使用默认计数器转换CSAF到OVAL
+    println!("转换CSAF到OVAL格式...");
+    let oval = csaf_to_oval(&csaf).map_err(|e| format!("CSAF到OVAL转换失败: {}", e))?;
     todo!();
 }
