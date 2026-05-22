@@ -97,6 +97,17 @@ pub async fn post_csaf_file(
             return HttpResponse::InternalServerError().json(response);
         }
     };
+
+    // 转换OVAL定义为数据库实体
+    let (db_definition, references, cves, rpminfo_tests, rpminfo_objects, rpminfo_states) =
+        database::converter::convert_full_oval_definition(
+            &oval.definitions.items[0],
+            &oval.tests,
+            &oval.objects,
+            &oval.states,
+        );
+
+    // 保存到数据库
     todo!();
 }
 
