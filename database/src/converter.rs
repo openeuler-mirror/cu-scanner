@@ -111,7 +111,15 @@ pub fn convert_references(references: &Option<Vec<oval::Reference>>) -> Vec<Refe
 ///
 /// 返回转换后的数据库Cve列表
 pub fn convert_cves(cves: &[oval::CVE]) -> Vec<Cve> {
-    todo!()
+    cves.iter()
+        .map(|cve| Cve {
+            cve_id: cve.content.clone(),
+            cvss3: cve.cvss3.clone(),
+            impact: cve.impact.clone(),
+            href: cve.href.clone(),
+            content: cve.content.clone(),
+        })
+        .collect()
 }
 
 /// 转换条件标准信息
