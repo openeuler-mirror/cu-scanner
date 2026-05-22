@@ -24,5 +24,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut db_manager = DatabaseManager::new(&db_config)
         .await
         .map_err(|e| format!("数据库连接失败: {:?}", e))?;
+
+    // 清空所有数据表
+    println!("正在清空所有数据表...");
     todo!();
 }
