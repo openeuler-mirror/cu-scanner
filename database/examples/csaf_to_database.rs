@@ -19,5 +19,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let csaf_file_path = &args[1];
     println!("正在处理CSAF文件: {}", csaf_file_path);
+
+    // 从配置文件加载数据库配置
+    let config = AppConfig::from_file("config/cu-scanner.toml")
+        .map_err(|e| format!("配置文件加载失败: {}", e))?;
     todo!();
 }
