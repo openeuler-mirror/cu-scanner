@@ -52,7 +52,7 @@ impl PersistentIdCounter {
             }
             self.loaded = true;
         }
-        todo!();
+        Ok(())
     }
 
     /// 将计数器值保存到数据库
