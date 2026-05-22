@@ -30,5 +30,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 初始化数据库表
     db_manager.init_tables().await?;
     println!("数据库表初始化完成");
+
+    // 加载CSAF测试文件
+    println!("加载CSAF测试文件...");
+    let csaf = CSAF::from_file(
+        "/home/fatmouse/workspace/cu-scanner/test/csaf/csaf-openeuler-sa-2025-1004.json",
+    )
+    .map_err(|e| format!("加载CSAF文件失败: {}", e))?;
+    println!("CSAF文件加载成功: {}", csaf.document.title);
     todo!();
 }
