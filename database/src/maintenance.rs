@@ -34,7 +34,22 @@ impl DatabaseManager {
                 &[],
             )
             .await?;
-        todo!();
+
+        println!("rpminfo_objects表中的数据:");
+        for (i, row) in rows.iter().enumerate() {
+            let id: i64 = row.get("id");
+            let object_id: String = row.get("object_id");
+            let oval_definition_id: String = row.get("oval_definition_id");
+            println!(
+                "{}. id: {}, object_id: '{}', oval_definition_id: '{}'",
+                i + 1,
+                id,
+                object_id,
+                oval_definition_id
+            );
+        }
+
+        Ok(())
     }
 
     /// 检查rpminfo_states表中的数据（包含EVR信息）
