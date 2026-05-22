@@ -57,7 +57,7 @@ impl DatabaseIdGenerator {
 
     /// 获取当前计数器值
     pub async fn get_current_counter(&mut self) -> Result<u64, DatabaseError> {
-        todo!()
+        self.id_counter.get_current_counter().await
     }
 
     /// 设置当前计数器值
