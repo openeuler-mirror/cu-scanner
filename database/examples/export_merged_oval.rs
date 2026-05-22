@@ -33,7 +33,67 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let db_manager = DatabaseManager::new(&db_config)
         .await
         .map_err(|e| format!("数据库连接失败: {:?}", e))?;
-    todo!();
+
+    let mode = &args[1];
+
+    match mode.as_str() {
+        "--all" => {
+            // 导出所有定义
+            println!("正在导出所有OVAL定义...");
+            let merged = db_manager.export_all_oval_definitions().await?;
+
+            let output_file = if args.len() > 2 {
+                args[2].clone()
+            } else {
+                "all_oval_definitions.xml".to_string()
+            };
+
+            save_oval(&merged, &output_file)
+                .map_err(|e| -> Box<dyn std::error::Error> { Box::new(std::io::Error::other(e)) })?;
+        }
+        "--ids" => {
+            // 导出指定ID列表
+            if args.len() < 3 {
+                eprintln!("错误: --ids 模式需要至少一个definition ID");
+                print_usage(&args[0]);
+                std::process::exit(1);
+            }
+
+            let definition_ids: Vec<String> = args[2..args.len()-1].to_vec();
+            let output_file = args.last().unwrap();
+
+            println!("正在导出 {} 个OVAL定义...", definition_ids.len());
+            let merged = db_manager.export_merged_oval(definition_ids).await?;
+
+            save_oval(&merged, output_file)
+                .map_err(|e| -> Box<dyn std::error::Error> { Box::new(std::io::Error::other(e)) })?;
+        }
+        "--date-range" => {
+            // 导出指定时间范围
+            if args.len() < 5 {
+                eprintln!("错误: --date-range 模式需要 start_date end_date output_file");
+                eprintln!("示例: {} --date-range 2025-01-01 2025-01-31 output.xml", args[0]);
+                std::process::exit(1);
+            }
+
+            let start_date = &args[2];
+            let end_date = &args[3];
+            let output_file = &args[4];
+
+            println!("正在导出 {} 到 {} 之间的OVAL定义...", start_date, end_date);
+            let merged = db_manager.export_oval_by_date_range(start_date, end_date).await?;
+
+            save_oval(&merged, output_file)
+                .map_err(|e| -> Box<dyn std::error::Error> { Box::new(std::io::Error::other(e)) })?;
+        }
+        _ => {
+            eprintln!("错误: 未知的模式 '{}'", mode);
+            print_usage(&args[0]);
+            std::process::exit(1);
+        }
+    }
+
+    Ok(())
 }
 
 /// 保存OVAL定义到文件
