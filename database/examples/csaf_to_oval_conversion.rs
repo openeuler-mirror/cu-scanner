@@ -34,5 +34,14 @@ fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
             println!("{}. {}", i + 1, product);
         }
     }
-    todo!();
+
+    // 显示引用信息
+    println!("\n=== 引用信息 ===");
+    for (i, reference) in csaf.document.references.iter().enumerate() {
+        println!("{}. {} - {}", i + 1, reference.summary, reference.url);
+    }
+
+    println!("\nCSAF文件解析完成");
+
+    Ok(())
 }
