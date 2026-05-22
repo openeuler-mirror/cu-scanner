@@ -36,5 +36,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 显示日志配置
     println!("\n【日志配置】");
+    println!("  日志级别: {}", config.logging.level);
+    println!(
+        "  日志文件: {}",
+        if config.logging.file.is_empty() {
+            "未配置"
+        } else {
+            &config.logging.file
+        }
+    );
+    println!("  标准输出: {}", config.logging.stdout);
+
+    // 显示 API 配置
     todo!();
 }
