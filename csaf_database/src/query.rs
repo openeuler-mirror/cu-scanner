@@ -57,7 +57,13 @@ impl CsafQuery {
 
     /// 获取所有安全公告信息
     pub async fn get_all_sa_info(&self) -> Result<Vec<SaInfo>, DatabaseError> {
-        todo!()
+        info!("查询所有安全公告信息");
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, sa_id, synopsis, summary, topic, description, severity, affected_product, affected_component, status, created_time, updated_time FROM sa_info ORDER BY created_time DESC",
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 获取指定时间之后的安全公告ID列表（基于created_time）
