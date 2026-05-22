@@ -61,7 +61,11 @@ fn parse_filename_to_oval_id(filename: &str) -> Option<String> {
         .strip_suffix(".xml")?;
 
     // 移除连字符，恢复原始数字
-    todo!();
+    // 例如: "2025-1001" -> "20251001"
+    let numeric_id = filename.replace('-', "");
+
+    // 构造完整的OVAL ID
+    Some(format!("{}{}", CU_LINUX_SA_DEF_PREFIX, numeric_id))
 }
 
 /// OVAL文件信息
