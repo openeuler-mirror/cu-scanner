@@ -66,6 +66,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = CliArgs::parse();
 
     log::info!("配置文件路径: {}", args.config);
+
+    // 先加载配置文件以获取日志配置
+    let config = match AppConfig::from_file(&args.config) {
+        Ok(config) => {
+            log::info!("配置文件加载成功: {}", args.config);
+            config
+        }
+        Err(e) => {
+            log::error!("配置文件加载失败: {}，使用默认配置", e);
+            AppConfig::default()
+        }
+    };
     todo!();
 }
 
