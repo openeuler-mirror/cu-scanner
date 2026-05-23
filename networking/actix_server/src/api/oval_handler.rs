@@ -95,7 +95,19 @@ pub struct OvalFileListResponse {
 /// 返回所有OVAL定义ID的列表，以及对应的下载链接等信息
 #[get("/get_all")]
 pub async fn get_all_oval_files(db_config: web::Data<DatabaseConfig>) -> impl Responder {
-    todo!()
+    info!("收到获取所有OVAL文件列表请求");
+
+    // 连接数据库
+    let db_manager = match DatabaseManager::new(&db_config).await {
+        Ok(manager) => manager,
+        Err(e) => {
+            error!("数据库连接失败: {:?}", e);
+            return HttpResponse::InternalServerError().json("数据库连接失败");
+        }
+    };
+
+    info!("成功连接到数据库");
+    todo!();
 }
 
 /// 获取单个OVAL文件
