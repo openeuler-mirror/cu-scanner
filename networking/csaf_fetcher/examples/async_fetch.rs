@@ -58,5 +58,10 @@ async fn main() {
         }
     }
     println!();
+
+    // 4. 异步获取并保存到文件
+    println!("【4. 异步获取并保存到文件】");
+    let output_path = "/tmp/csaf_async_example.json";
+    println!("  如果成功获取，将异步保存到: {}", output_path);
     todo!();
 }
