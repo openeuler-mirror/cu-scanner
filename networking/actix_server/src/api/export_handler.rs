@@ -140,7 +140,16 @@ pub async fn export_weekly(
     query: web::Query<ExportQuery>,
     db_config: web::Data<DatabaseConfig>,
 ) -> impl Responder {
-    todo!()
+    let (year, week) = path.into_inner();
+    let os_type = query.os_type.as_deref();
+
+    info!(
+        "收到按周导出请求: {}-W{:02}, 系统类型过滤: {:?}",
+        year, week, os_type
+    );
+
+    // 参数验证
+    todo!();
 }
 
 /// 按年导出OVAL定义
