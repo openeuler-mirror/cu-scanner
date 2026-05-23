@@ -419,7 +419,7 @@ impl CSAF {
 
     /// 获取文档状态
     pub fn get_status(&self) -> &str {
-        todo!()
+        &self.document.tracking.status
     }
 
     /// 获取发布日期
