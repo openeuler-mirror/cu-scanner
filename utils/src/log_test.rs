@@ -38,6 +38,11 @@ mod tests {
 
     #[test]
     fn test_logger_creation() {
-        todo!()
+        // 测试创建不同类型的日志记录器
+        let _stdout_logger = CUScannerLogger::with_target(LogTarget::Stdout);
+        // 只要不panic就说明创建成功
+
+        // 确保tmp目录存在
+        todo!();
     }
 }
