@@ -62,7 +62,7 @@ impl DatabaseIdGenerator {
 
     /// 设置当前计数器值
     pub async fn set_current_counter(&mut self, counter: u64) -> Result<(), DatabaseError> {
-        todo!()
+        self.id_counter.set_current_counter(counter).await
     }
 
     /// 获取或创建对象ID，确保相同对象名使用相同ID
