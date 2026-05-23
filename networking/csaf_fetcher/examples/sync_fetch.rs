@@ -41,5 +41,38 @@ fn main() {
 
     println!("  尝试从 URL 获取: {}", test_url);
     println!("  注意：这是示例 URL，实际使用时需要替换为有效的 CSAF 文件 URL");
+
+    // 使用自定义配置的获取器进行获取
+    match custom_fetcher.fetch(test_url) {
+        Ok(csaf) => {
+            println!("  ✓ 成功获取 CSAF 文件");
+            println!("    - 文档 ID: {}", csaf.document.tracking.id);
+            println!("    - 标题: {}", csaf.document.title);
+            println!("    - 漏洞数量: {}", csaf.vulnerabilities.len());
+
+            if let Some(first_vuln) = csaf.vulnerabilities.first() {
+                println!("    - 第一个漏洞: {}", first_vuln.cve);
+            }
+        }
+        Err(e) => {
+            println!("  ✗ 获取失败: {}", e);
+            println!("    这是预期的，因为示例 URL 可能不可用");
+        }
+    }
+    println!();
+
+    // 4. 获取并保存到文件（使用默认配置的获取器）
+    println!("【4. 获取并保存到文件（使用默认配置的获取器）】");
+    let output_path = "/tmp/csaf_example.json";
+    println!("  如果成功获取，将保存到: {}", output_path);
+
+    match fetcher.fetch_and_save(test_url, output_path) {
+        Ok(_csaf) => {
+            println!("  ✓ 成功保存 CSAF 文件到: {}", output_path);
+        }
+        Err(e) => {
+            println!("  ✗ 保存失败: {}", e);
+        }
+    }
     todo!();
 }
