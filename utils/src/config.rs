@@ -87,7 +87,7 @@ pub struct ServerConfig {
 }
 
 fn default_server_address() -> String {
-    todo!()
+    "0.0.0.0".to_string()
 }
 
 impl Default for ServerConfig {
