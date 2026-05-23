@@ -92,7 +92,10 @@ fn default_server_address() -> String {
 
 impl Default for ServerConfig {
     fn default() -> Self {
-        todo!()
+        Self {
+            port: "8091".to_string(),
+            address: default_server_address(),
+        }
     }
 }
 
