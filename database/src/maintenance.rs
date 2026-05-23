@@ -54,7 +54,12 @@ impl DatabaseManager {
 
     /// 检查rpminfo_states表中的数据（包含EVR信息）
     pub async fn check_rpminfo_states(&self) -> Result<(), DatabaseError> {
-        todo!()
+        info!("检查rpminfo_states表中的数据");
+        let rows = self.client.query(
+            "SELECT id, state_id, oval_definition_id, evr_datatype, evr_operation, evr_value FROM rpminfo_states LIMIT 10",
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 清空所有数据表
