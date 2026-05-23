@@ -53,5 +53,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("设置后的计数器值: {}", current_counter);
 
     // 生成更多唯一ID
-    todo!();
+    println!("生成更多唯一ID:");
+    for i in 1..=3 {
+        let id = id_counter.generate_unique_id("demo2:").await?;
+        println!("  {}. {}", i, id);
+    }
+
+    // 最终计数器值
+    let current_counter = id_counter.get_current_counter().await?;
+    println!("最终计数器值: {}", current_counter);
+
+    println!("持久化ID计数器演示完成");
+    Ok(())
 }
