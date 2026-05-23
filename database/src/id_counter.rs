@@ -57,7 +57,11 @@ impl PersistentIdCounter {
 
     /// 将计数器值保存到数据库
     async fn save_to_database(&self) -> Result<(), DatabaseError> {
-        todo!()
+        let db_manager = self.db_manager.lock().await;
+        db_manager
+            .set_id_counter(&self.counter_id, self.current_counter)
+            .await?;
+        todo!();
     }
 
     /// 获取当前计数器值
