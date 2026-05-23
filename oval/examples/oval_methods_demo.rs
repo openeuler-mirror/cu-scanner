@@ -105,5 +105,24 @@ fn main() -> Result<()> {
         .with_version(1)
         .with_object_ref("oval:cn.chinaunicom.culinux.cusa:obj:20241001".to_string())
         .with_state_ref("oval:cn.chinaunicom.culinux.cusa:ste:20241001".to_string());
+
+    println!("  测试 ID: {}", test.id);
+    println!("  检查方式: {}", test.check);
+    println!("  注释: {}", test.comment);
+    println!("  对象引用: {}", test.object.object_ref);
+    println!("  状态引用: {}", test.state.state_ref);
+
+    oval.add_rpminfo_test(test);
+    println!("  添加后测试数量: {}", oval.get_test_count());
+    println!();
+
+    // 创建对象
+    println!("【6. 创建 RPM 信息对象】");
+    let object = RpmInfoObject::new()
+        .with_id("oval:cn.chinaunicom.culinux.cusa:obj:20241001".to_string())
+        .with_ver(1)
+        .with_rpm_name("nginx".to_string());
+
+    println!("  对象 ID: {}", object.id);
     todo!();
 }
