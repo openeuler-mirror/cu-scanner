@@ -30,5 +30,17 @@ fn main() -> Result<()> {
     println!("  语言: {}", csaf.document.get_lang());
     println!("  发布者: {}", csaf.document.get_publisher_name());
     println!();
+
+    // 严重性信息
+    println!("【严重性信息】");
+    println!(
+        "  级别: {}",
+        csaf.document.aggregate_severity.get_severity()
+    );
+    println!(
+        "  是否严重: {}",
+        csaf.document.aggregate_severity.is_critical()
+    );
+    println!("  是否高危: {}", csaf.document.aggregate_severity.is_high());
     todo!();
 }
