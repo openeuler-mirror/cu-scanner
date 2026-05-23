@@ -52,6 +52,12 @@ mod tests {
         // 获取当前计数器值
         let current_counter = id_counter.get_current_counter();
         assert_eq!(current_counter, 10000);
+
+        // 生成唯一ID（现在ID以1开头）
+        let id1 = id_counter.generate_unique_id("test:");
+        assert_eq!(id1, "test:110001");
+
+        let id2 = id_counter.generate_unique_id("test:");
         todo!();
     }
 }
