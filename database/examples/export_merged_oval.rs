@@ -98,7 +98,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 /// 保存OVAL定义到文件
 fn save_oval(oval: &oval::OvalDefinitions, output_file: &str) -> Result<(), String> {
-    todo!()
+    println!("合并后的OVAL统计信息:");
+    println!("  - Definitions: {}", oval.get_definition_count());
+    println!("  - Tests: {}", oval.get_test_count());
+    println!("  - Objects: {}", oval.get_object_count());
+    println!("  - States: {}", oval.get_state_count());
+    todo!();
 }
 
 /// 打印使用说明
