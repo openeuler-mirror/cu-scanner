@@ -48,5 +48,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("  标准输出: {}", config.logging.stdout);
 
     // 显示 API 配置
-    todo!();
+    println!("\n【API配置】");
+    println!("  分组名称: {}", config.api.group_name);
+
+    println!("\n配置加载成功！");
+    Ok(())
 }
