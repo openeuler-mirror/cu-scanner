@@ -101,5 +101,11 @@ fn main() {
             println!("  这是预期的，因为示例 URL 不可用");
         }
     }
+    println!();
+
+    // 5. 批量获取并保存到文件
+    println!("【5. 批量获取并保存到文件】");
+    let output_dir = "/tmp/csaf_files";
+    println!("  输出目录: {}", output_dir);
     todo!();
 }
