@@ -56,5 +56,26 @@ async fn main() {
         }
     }
     println!();
+
+    // 4. 顺序批量获取（慢速模式）
+    println!("【4. 顺序批量异步获取（慢速模式）】");
+    println!("  逐个下载文件，适合小规模或有速率限制的情况");
+
+    match fetcher.fetch_from_index(index_url, base_url).await {
+        Ok(results) => {
+            println!("  ✓ 顺序批量获取完成");
+
+            let success_count = results.iter().filter(|(_, r)| r.is_ok()).count();
+            let fail_count = results.len() - success_count;
+
+            println!("  总计: {} 个文件", results.len());
+            println!("  成功: {} 个", success_count);
+            println!("  失败: {} 个", fail_count);
+        }
+        Err(e) => {
+            println!("  ✗ 顺序批量获取失败: {}", e);
+        }
+    }
+    println!();
     todo!();
 }
