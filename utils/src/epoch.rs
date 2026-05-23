@@ -71,7 +71,8 @@ impl PackageEpochs {
 
     /// 转换为 JSON 字符串
     pub fn to_json_str(&self) -> Result<String, Box<dyn std::error::Error>> {
-        todo!()
+        let json = serde_json::to_string_pretty(self)?;
+        Ok(json)
     }
 
     /// 获取指定包名的 epoch 值
