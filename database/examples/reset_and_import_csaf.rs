@@ -27,5 +27,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 清空所有数据表
     println!("正在清空所有数据表...");
+    db_manager
+        .clear_all_tables()
+        .await
+        .map_err(|e| format!("清空数据表失败: {:?}", e))?;
+
+    // 初始化数据库表结构
     todo!();
 }
