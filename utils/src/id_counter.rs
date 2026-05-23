@@ -47,6 +47,11 @@ mod tests {
 
     #[test]
     fn test_id_counter_operations() {
-        todo!()
+        let mut id_counter = IdCounterManager::new(10000);
+
+        // 获取当前计数器值
+        let current_counter = id_counter.get_current_counter();
+        assert_eq!(current_counter, 10000);
+        todo!();
     }
 }
