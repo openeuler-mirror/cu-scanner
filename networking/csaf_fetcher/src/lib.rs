@@ -118,7 +118,12 @@ impl CsafFetcher {
     ///
     /// 返回Result<CSAF>
     pub fn fetch(&self, url: &str) -> Result<CSAF> {
-        todo!()
+        info!("开始获取CSAF文件: {}", url);
+
+        // 验证URL
+        let parsed_url = Url::parse(url)?;
+        debug!("URL解析成功: {}", parsed_url);
+        todo!();
     }
 
     /// 单次获取（不重试）
