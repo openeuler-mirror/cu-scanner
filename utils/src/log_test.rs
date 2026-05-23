@@ -43,6 +43,13 @@ mod tests {
         // 只要不panic就说明创建成功
 
         // 确保tmp目录存在
-        todo!();
+        let _ = std::fs::create_dir_all("tmp");
+
+        let _file_logger =
+            CUScannerLogger::with_target(LogTarget::File("tmp/test_creation.txt".to_string()));
+        // 只要不panic就说明创建成功
+
+        // 清理测试文件
+        let _ = fs::remove_file("tmp/test_creation.txt");
     }
 }
