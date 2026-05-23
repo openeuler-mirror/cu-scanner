@@ -75,7 +75,33 @@ impl DatabaseManager {
 
         let (definition, references, cves, rpminfo_tests, rpminfo_objects, rpminfo_states) =
             full_definition;
-        todo!();
+
+        // 转换为OVAL格式
+        let oval_definition = self
+            .convert_to_oval_definition(
+                &definition,
+                &references,
+                &cves,
+                &rpminfo_tests,
+                &rpminfo_objects,
+                &rpminfo_states,
+            )
+            .await?;
+
+        // 转换为XML字符串
+        match oval_definition.to_oval_string() {
+            Ok(xml) => {
+                info!("成功将OVAL定义转换为XML字符串");
+                Ok(Some(xml))
+            }
+            Err(e) => {
+                error!("转换OVAL定义为XML字符串失败: {}", e);
+                // 直接使用from转换错误
+                Err(DatabaseError::from(serde_json::Error::io(
+                    std::io::Error::other(format!("OVAL转换失败: {}", e)),
+                )))
+            }
+        }
     }
 
     /// 将数据库实体转换为OVAL定义
