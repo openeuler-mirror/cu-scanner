@@ -18,7 +18,11 @@ pub struct TestConfig {
 impl TestConfig {
     /// 创建新的测试配置实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            csaf_files: Vec::new(),
+            parser_files: Vec::new(),
+            common_files: Vec::new(),
+        }
     }
 
     /// 从TOML配置文件加载配置
