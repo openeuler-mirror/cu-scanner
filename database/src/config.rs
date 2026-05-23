@@ -59,7 +59,10 @@ impl DatabaseConfig {
     }
 
     fn connection_string(&self) -> String {
-        todo!()
+        format!(
+            "host={} port={} dbname={} user={} password={}",
+            self.host, self.port, self.database, self.username, self.password
+        )
     }
 }
 
