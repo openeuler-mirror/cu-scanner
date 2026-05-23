@@ -108,7 +108,37 @@ pub async fn post_csaf_file(
         );
 
     // 保存到数据库
-    todo!();
+    let mut db_manager = db_manager; // 重新绑定为可变引用
+    match db_manager
+        .save_full_oval_definition(
+            &db_definition,
+            &references,
+            &cves,
+            &rpminfo_tests,
+            &rpminfo_objects,
+            &rpminfo_states,
+        )
+        .await
+    {
+        Ok(_) => {
+            info!("OVAL定义保存到数据库成功");
+            let response = UploadResponse {
+                success: true,
+                message: "CSAF文件处理成功".to_string(),
+                oval_id: Some(oval_id),
+            };
+            HttpResponse::Ok().json(response)
+        }
+        Err(e) => {
+            error!("保存OVAL定义到数据库失败: {:?}", e);
+            let response = UploadResponse {
+                success: false,
+                message: format!("保存OVAL定义到数据库失败: {:?}", e),
+                oval_id: Some(oval_id), // 即使保存失败也返回ID
+            };
+            HttpResponse::InternalServerError().json(response)
+        }
+    }
 }
 
 /// 配置文件处理相关的路由
