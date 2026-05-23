@@ -55,6 +55,29 @@ impl DatabaseManager {
             .await?;
 
         // 创建OVAL定义表（包含os_info_id外键）
+        self.client
+            .execute(
+                "CREATE TABLE IF NOT EXISTS oval_definitions (
+                id TEXT PRIMARY KEY,
+                class TEXT NOT NULL,
+                version INTEGER NOT NULL,
+                title TEXT NOT NULL,
+                description TEXT,
+                family TEXT,
+                platform TEXT,
+                severity TEXT,
+                rights TEXT,
+                from_field TEXT,
+                issued_date TEXT,
+                updated_date TEXT,
+                os_info_id BIGINT,
+                FOREIGN KEY (os_info_id) REFERENCES os_info(id) ON DELETE SET NULL
+            )",
+                &[],
+            )
+            .await?;
+
+        // 创建引用信息表（将references重命名为references_info以避免与保留关键字冲突）
         todo!();
     }
 
