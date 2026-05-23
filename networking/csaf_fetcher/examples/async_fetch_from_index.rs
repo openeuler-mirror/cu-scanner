@@ -77,5 +77,46 @@ async fn main() {
         }
     }
     println!();
+
+    // 5. 并发批量获取（快速模式）
+    println!("【5. 并发批量异步获取（快速模式）】");
+    println!("  并发下载所有文件，速度更快，适合大规模下载");
+
+    match fetcher
+        .fetch_from_index_concurrent(index_url, base_url)
+        .await
+    {
+        Ok(results) => {
+            println!("  ✓ 并发批量获取完成");
+
+            let success_count = results.iter().filter(|(_, r)| r.is_ok()).count();
+            let fail_count = results.len() - success_count;
+
+            println!("  总计: {} 个文件", results.len());
+            println!("  成功: {} 个", success_count);
+            println!("  失败: {} 个", fail_count);
+
+            // 显示前 3 个成功的结果
+            println!("\n  前 3 个成功获取的文件:");
+            for (i, (path, result)) in results
+                .iter()
+                .filter(|(_, r)| r.is_ok())
+                .take(3)
+                .enumerate()
+            {
+                if let Ok(csaf) = result {
+                    println!("    {}. {}", i + 1, path);
+                    println!("       - ID: {}", csaf.document.tracking.id);
+                    println!("       - 标题: {}", csaf.document.title);
+                    println!("       - 漏洞数: {}", csaf.vulnerabilities.len());
+                }
+            }
+        }
+        Err(e) => {
+            println!("  ✗ 并发批量获取失败: {}", e);
+            println!("  这是预期的，因为示例 URL 不可用");
+        }
+    }
+    println!();
     todo!();
 }
