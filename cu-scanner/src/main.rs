@@ -78,6 +78,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             AppConfig::default()
         }
     };
+
+    // 根据配置文件中的日志配置确定日志输出目标
+    let log_target = if config.logging.stdout {
+        LogTarget::Stdout
+    } else if !config.logging.file.is_empty() {
+        LogTarget::File(config.logging.file.clone())
+    } else {
+        LogTarget::Stdout
+    };
     todo!();
 }
 
