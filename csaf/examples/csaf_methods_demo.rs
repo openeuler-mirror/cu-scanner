@@ -42,5 +42,14 @@ fn main() -> Result<()> {
         csaf.document.aggregate_severity.is_critical()
     );
     println!("  是否高危: {}", csaf.document.aggregate_severity.is_high());
+    println!();
+
+    // TLP 信息
+    println!("【TLP 信息】");
+    println!("  标签: {}", csaf.document.distribution.tlp.label);
+    println!(
+        "  是否可公开共享: {}",
+        csaf.document.distribution.tlp.is_public()
+    );
     todo!();
 }
