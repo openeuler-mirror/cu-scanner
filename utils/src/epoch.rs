@@ -65,7 +65,8 @@ impl PackageEpochs {
 
     /// 从 JSON 字符串加载数据
     pub fn from_json_str(json_str: &str) -> Result<Self, Box<dyn std::error::Error>> {
-        todo!()
+        let epochs: PackageEpochs = serde_json::from_str(json_str)?;
+        Ok(epochs)
     }
 
     /// 转换为 JSON 字符串
