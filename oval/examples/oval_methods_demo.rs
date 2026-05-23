@@ -79,5 +79,31 @@ fn main() -> Result<()> {
     println!();
 
     // 创建定义
+    println!("【4. 创建完整定义】");
+    let definition = Definition::new()
+        .with_id("oval:cn.chinaunicom.culinux.cusa:def:20241001".to_string())
+        .with_class("patch".to_string())
+        .with_version(1)
+        .with_metadata(metadata)
+        .with_criteria(criteria);
+
+    println!("  定义 ID: {}", definition.get_id());
+    println!("  定义标题: {}", definition.get_title());
+    println!("  定义类别: {}", definition.class);
+    println!("  定义版本: {}", definition.version);
+
+    oval.add_definition(definition);
+    println!("  添加后定义数量: {}", oval.get_definition_count());
+    println!();
+
+    // 创建测试
+    println!("【5. 创建 RPM 信息测试】");
+    let test = RpmInfoTest::new()
+        .with_id("oval:cn.chinaunicom.culinux.cusa:tst:20241001".to_string())
+        .with_check("all".to_string())
+        .with_comment("检查 nginx 软件包版本是否小于修复版本".to_string())
+        .with_version(1)
+        .with_object_ref("oval:cn.chinaunicom.culinux.cusa:obj:20241001".to_string())
+        .with_state_ref("oval:cn.chinaunicom.culinux.cusa:ste:20241001".to_string());
     todo!();
 }
