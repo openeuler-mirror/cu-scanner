@@ -406,12 +406,15 @@ impl CSAF {
 
     /// 获取漏洞数量
     pub fn get_vulnerability_count(&self) -> usize {
-        todo!()
+        self.vulnerabilities.len()
     }
 
     /// 获取所有CVE ID列表
     pub fn get_cve_ids(&self) -> Vec<&str> {
-        todo!()
+        self.vulnerabilities
+            .iter()
+            .map(|v| v.cve.as_str())
+            .collect()
     }
 
     /// 获取文档状态
