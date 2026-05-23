@@ -36,5 +36,10 @@ fn main() {
     println!("【3. 获取 CSAF 文件（使用自定义配置的获取器）】");
 
     // 注意：这里需要替换为实际的 CSAF URL
+    // 示例 URL（可能需要根据实际情况修改）
+    let test_url = "https://www.openeuler.org/csaf/openEuler-SA-2025-1004.json";
+
+    println!("  尝试从 URL 获取: {}", test_url);
+    println!("  注意：这是示例 URL，实际使用时需要替换为有效的 CSAF 文件 URL");
     todo!();
 }
