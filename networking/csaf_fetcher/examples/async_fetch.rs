@@ -31,5 +31,32 @@ async fn main() {
     println!("    - 超时: 60秒");
     println!("    - 最大重试: 5次");
     println!("    - 重试延迟: 2000毫秒");
+    println!();
+
+    // 3. 异步获取 CSAF 文件
+    println!("【3. 异步获取 CSAF 文件】");
+
+    let test_url = "https://www.openeuler.org/csaf/openEuler-SA-2025-1004.json";
+
+    println!("  尝试异步获取: {}", test_url);
+    println!("  注意：这是示例 URL，实际使用时需要替换为有效的 CSAF 文件 URL");
+
+    match fetcher.fetch(test_url).await {
+        Ok(csaf) => {
+            println!("  ✓ 成功异步获取 CSAF 文件");
+            println!("    - 文档 ID: {}", csaf.document.tracking.id);
+            println!("    - 标题: {}", csaf.document.title);
+            println!("    - 漏洞数量: {}", csaf.vulnerabilities.len());
+
+            if let Some(first_vuln) = csaf.vulnerabilities.first() {
+                println!("    - 第一个漏洞: {}", first_vuln.cve);
+            }
+        }
+        Err(e) => {
+            println!("  ✗ 获取失败: {}", e);
+            println!("    这是预期的，因为示例 URL 可能不可用");
+        }
+    }
+    println!();
     todo!();
 }
