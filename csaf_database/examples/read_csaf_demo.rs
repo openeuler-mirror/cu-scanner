@@ -64,5 +64,23 @@ async fn main() -> Result<(), Box<dyn Error>> {
     }
 
     // 示例3: 根据 SA ID 获取安全公告信息
+    println!("\n=== 根据 SA ID 获取安全公告信息 ===");
+    let sa_identifier = "SA-2025-1004";
+    match csaf_query.get_sa_info_by_sa_id(sa_identifier).await {
+        Ok(Some(sa)) => {
+            println!("找到安全公告信息:");
+            println!("  - ID: {}", sa.id);
+            println!("  - SA ID: {}", sa.sa_id);
+            println!("  - 标题: {}", sa.topic.as_deref().unwrap_or("N/A"));
+        }
+        Ok(None) => {
+            println!("未找到 SA ID 为 {} 的安全公告信息", sa_identifier);
+        }
+        Err(e) => {
+            eprintln!("查询安全公告信息失败: {}", e);
+        }
+    }
+
+    // 示例4: 获取所有 CVE 信息
     todo!();
 }
