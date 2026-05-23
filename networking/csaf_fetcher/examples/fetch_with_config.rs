@@ -59,5 +59,25 @@ async fn main() {
     println!("  基础 URL: {}", base_url);
 
     // 4. 创建 CSAF 获取器
+    println!("\n【4. 创建 CSAF 获取器】");
+    let fetcher_config = FetcherConfig {
+        timeout_secs: 60,
+        max_retries: 3,
+        retry_delay_ms: 1000,
+        user_agent: "cu-scanner/1.0".to_string(),
+    };
+
+    let fetcher = match AsyncCsafFetcher::new(fetcher_config) {
+        Ok(f) => {
+            println!("  ✓ 成功创建异步获取器");
+            f
+        }
+        Err(e) => {
+            eprintln!("  ✗ 创建获取器失败: {}", e);
+            return;
+        }
+    };
+
+    // 5. 获取 index.txt 文件
     todo!();
 }
