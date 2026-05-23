@@ -48,5 +48,16 @@ async fn main() {
     // 从 index.txt URL 中提取基础 URL
     // 例如：https://example.com/security/data/csaf/advisories/index.txt
     //   -> https://example.com/security/data/csaf/advisories
+    let base_url = if let Some(pos) = index_url.rfind('/') {
+        &index_url[..pos]
+    } else {
+        eprintln!("  ✗ 无法解析基础 URL");
+        return;
+    };
+
+    println!("  索引文件: {}", index_url);
+    println!("  基础 URL: {}", base_url);
+
+    // 4. 创建 CSAF 获取器
     todo!();
 }
