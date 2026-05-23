@@ -63,7 +63,10 @@ impl CsafQuery {
             "SELECT id, sa_id, synopsis, summary, topic, description, severity, affected_product, affected_component, status, created_time, updated_time FROM sa_info ORDER BY created_time DESC",
             &[]
         ).await?;
-        todo!();
+
+        let sa_info_list: Vec<SaInfo> = rows.iter().map(|row| self.row_to_sa_info(row)).collect();
+        debug!("成功查询到 {} 条安全公告信息", sa_info_list.len());
+        Ok(sa_info_list)
     }
 
     /// 获取指定时间之后的安全公告ID列表（基于created_time）
