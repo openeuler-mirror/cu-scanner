@@ -123,7 +123,31 @@ impl CsafFetcher {
         // 验证URL
         let parsed_url = Url::parse(url)?;
         debug!("URL解析成功: {}", parsed_url);
-        todo!();
+
+        let mut last_error = None;
+
+        // 重试逻辑
+        for attempt in 1..=self.config.max_retries {
+            debug!("尝试第 {} 次获取", attempt);
+
+            match self.fetch_once(url) {
+                Ok(csaf) => {
+                    info!("成功获取CSAF文件，漏洞数量: {}", csaf.vulnerabilities.len());
+                    return Ok(csaf);
+                }
+                Err(e) => {
+                    warn!("第 {} 次获取失败: {}", attempt, e);
+                    last_error = Some(e);
+
+                    if attempt < self.config.max_retries {
+                        std::thread::sleep(Duration::from_millis(self.config.retry_delay_ms));
+                    }
+                }
+            }
+        }
+
+        error!("所有重试均失败");
+        Err(last_error.unwrap())
     }
 
     /// 单次获取（不重试）
