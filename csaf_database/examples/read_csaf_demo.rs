@@ -82,5 +82,26 @@ async fn main() -> Result<(), Box<dyn Error>> {
     }
 
     // 示例4: 获取所有 CVE 信息
+    println!("\n=== 获取所有 CVE 信息 ===");
+    match csaf_query.get_all_cve_info().await {
+        Ok(cve_list) => {
+            println!("找到 {} 条 CVE 信息", cve_list.len());
+            for cve in cve_list {
+                println!(
+                    "  - ID: {}, CVE ID: {}, 描述: {}, 严重性: {}",
+                    cve.id,
+                    cve.cve_id,
+                    &cve.description[..std::cmp::min(50, cve.description.len())],
+                    cve.base_severity.as_deref().unwrap_or("N/A")
+                );
+            }
+        }
+        Err(e) => {
+            eprintln!("获取 CVE 信息失败: {}", e);
+        }
+    }
+
+    // 示例5: 根据 CVE ID 获取 CVE 信息
+    println!("\n=== 根据 CVE ID 获取 CVE 信息 ===");
     todo!();
 }
