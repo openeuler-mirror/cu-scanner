@@ -37,5 +37,33 @@ fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 
     // 使用计数器10000转换第二个CSAF文件
     println!("转换第二个CSAF文件...");
-    todo!();
+    let oval2 = csaf_to_oval_with_counter(&csaf2, 10000)?;
+    println!("第二个CSAF文件转换成功");
+
+    if let Some(states2) = &oval2.states.rpminfo_states {
+        println!("第二个文件的状态数量: {}", states2.len());
+        for (i, state) in states2.iter().enumerate() {
+            println!("  {}. ID: {}, Version: {}", i + 1, state.id, state.version);
+            if let Some(evr) = &state.evr {
+                println!("     EVR: {} {} {}", evr.datatype, evr.operation, evr.evr);
+            }
+        }
+    }
+
+    // 检查是否有重复的state ID
+    if let (Some(states1), Some(states2)) =
+        (&oval1.states.rpminfo_states, &oval2.states.rpminfo_states)
+    {
+        for state1 in states1 {
+            for state2 in states2 {
+                if state1.id == state2.id {
+                    println!("\n发现重复的state ID: {}", state1.id);
+                    println!("  第一个文件中的state ID: {}", state1.id);
+                    println!("  第二个文件中的state ID: {}", state2.id);
+                }
+            }
+        }
+    }
+
+    Ok(())
 }
