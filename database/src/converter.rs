@@ -132,7 +132,14 @@ pub fn convert_cves(cves: &[oval::CVE]) -> Vec<Cve> {
 ///
 /// 返回转换后的数据库Criteria
 pub fn convert_criteria(criteria: &oval::Criteria) -> Criteria {
-    todo!()
+    Criteria {
+        operator: criteria.operator.clone(),
+        criterion: convert_criterion_list(&criteria.criterion),
+        sub_criteria: criteria
+            .sub_criteria
+            .as_ref()
+            .map(|sub| sub.iter().map(convert_criteria).collect()),
+    }
 }
 
 /// 转换条件信息列表
