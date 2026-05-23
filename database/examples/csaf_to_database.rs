@@ -23,5 +23,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 从配置文件加载数据库配置
     let config = AppConfig::from_file("config/cu-scanner.toml")
         .map_err(|e| format!("配置文件加载失败: {}", e))?;
+    let db_config = DatabaseConfig::new(
+        &config.database.host,
+        config.database.port,
+        &config.database.database,
+        &config.database.username,
+        &config.database.password,
+    );
+
+    // 连接数据库
     todo!();
 }
