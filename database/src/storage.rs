@@ -67,7 +67,17 @@ impl DatabaseManager {
                 }
             }
         }
-        todo!();
+
+        // 如果第一个状态无法提取,尝试其他状态
+        for state in rpminfo_states {
+            if let Some(ref evr_value) = state.evr_value {
+                if let Some(dist) = Self::extract_dist_from_package(evr_value) {
+                    return self.get_os_info_id_by_dist(&dist).await;
+                }
+            }
+        }
+
+        Ok(None)
     }
 
     /// 保存完整的OVAL定义到数据库（包括所有子项目）
