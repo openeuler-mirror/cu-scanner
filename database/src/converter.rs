@@ -152,7 +152,13 @@ pub fn convert_criteria(criteria: &oval::Criteria) -> Criteria {
 ///
 /// 返回转换后的数据库Criterion列表
 fn convert_criterion_list(criterion: &[oval::Criterion]) -> Vec<Criterion> {
-    todo!()
+    criterion
+        .iter()
+        .map(|c| Criterion {
+            comment: c.comment.clone(),
+            test_ref: c.test_ref.clone(),
+        })
+        .collect()
 }
 
 /// 转换RPM信息测试列表
