@@ -149,6 +149,26 @@ pub async fn export_weekly(
     );
 
     // 参数验证
+    if !(1..=53).contains(&week) {
+        warn!("无效的周数参数: {}", week);
+        return HttpResponse::BadRequest().json(serde_json::json!({
+            "error": "无效的周数参数",
+            "details": "周数必须在1-53之间"
+        }));
+    }
+
+    // 连接数据库
+    let db_manager = match DatabaseManager::new(&db_config).await {
+        Ok(manager) => manager,
+        Err(e) => {
+            error!("数据库连接失败: {:?}", e);
+            return HttpResponse::InternalServerError().json(serde_json::json!({
+                "error": "数据库连接失败"
+            }));
+        }
+    };
+
+    // 查询并导出
     todo!();
 }
 
