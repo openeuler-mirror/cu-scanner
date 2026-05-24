@@ -75,7 +75,12 @@ pub struct DatabaseManager {
 impl DatabaseManager {
     /// 创建新的数据库管理器
     pub async fn new(config: &DatabaseConfig) -> Result<Self, DatabaseError> {
-        todo!()
+        info!("正在连接数据库 {}:{}", config.host, config.port);
+        let (client, connection) =
+            tokio_postgres::connect(&config.connection_string(), tokio_postgres::NoTls).await?;
+
+        // Spawn连接处理任务
+        todo!();
     }
 
     /// 获取指定ID计数器的当前值
