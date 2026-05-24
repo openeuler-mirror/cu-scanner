@@ -107,6 +107,19 @@ pub async fn get_all_oval_files(db_config: web::Data<DatabaseConfig>) -> impl Re
     };
 
     info!("成功连接到数据库");
+
+    // 查询所有OVAL定义
+    let definitions = match db_manager.list_all_oval_definitions().await {
+        Ok(definitions) => definitions,
+        Err(e) => {
+            error!("查询OVAL定义失败: {:?}", e);
+            return HttpResponse::InternalServerError().json("查询OVAL定义失败");
+        }
+    };
+
+    info!("查询到 {} 个OVAL定义", definitions.len());
+
+    // 构建响应内容
     todo!();
 }
 
