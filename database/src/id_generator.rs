@@ -71,7 +71,15 @@ impl DatabaseIdGenerator {
         object_name: &str,
         prefix: &str,
     ) -> Result<String, DatabaseError> {
-        todo!()
+        if let Some(id) = self.object_ids.get(object_name) {
+            debug!("使用现有对象ID: {} -> {}", object_name, id);
+            Ok(id.clone())
+        } else {
+            let id = self.generate_unique_id(prefix).await?;
+            self.object_ids.insert(object_name.to_string(), id.clone());
+            debug!("创建新对象ID: {} -> {}", object_name, id);
+            Ok(id)
+        }
     }
 
     /// 获取或创建状态ID，确保相同EVR使用相同ID
