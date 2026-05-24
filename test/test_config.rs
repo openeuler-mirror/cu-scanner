@@ -27,7 +27,24 @@ impl TestConfig {
 
     /// 从TOML配置文件加载配置
     pub fn load_from_file(config_path: &str) -> Result<Self, Box<dyn std::error::Error>> {
-        todo!()
+        let config_content = fs::read_to_string(config_path)?;
+        let config_value: Value = config_content.parse()?;
+
+        let mut config = TestConfig::new();
+
+        // 读取CSAF文件配置
+        if let Some(csaf_section) = config_value.get("csaf") {
+            if let Some(files_array) = csaf_section.get("files") {
+                if let Some(files) = files_array.as_array() {
+                    config.csaf_files = files
+                        .iter()
+                        .filter_map(|v| v.as_str())
+                        .map(|s| s.to_string())
+                        .collect();
+                }
+            }
+        }
+        todo!();
     }
 
     /// 获取CSAF测试文件列表
