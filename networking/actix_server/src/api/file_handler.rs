@@ -143,5 +143,5 @@ pub async fn post_csaf_file(
 
 /// 配置文件处理相关的路由
 pub fn config(cfg: &mut web::ServiceConfig) {
-    todo!()
+    cfg.service(post_csaf_file);
 }
