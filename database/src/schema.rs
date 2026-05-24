@@ -78,6 +78,22 @@ impl DatabaseManager {
             .await?;
 
         // 创建引用信息表（将references重命名为references_info以避免与保留关键字冲突）
+        self.client
+            .execute(
+                "CREATE TABLE IF NOT EXISTS references_info (
+                id BIGSERIAL PRIMARY KEY,
+                oval_definition_id TEXT NOT NULL,
+                ref_id TEXT,
+                ref_url TEXT,
+                source TEXT,
+                FOREIGN KEY (oval_definition_id) REFERENCES oval_definitions(id) ON DELETE CASCADE,
+                UNIQUE (oval_definition_id, ref_id)
+            )",
+                &[],
+            )
+            .await?;
+
+        // 创建CVE信息表
         todo!();
     }
 
