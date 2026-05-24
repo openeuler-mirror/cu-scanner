@@ -61,7 +61,11 @@ impl PersistentIdCounter {
         db_manager
             .set_id_counter(&self.counter_id, self.current_counter)
             .await?;
-        todo!();
+        debug!(
+            "将计数器值保存到数据库: {} -> {}",
+            self.counter_id, self.current_counter
+        );
+        Ok(())
     }
 
     /// 获取当前计数器值
