@@ -103,7 +103,18 @@ fn save_oval(oval: &oval::OvalDefinitions, output_file: &str) -> Result<(), Stri
     println!("  - Tests: {}", oval.get_test_count());
     println!("  - Objects: {}", oval.get_object_count());
     println!("  - States: {}", oval.get_state_count());
-    todo!();
+
+    let xml = oval.to_oval_string()
+        .map_err(|e| format!("转换为XML失败: {}", e))?;
+    let mut file = File::create(output_file)
+        .map_err(|e| format!("创建文件失败: {}", e))?;
+    file.write_all(xml.as_bytes())
+        .map_err(|e| format!("写入文件失败: {}", e))?;
+
+    println!("✓ OVAL XML已保存到文件: {}", output_file);
+    println!("  文件大小: {} 字节", xml.len());
+
+    Ok(())
 }
 
 /// 打印使用说明
