@@ -114,7 +114,17 @@ impl DatabaseManager {
         rpminfo_objects: &[RpmInfoObject],
         rpminfo_states: &[RpmInfoState],
     ) -> Result<oval::OvalDefinitions, DatabaseError> {
-        todo!()
+        info!("正在将数据库实体转换为OVAL定义");
+
+        let mut oval = oval::OvalDefinitions::new();
+
+        // 设置时间戳（使用UTC时间格式，符合xs:dateTime要求）
+        let now = chrono::Utc::now();
+        oval.generator.time_stamp = now.to_rfc3339();
+
+        // 创建OVAL定义
+        let mut oval_definition = oval::Definition::new();
+        todo!();
     }
 
     /// 根据ID获取OVAL定义（移除了oval_data字段）
