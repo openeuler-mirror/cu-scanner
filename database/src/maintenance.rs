@@ -59,7 +59,28 @@ impl DatabaseManager {
             "SELECT id, state_id, oval_definition_id, evr_datatype, evr_operation, evr_value FROM rpminfo_states LIMIT 10",
             &[]
         ).await?;
-        todo!();
+
+        println!("rpminfo_states表中的数据（包含EVR信息）:");
+        for (i, row) in rows.iter().enumerate() {
+            let id: i64 = row.get("id");
+            let state_id: String = row.get("state_id");
+            let oval_definition_id: String = row.get("oval_definition_id");
+            let evr_datatype: Option<String> = row.get("evr_datatype");
+            let evr_operation: Option<String> = row.get("evr_operation");
+            let evr_value: Option<String> = row.get("evr_value");
+            println!(
+                "{}. id: {}, state_id: '{}', oval_definition_id: '{}'",
+                i + 1,
+                id,
+                state_id,
+                oval_definition_id
+            );
+            if let (Some(dt), Some(op), Some(val)) = (evr_datatype, evr_operation, evr_value) {
+                println!("   EVR: {} {} {}", dt, op, val);
+            }
+        }
+
+        Ok(())
     }
 
     /// 清空所有数据表
