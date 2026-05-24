@@ -87,6 +87,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     } else {
         LogTarget::Stdout
     };
+
+    // 设置日志级别
+    let log_level = match config.logging.level.as_str() {
+        "debug" => log::Level::Debug,
+        "info" => log::Level::Info,
+        "warn" => log::Level::Warn,
+        "error" => log::Level::Error,
+        _ => log::Level::Info, // 默认为info级别
+    };
     todo!();
 }
 
