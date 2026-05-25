@@ -152,7 +152,19 @@ impl CsafFetcher {
 
     /// 单次获取（不重试）
     fn fetch_once(&self, url: &str) -> Result<CSAF> {
-        todo!()
+        let response = self.client.get(url).send()?;
+
+        let status = response.status();
+        if !status.is_success() {
+            let body = response
+                .text()
+                .unwrap_or_else(|_| String::from("无法读取响应体"));
+            return Err(FetchError::StatusError {
+                status: status.as_u16(),
+                body,
+            });
+        }
+        todo!();
     }
 
     /// 从URL获取CSAF并保存到文件
