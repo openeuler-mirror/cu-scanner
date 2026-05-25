@@ -146,5 +146,20 @@ fn main() -> Result<()> {
         .with_id("oval:cn.chinaunicom.culinux.cusa:ste:20241001".to_string())
         .with_version("1".to_string())
         .with_evr(Some(evr));
+
+    println!("  状态 ID: {}", state.id);
+    println!("  状态版本: {}", state.version);
+    println!("  包含 EVR: {}", state.evr.is_some());
+
+    oval.add_rpminfo_state(state);
+    println!("  添加后状态数量: {}", oval.get_state_count());
+    println!();
+
+    // 统计信息
+    println!("【8. 最终统计信息】");
+    println!("  定义数量: {}", oval.get_definition_count());
+    println!("  测试数量: {}", oval.get_test_count());
+    println!("  对象数量: {}", oval.get_object_count());
+    println!("  状态数量: {}", oval.get_state_count());
     todo!();
 }
