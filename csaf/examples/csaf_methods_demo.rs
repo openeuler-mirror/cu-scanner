@@ -65,5 +65,11 @@ fn main() -> Result<()> {
         println!("    版本: {}", latest.number);
         println!("    说明: {}", latest.summary);
     }
+    println!();
+
+    // 产品信息
+    println!("【产品信息】");
+    println!("  产品数量: {}", csaf.product_tree.get_product_count());
+    let product_ids = csaf.product_tree.get_all_product_ids();
     todo!();
 }
