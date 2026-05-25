@@ -85,7 +85,18 @@ impl DatabaseManager {
 
     /// 清空所有数据表
     pub async fn clear_all_tables(&mut self) -> Result<(), DatabaseError> {
-        todo!()
+        info!("清空所有数据表");
+
+        // 按依赖顺序删除数据
+        let clear_queries = vec![
+            "DELETE FROM rpminfo_states",
+            "DELETE FROM rpminfo_objects",
+            "DELETE FROM rpminfo_tests",
+            "DELETE FROM cves",
+            "DELETE FROM references_info",
+            "DELETE FROM oval_definitions",
+        ];
+        todo!();
     }
 
     /// 详细检查数据库中的ID
