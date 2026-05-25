@@ -91,7 +91,8 @@ impl PackageEpochs {
     /// # 返回值
     /// 返回 Option<u32>，成功时包含 epoch 值，失败时返回 None
     fn get_epoch_from_yum(package_name: &str) -> Option<u32> {
-        todo!()
+        debug!("尝试从 YUM 查询包 {} 的 epoch", package_name);
+        todo!();
     }
 
     /// 从 Extra YUM 源查询包的 epoch 值
