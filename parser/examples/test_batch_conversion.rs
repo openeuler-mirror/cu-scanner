@@ -9,6 +9,10 @@ fn main() -> Result<()> {
     // 加载测试文件
     let test_file = "test/csaf/csaf-openeuler-sa-2025-1004.json";
     let csaf = CSAF::from_file(test_file)?;
+    println!("✓ 成功加载测试CSAF文件\n");
+    // 场景1: 单文件处理（独立IdGenerator）
+    println!("--- 场景1: 单文件处理 ---");
+    let oval1 = csaf_to_oval(&csaf)?;
     todo!();
 }
 /// 收集OVAL定义中的所有ID
