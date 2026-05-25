@@ -103,5 +103,28 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // 示例5: 根据 CVE ID 获取 CVE 信息
     println!("\n=== 根据 CVE ID 获取 CVE 信息 ===");
+    let cve_id = "CVE-2025-1004";
+    match csaf_query.get_cve_info_by_cve_id(cve_id).await {
+        Ok(Some(cve)) => {
+            println!("找到 CVE 信息:");
+            println!("  - ID: {}", cve.id);
+            println!("  - CVE ID: {}", cve.cve_id);
+            println!("  - 描述: {}", cve.description);
+            println!(
+                "  - 严重性: {}",
+                cve.base_severity.as_deref().unwrap_or("N/A")
+            );
+            println!("  - 分数: {}", cve.base_score.unwrap_or(0.0));
+        }
+        Ok(None) => {
+            println!("未找到 CVE ID 为 {} 的 CVE 信息", cve_id);
+        }
+        Err(e) => {
+            eprintln!("查询 CVE 信息失败: {}", e);
+        }
+    }
+
+    // 示例6: 获取 SA 与 CVE 的关联信息
+    println!("\n=== 获取 SA 与 CVE 的关联信息 ===");
     todo!();
 }
