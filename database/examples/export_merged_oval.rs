@@ -119,5 +119,9 @@ fn save_oval(oval: &oval::OvalDefinitions, output_file: &str) -> Result<(), Stri
 
 /// 打印使用说明
 fn print_usage(program: &str) {
-    todo!()
+    println!("使用方法:");
+    println!();
+    println!("1. 导出所有OVAL定义:");
+    println!("   {} --all [output_file]", program);
+    todo!();
 }
