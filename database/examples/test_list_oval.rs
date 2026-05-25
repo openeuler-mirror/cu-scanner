@@ -18,5 +18,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
 
     // 连接数据库
-    todo!();
+    let db_manager = DatabaseManager::new(&db_config).await?;
+
+    // 查询所有OVAL定义
+    let definitions = db_manager.list_all_oval_definitions().await?;
+
+    println!("数据库中共有 {} 个OVAL定义:", definitions.len());
+    for (i, definition) in definitions.iter().enumerate() {
+        println!("{}. {}", i + 1, definition.id);
+    }
+
+    Ok(())
 }
