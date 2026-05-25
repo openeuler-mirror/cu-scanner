@@ -74,7 +74,17 @@ impl CsafQuery {
         &self,
         timestamp: &str,
     ) -> Result<Vec<String>, DatabaseError> {
-        todo!()
+        info!("查询创建时间在 {} 之后的安全公告ID列表", timestamp);
+
+        let rows = self
+            .db_manager
+            .client
+            .query(
+                "SELECT sa_id FROM sa_info WHERE created_time > $1 ORDER BY created_time ASC",
+                &[&timestamp],
+            )
+            .await?;
+        todo!();
     }
 
     /// 获取指定更新时间之后的安全公告ID列表（基于updated_time）
