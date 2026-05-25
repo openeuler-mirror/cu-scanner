@@ -164,7 +164,12 @@ impl CsafFetcher {
                 body,
             });
         }
-        todo!();
+
+        let text = response.text()?;
+        debug!("接收到响应，长度: {} 字节", text.len());
+
+        let csaf: CSAF = serde_json::from_str(&text)?;
+        Ok(csaf)
     }
 
     /// 从URL获取CSAF并保存到文件
@@ -178,7 +183,12 @@ impl CsafFetcher {
     ///
     /// 返回Result<CSAF>
     pub fn fetch_and_save(&self, url: &str, output_path: &str) -> Result<CSAF> {
-        todo!()
+        info!("获取CSAF文件并保存到: {}", output_path);
+
+        let csaf = self.fetch(url)?;
+
+        // 保存到文件
+        todo!();
     }
 
     /// 批量获取CSAF文件
