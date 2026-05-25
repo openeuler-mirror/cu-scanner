@@ -74,5 +74,13 @@ fn main() {
             println!("  ✗ 保存失败: {}", e);
         }
     }
+    println!();
+
+    // 5. 批量获取（演示）
+    println!("【5. 批量获取示例】");
+    let urls = vec![
+        "https://example.com/csaf1.json".to_string(),
+        "https://example.com/csaf2.json".to_string(),
+    ];
     todo!();
 }
