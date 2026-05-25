@@ -134,5 +134,10 @@ fn main() {
     // 使用说明
     println!("【使用说明】");
     println!("  实际使用时，请替换以下变量:");
+    println!("    - index_url: index.txt 文件的实际 URL");
+    println!("    - base_url: CSAF 文件的基础 URL");
+    println!("    - output_dir: 文件保存目录");
+    println!();
+    println!("  index.txt 文件格式:");
     todo!();
 }
