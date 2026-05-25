@@ -38,5 +38,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init_tables()
         .await
         .map_err(|e| format!("数据库表初始化失败: {:?}", e))?;
+
+    // CSAF文件路径列表
+    let csaf_files = vec![
+        "test/csaf/csaf-openeuler-sa-2025-1004.json",
+        "test/csaf/csaf-openeuler-sa-2025-1009.json",
+    ];
     todo!();
 }
