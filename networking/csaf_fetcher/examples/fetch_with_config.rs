@@ -110,5 +110,10 @@ async fn main() {
     }
 
     // 6. 并发批量获取 CSAF 文件（演示模式：只获取前 3 个）
+    println!("\n【6. 并发批量获取 CSAF 文件（演示模式）】");
+
+    // 为了演示，只获取前 3 个文件
+    let demo_count = std::cmp::min(3, paths.len());
+    println!("  演示模式：只获取前 {} 个文件", demo_count);
     todo!();
 }
