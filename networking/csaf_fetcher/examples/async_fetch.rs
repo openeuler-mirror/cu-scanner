@@ -63,5 +63,18 @@ async fn main() {
     println!("【4. 异步获取并保存到文件】");
     let output_path = "/tmp/csaf_async_example.json";
     println!("  如果成功获取，将异步保存到: {}", output_path);
+
+    match fetcher.fetch_and_save(test_url, output_path).await {
+        Ok(_csaf) => {
+            println!("  ✓ 成功异步保存 CSAF 文件到: {}", output_path);
+        }
+        Err(e) => {
+            println!("  ✗ 保存失败: {}", e);
+        }
+    }
+    println!();
+
+    // 5. 顺序批量异步获取
+    println!("【5. 顺序批量异步获取】");
     todo!();
 }
