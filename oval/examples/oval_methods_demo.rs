@@ -124,5 +124,27 @@ fn main() -> Result<()> {
         .with_rpm_name("nginx".to_string());
 
     println!("  对象 ID: {}", object.id);
+    println!("  对象版本: {}", object.ver);
+    println!("  RPM 名称: {}", object.rpm_name);
+
+    oval.add_rpm_info_object(object);
+    println!("  添加后对象数量: {}", oval.get_object_count());
+    println!();
+
+    // 创建状态
+    println!("【7. 创建 RPM 信息状态】");
+    let evr = Evr::new()
+        .with_datatype("evr_string".to_string())
+        .with_operation("less than".to_string())
+        .with_evr("0:1.20.1-1".to_string());
+
+    println!("  EVR 数据类型: {}", evr.datatype);
+    println!("  EVR 操作: {}", evr.operation);
+    println!("  EVR 值: {}", evr.evr);
+
+    let state = RpmInfoState::new()
+        .with_id("oval:cn.chinaunicom.culinux.cusa:ste:20241001".to_string())
+        .with_version("1".to_string())
+        .with_evr(Some(evr));
     todo!();
 }
