@@ -434,7 +434,7 @@ impl CSAF {
 
     /// 检查是否包含指定的CVE
     pub fn contains_cve(&self, cve_id: &str) -> bool {
-        todo!()
+        self.vulnerabilities.iter().any(|v| v.cve == cve_id)
     }
 
     /// 从文件路径加载CSAF数据
