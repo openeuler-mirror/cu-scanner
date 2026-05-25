@@ -84,7 +84,10 @@ impl CsafQuery {
                 &[&timestamp],
             )
             .await?;
-        todo!();
+
+        let sa_ids: Vec<String> = rows.iter().map(|row| row.get("sa_id")).collect();
+        debug!("成功查询到 {} 个安全公告ID", sa_ids.len());
+        Ok(sa_ids)
     }
 
     /// 获取指定更新时间之后的安全公告ID列表（基于updated_time）
