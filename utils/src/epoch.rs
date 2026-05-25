@@ -77,7 +77,10 @@ impl PackageEpochs {
 
     /// 获取指定包名的 epoch 值
     pub fn get_epoch(&self, package_name: &str) -> Option<u32> {
-        todo!()
+        self.packages
+            .iter()
+            .find(|pkg| pkg.name == package_name)
+            .map(|pkg| pkg.epoch)
     }
 
     /// 从 YUM 查询包的 epoch 值
