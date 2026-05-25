@@ -79,5 +79,36 @@ async fn main() {
     };
 
     // 5. 获取 index.txt 文件
+    println!("\n【5. 获取 index.txt 文件】");
+    let paths = match fetcher.fetch_index(index_url).await {
+        Ok(paths) => {
+            println!("  ✓ 成功获取 index.txt 文件");
+            println!("  解析到 {} 个 CSAF 文件路径", paths.len());
+
+            // 显示前 5 个路径
+            if !paths.is_empty() {
+                println!("\n  前 5 个文件路径:");
+                for (i, path) in paths.iter().take(5).enumerate() {
+                    println!("    {}. {}", i + 1, path);
+                }
+                if paths.len() > 5 {
+                    println!("    ... 还有 {} 个文件", paths.len() - 5);
+                }
+            }
+
+            paths
+        }
+        Err(e) => {
+            eprintln!("  ✗ 获取 index.txt 失败: {}", e);
+            return;
+        }
+    };
+
+    if paths.is_empty() {
+        println!("\n  ⚠ index.txt 文件为空，没有需要下载的 CSAF 文件");
+        return;
+    }
+
+    // 6. 并发批量获取 CSAF 文件（演示模式：只获取前 3 个）
     todo!();
 }
