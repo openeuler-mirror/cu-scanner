@@ -110,7 +110,7 @@ pub struct CsafUrlConfig {
 }
 
 fn default_fetch_interval() -> u64 {
-    todo!()
+    3600 // 默认1小时
 }
 
 impl Default for CsafUrlConfig {
