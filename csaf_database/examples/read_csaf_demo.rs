@@ -126,5 +126,38 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // 示例6: 获取 SA 与 CVE 的关联信息
     println!("\n=== 获取 SA 与 CVE 的关联信息 ===");
-    todo!();
+    match csaf_query.get_all_sa_cve().await {
+        Ok(sa_cve_list) => {
+            println!("找到 {} 条 SA 与 CVE 关联信息", sa_cve_list.len());
+            for sa_cve in sa_cve_list.iter().take(5) {
+                // 只显示前5条
+                println!("  - SA ID: {}, CVE ID: {}", sa_cve.sa_id, sa_cve.cve_id);
+            }
+        }
+        Err(e) => {
+            eprintln!("获取 SA 与 CVE 关联信息失败: {}", e);
+        }
+    }
+
+    // 示例7: 获取指定时间之后的安全公告ID列表
+    println!("\n=== 获取指定时间之后的安全公告ID列表 ===");
+    let timestamp = "2025-01-01 00:00:00";
+    match csaf_query.get_sa_ids_after_time(timestamp).await {
+        Ok(sa_ids) => {
+            println!("在 {} 之后创建的 {} 个安全公告:", timestamp, sa_ids.len());
+            for sa_id in sa_ids.iter().take(10) {
+                // 只显示前10个
+                println!("  - SA ID: {}", sa_id);
+            }
+            if sa_ids.len() > 10 {
+                println!("  ... 还有 {} 个安全公告", sa_ids.len() - 10);
+            }
+        }
+        Err(e) => {
+            eprintln!("获取安全公告ID列表失败: {}", e);
+        }
+    }
+
+    println!("\n示例程序执行完成!");
+    Ok(())
 }
