@@ -44,7 +44,34 @@ impl TestConfig {
                 }
             }
         }
-        todo!();
+
+        // 读取Parser文件配置
+        if let Some(parser_section) = config_value.get("parser") {
+            if let Some(files_array) = parser_section.get("files") {
+                if let Some(files) = files_array.as_array() {
+                    config.parser_files = files
+                        .iter()
+                        .filter_map(|v| v.as_str())
+                        .map(|s| s.to_string())
+                        .collect();
+                }
+            }
+        }
+
+        // 读取通用文件配置
+        if let Some(common_section) = config_value.get("common") {
+            if let Some(files_array) = common_section.get("files") {
+                if let Some(files) = files_array.as_array() {
+                    config.common_files = files
+                        .iter()
+                        .filter_map(|v| v.as_str())
+                        .map(|s| s.to_string())
+                        .collect();
+                }
+            }
+        }
+
+        Ok(config)
     }
 
     /// 获取CSAF测试文件列表
