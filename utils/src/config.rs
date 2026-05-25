@@ -115,7 +115,10 @@ fn default_fetch_interval() -> u64 {
 
 impl Default for CsafUrlConfig {
     fn default() -> Self {
-        todo!()
+        Self {
+            url: String::new(),
+            fetch_interval_secs: default_fetch_interval(),
+        }
     }
 }
 
