@@ -5,7 +5,11 @@ use parser::{IdGenerator, batch_csaf_to_oval, csaf_to_oval, csaf_to_oval_with_sh
 use std::collections::HashSet;
 use utils::Result;
 fn main() -> Result<()> {
-    todo!()
+    println!("=== 测试批量CSAF到OVAL转换（共享IdGenerator）===\n");
+    // 加载测试文件
+    let test_file = "test/csaf/csaf-openeuler-sa-2025-1004.json";
+    let csaf = CSAF::from_file(test_file)?;
+    todo!();
 }
 /// 收集OVAL定义中的所有ID
 fn collect_all_ids(oval: &oval::OvalDefinitions) -> HashSet<String> {
