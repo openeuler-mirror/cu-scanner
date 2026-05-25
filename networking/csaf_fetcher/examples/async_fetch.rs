@@ -76,5 +76,19 @@ async fn main() {
 
     // 5. 顺序批量异步获取
     println!("【5. 顺序批量异步获取】");
+    let urls = vec![
+        "https://example.com/csaf1.json".to_string(),
+        "https://example.com/csaf2.json".to_string(),
+    ];
+
+    println!("  顺序批量获取 {} 个 URL", urls.len());
+    let results = fetcher.fetch_batch(&urls).await;
+
+    for (url, result) in results {
+        match result {
+            Ok(_csaf) => println!("  ✓ {}: 成功", url),
+            Err(e) => println!("  ✗ {}: 失败 - {}", url, e),
+        }
+    }
     todo!();
 }
