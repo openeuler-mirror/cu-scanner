@@ -92,7 +92,14 @@ impl DatabaseManager {
 
     /// 获取指定ID计数器的当前值
     pub async fn get_id_counter(&self, counter_id: &str) -> Result<Option<u64>, DatabaseError> {
-        todo!()
+        let row = self
+            .client
+            .query_opt(
+                "SELECT counter_value FROM id_counters WHERE id = $1",
+                &[&counter_id],
+            )
+            .await?;
+        todo!();
     }
 
     /// 设置指定ID计数器的值
