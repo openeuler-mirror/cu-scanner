@@ -171,7 +171,11 @@ fn convert_criterion_list(criterion: &[oval::Criterion]) -> Vec<Criterion> {
 ///
 /// 返回转换后的数据库RpmInfoTest列表
 pub fn convert_rpminfo_tests(tests: &oval::Tests) -> Vec<RpmInfoTest> {
-    todo!()
+    tests
+        .rpminfo_tests
+        .iter()
+        .map(convert_rpminfo_test)
+        .collect()
 }
 
 /// 转换RPM信息测试
