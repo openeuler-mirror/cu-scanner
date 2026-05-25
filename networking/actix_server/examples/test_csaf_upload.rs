@@ -14,5 +14,9 @@ async fn main() -> std::io::Result<()> {
     };
 
     println!("启动测试服务器...");
-    todo!();
+
+    // 启动网络服务
+    create_default_server(server_config).await?;
+
+    Ok(())
 }
