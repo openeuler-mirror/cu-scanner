@@ -82,5 +82,17 @@ fn main() {
         "https://example.com/csaf1.json".to_string(),
         "https://example.com/csaf2.json".to_string(),
     ];
-    todo!();
+
+    println!("  批量获取 {} 个 URL（示例）", urls.len());
+    let results = fetcher.fetch_batch(&urls);
+
+    for (url, result) in results {
+        match result {
+            Ok(_csaf) => println!("  ✓ {}: 成功", url),
+            Err(e) => println!("  ✗ {}: 失败 - {}", url, e),
+        }
+    }
+    println!();
+
+    println!("示例执行完成！");
 }
