@@ -5,5 +5,14 @@ use database::DatabaseConfig;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
-    todo!()
+    // 创建服务器配置
+    let server_config = ServerConfig {
+        database_config: DatabaseConfig::new("localhost", 5432, "oval_db", "username", "password"),
+        address: "0.0.0.0".to_string(),
+        port: 8091,
+        api_group_name: "api".to_string(),
+    };
+
+    println!("启动测试服务器...");
+    todo!();
 }
