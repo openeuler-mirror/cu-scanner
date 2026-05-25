@@ -94,6 +94,24 @@ impl DatabaseManager {
             .await?;
 
         // 创建CVE信息表
+        self.client
+            .execute(
+                "CREATE TABLE IF NOT EXISTS cves (
+                id BIGSERIAL PRIMARY KEY,
+                oval_definition_id TEXT NOT NULL,
+                cve_id TEXT,
+                cvss3 TEXT,
+                impact TEXT,
+                href TEXT,
+                content TEXT,
+                FOREIGN KEY (oval_definition_id) REFERENCES oval_definitions(id) ON DELETE CASCADE,
+                UNIQUE (oval_definition_id, cve_id)
+            )",
+                &[],
+            )
+            .await?;
+
+        // 创建RPM信息测试表
         todo!();
     }
 
