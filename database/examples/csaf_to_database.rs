@@ -37,5 +37,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .map_err(|e| format!("数据库连接失败: {:?}", e))?;
 
     // 初始化数据库表结构
+    println!("正在初始化数据库表结构...");
+    db_manager
+        .init_tables()
+        .await
+        .map_err(|e| format!("数据库表初始化失败: {:?}", e))?;
     todo!();
 }
