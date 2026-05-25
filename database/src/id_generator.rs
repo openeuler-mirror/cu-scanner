@@ -88,7 +88,15 @@ impl DatabaseIdGenerator {
         evr: &str,
         prefix: &str,
     ) -> Result<String, DatabaseError> {
-        todo!()
+        if let Some(id) = self.state_ids.get(evr) {
+            debug!("使用现有状态ID: {} -> {}", evr, id);
+            Ok(id.clone())
+        } else {
+            let id = self.generate_unique_id(prefix).await?;
+            self.state_ids.insert(evr.to_string(), id.clone());
+            debug!("创建新状态ID: {} -> {}", evr, id);
+            Ok(id)
+        }
     }
 
     /// 获取或创建测试ID，确保相同测试使用相同ID
