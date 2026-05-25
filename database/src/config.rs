@@ -80,7 +80,14 @@ impl DatabaseManager {
             tokio_postgres::connect(&config.connection_string(), tokio_postgres::NoTls).await?;
 
         // Spawn连接处理任务
-        todo!();
+        tokio::spawn(async move {
+            if let Err(e) = connection.await {
+                error!("数据库连接错误: {}", e);
+            }
+        });
+
+        info!("数据库连接成功");
+        Ok(DatabaseManager { client })
     }
 
     /// 获取指定ID计数器的当前值
