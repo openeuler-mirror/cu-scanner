@@ -146,5 +146,11 @@ async fn main() {
             println!("  这是预期的，因为示例 URL 不可用");
         }
     }
+    println!();
+
+    // 性能对比说明
+    println!("【性能对比】");
+    println!("  顺序模式 vs 并发模式:");
+    println!("    - 顺序模式: 逐个下载，总时间 = 文件数 × 单个下载时间");
     todo!();
 }
