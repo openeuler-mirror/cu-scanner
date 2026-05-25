@@ -118,5 +118,33 @@ async fn main() {
         }
     }
     println!();
+
+    // 6. 并发批量获取并保存到文件
+    println!("【6. 异步并发获取并保存到文件】");
+    let output_dir = "/tmp/csaf_files_async";
+    println!("  输出目录: {}", output_dir);
+
+    match fetcher
+        .fetch_from_index_and_save(index_url, base_url, output_dir)
+        .await
+    {
+        Ok(results) => {
+            println!("  ✓ 异步批量获取并保存完成");
+
+            let success_count = results.iter().filter(|(_, r)| r.is_ok()).count();
+            let fail_count = results.len() - success_count;
+
+            println!("  总计: {} 个文件", results.len());
+            println!("  成功保存: {} 个", success_count);
+            println!("  失败: {} 个", fail_count);
+
+            println!("\n  保存的文件可在以下目录查看:");
+            println!("    {}", output_dir);
+        }
+        Err(e) => {
+            println!("  ✗ 异步批量保存失败: {}", e);
+            println!("  这是预期的，因为示例 URL 不可用");
+        }
+    }
     todo!();
 }
