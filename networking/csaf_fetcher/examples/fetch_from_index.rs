@@ -107,5 +107,32 @@ fn main() {
     println!("【5. 批量获取并保存到文件】");
     let output_dir = "/tmp/csaf_files";
     println!("  输出目录: {}", output_dir);
+
+    match fetcher.fetch_from_index_and_save(index_url, base_url, output_dir) {
+        Ok(results) => {
+            println!("  ✓ 批量获取并保存完成");
+
+            let success_count = results.iter().filter(|(_, r)| r.is_ok()).count();
+            let fail_count = results.len() - success_count;
+
+            println!("  总计: {} 个文件", results.len());
+            println!("  成功保存: {} 个", success_count);
+            println!("  失败: {} 个", fail_count);
+
+            // 显示保存的文件名示例
+            println!("\n  文件保存规则:");
+            println!("    原路径: 2021/csaf-openeuler-sa-2021-1001.json");
+            println!("    保存为: /tmp/csaf_files/2021_csaf-openeuler-sa-2021-1001.json");
+        }
+        Err(e) => {
+            println!("  ✗ 批量保存失败: {}", e);
+            println!("  这是预期的，因为示例 URL 不可用");
+        }
+    }
+    println!();
+
+    // 使用说明
+    println!("【使用说明】");
+    println!("  实际使用时，请替换以下变量:");
     todo!();
 }
