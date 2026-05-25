@@ -120,7 +120,24 @@ pub async fn get_all_oval_files(db_config: web::Data<DatabaseConfig>) -> impl Re
     info!("查询到 {} 个OVAL定义", definitions.len());
 
     // 构建响应内容
-    todo!();
+    let mut files = Vec::new();
+    for definition in definitions {
+        let filename = format_oval_id_to_filename(&definition.id);
+        let file_info = OvalFileInfo {
+            id: definition.id.clone(),
+            download_url: format!("/api/oval/each_file/{}", filename),
+            size: None, // 文件大小需要额外查询，暂时设置为None
+        };
+        files.push(file_info);
+    }
+
+    let response = OvalFileListResponse {
+        total_count: files.len(),
+        files,
+    };
+
+    info!("返回JSON响应，包含 {} 个文件信息", response.total_count);
+    HttpResponse::Ok().json(response)
 }
 
 /// 获取单个OVAL文件
