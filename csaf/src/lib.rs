@@ -424,12 +424,12 @@ impl CSAF {
 
     /// 获取发布日期
     pub fn get_release_date(&self) -> &str {
-        todo!()
+        &self.document.tracking.current_release_date
     }
 
     /// 获取初始发布日期
     pub fn get_initial_release_date(&self) -> &str {
-        todo!()
+        &self.document.tracking.initial_release_date
     }
 
     /// 检查是否包含指定的CVE
