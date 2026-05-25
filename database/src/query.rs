@@ -124,6 +124,14 @@ impl DatabaseManager {
 
         // 创建OVAL定义
         let mut oval_definition = oval::Definition::new();
+        oval_definition.id = definition.id.clone();
+        oval_definition.class = definition.class.clone();
+        oval_definition.version = definition.version;
+
+        // 创建元数据
+        let mut metadata = oval::Metadata::new();
+        metadata.title = definition.title.clone();
+        metadata.description = definition.description.clone();
         todo!();
     }
 
