@@ -90,6 +90,13 @@ impl DatabaseManager {
         rpminfo_objects: &Vec<RpmInfoObject>,
         rpminfo_states: &Vec<RpmInfoState>,
     ) -> Result<(), DatabaseError> {
-        todo!()
+        info!("正在保存OVAL定义到数据库: {}", definition.id);
+        debug!(
+            "保存的OVAL定义详情: title={}, references_count={}, cves_count={}",
+            definition.title,
+            references.len(),
+            cves.len()
+        );
+        todo!();
     }
 }
