@@ -70,12 +70,22 @@ impl PersistentIdCounter {
 
     /// 获取当前计数器值
     pub async fn get_current_counter(&mut self) -> Result<u64, DatabaseError> {
-        todo!()
+        self.load_from_database().await?;
+        debug!(
+            "获取当前计数器值: {} -> {}",
+            self.counter_id, self.current_counter
+        );
+        Ok(self.current_counter)
     }
 
     /// 设置当前计数器值
     pub async fn set_current_counter(&mut self, counter: u64) -> Result<(), DatabaseError> {
-        todo!()
+        self.load_from_database().await?;
+        debug!(
+            "设置当前计数器值: {} -> {} -> {}",
+            self.counter_id, self.current_counter, counter
+        );
+        todo!();
     }
 
     /// 生成唯一ID
