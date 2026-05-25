@@ -96,6 +96,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "error" => log::Level::Error,
         _ => log::Level::Info, // 默认为info级别
     };
+
+    log::info!("日志系统初始化完成，输出目标: {:?}", log_target);
+
+    // 重新初始化日志系统
     todo!();
 }
 
