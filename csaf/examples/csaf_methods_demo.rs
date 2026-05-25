@@ -51,5 +51,19 @@ fn main() -> Result<()> {
         "  是否可公开共享: {}",
         csaf.document.distribution.tlp.is_public()
     );
+    println!();
+
+    // 跟踪信息
+    println!("【跟踪信息】");
+    println!(
+        "  修订历史数量: {}",
+        csaf.document.tracking.get_revision_count()
+    );
+    if let Some(latest) = csaf.document.tracking.get_latest_revision() {
+        println!("  最新修订:");
+        println!("    日期: {}", latest.date);
+        println!("    版本: {}", latest.number);
+        println!("    说明: {}", latest.summary);
+    }
     todo!();
 }
