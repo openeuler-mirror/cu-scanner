@@ -85,7 +85,9 @@ impl PersistentIdCounter {
             "设置当前计数器值: {} -> {} -> {}",
             self.counter_id, self.current_counter, counter
         );
-        todo!();
+        self.current_counter = counter;
+        self.save_to_database().await?;
+        Ok(())
     }
 
     /// 生成唯一ID
