@@ -188,7 +188,14 @@ pub fn convert_rpminfo_tests(tests: &oval::Tests) -> Vec<RpmInfoTest> {
 ///
 /// 返回转换后的数据库RpmInfoTest
 fn convert_rpminfo_test(test: &oval::RpmInfoTest) -> RpmInfoTest {
-    todo!()
+    RpmInfoTest {
+        check: test.check.clone(),
+        comment: test.comment.clone(),
+        test_id: test.id.clone(),
+        version: test.version,
+        object_ref: test.object.object_ref.clone(),
+        state_ref: test.state.state_ref.clone(),
+    }
 }
 
 /// 转换RPM信息对象列表
