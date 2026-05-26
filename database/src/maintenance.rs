@@ -96,7 +96,13 @@ impl DatabaseManager {
             "DELETE FROM references_info",
             "DELETE FROM oval_definitions",
         ];
-        todo!();
+
+        for query in clear_queries {
+            self.client.execute(query, &[]).await?;
+        }
+
+        info!("所有数据表已清空");
+        Ok(())
     }
 
     /// 详细检查数据库中的ID
