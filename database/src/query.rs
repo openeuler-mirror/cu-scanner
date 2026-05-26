@@ -132,6 +132,24 @@ impl DatabaseManager {
         let mut metadata = oval::Metadata::new();
         metadata.title = definition.title.clone();
         metadata.description = definition.description.clone();
+
+        // 创建影响范围
+        let mut affected = oval::Affected::new();
+        affected.family = definition.family.clone();
+        affected.platform = definition.platform.clone();
+        metadata.affected = affected;
+
+        // 创建引用列表
+        let oval_references: Vec<oval::Reference> = references
+            .iter()
+            .map(|r| {
+                let mut ref_item = oval::Reference::new();
+                ref_item.ref_id = r.ref_id.clone();
+                ref_item.ref_url = r.ref_url.clone();
+                ref_item.source = r.source.clone();
+                ref_item
+            })
+            .collect();
         todo!();
     }
 
