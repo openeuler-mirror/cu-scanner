@@ -105,7 +105,15 @@ impl DatabaseIdGenerator {
         test_key: &str,
         prefix: &str,
     ) -> Result<String, DatabaseError> {
-        todo!()
+        if let Some(id) = self.test_ids.get(test_key) {
+            debug!("使用现有测试ID: {} -> {}", test_key, id);
+            Ok(id.clone())
+        } else {
+            let id = self.generate_unique_id(prefix).await?;
+            self.test_ids.insert(test_key.to_string(), id.clone());
+            debug!("创建新测试ID: {} -> {}", test_key, id);
+            Ok(id)
+        }
     }
 
     /// 获取或创建定义ID，确保相同定义使用相同ID
