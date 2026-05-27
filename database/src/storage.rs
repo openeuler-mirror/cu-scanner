@@ -113,6 +113,9 @@ impl DatabaseManager {
         } else {
             definition.clone()
         };
+
+        // 开始事务
+        let transaction = self.client.transaction().await?;
         todo!();
     }
 }
