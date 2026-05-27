@@ -13,6 +13,17 @@ fn main() -> Result<()> {
     // 场景1: 单文件处理（独立IdGenerator）
     println!("--- 场景1: 单文件处理 ---");
     let oval1 = csaf_to_oval(&csaf)?;
+    let single_ids = collect_all_ids(&oval1);
+    println!("  生成ID数量: {}", single_ids.len());
+    println!(
+        "  示例ID: {:?}\n",
+        single_ids.iter().take(3).collect::<Vec<_>>()
+    );
+    // 场景2: 批量处理（共享IdGenerator）
+    println!("--- 场景2: 批量处理3个相同CSAF ---");
+    let csaf_list = vec![&csaf, &csaf, &csaf];
+    let oval_list = batch_csaf_to_oval(&csaf_list, 10000)?;
+    println!("  成功转换 {} 个OVAL定义", oval_list.len());
     todo!();
 }
 /// 收集OVAL定义中的所有ID
