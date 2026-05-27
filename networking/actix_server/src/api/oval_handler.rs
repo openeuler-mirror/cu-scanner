@@ -154,7 +154,21 @@ pub async fn get_single_oval_file(
     file_name: web::Path<String>,
     db_config: web::Data<DatabaseConfig>,
 ) -> impl Responder {
-    todo!()
+    info!("收到获取单个OVAL文件请求，文件名: {}", file_name);
+
+    // 从文件名解析出OVAL ID
+    let oval_id = match parse_filename_to_oval_id(&file_name) {
+        Some(id) => id,
+        None => {
+            error!("无效的文件名格式: {}", file_name);
+            return HttpResponse::BadRequest().body("无效的文件名格式");
+        }
+    };
+
+    info!("解析出OVAL ID: {}", oval_id);
+
+    // 连接数据库
+    todo!();
 }
 
 /// 配置OVAL处理相关的路由
