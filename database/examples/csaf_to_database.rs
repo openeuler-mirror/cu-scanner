@@ -42,5 +42,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init_tables()
         .await
         .map_err(|e| format!("数据库表初始化失败: {:?}", e))?;
+
+    // 加载CSAF文件
+    println!("正在加载CSAF文件...");
     todo!();
 }
