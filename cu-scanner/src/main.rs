@@ -100,6 +100,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     log::info!("日志系统初始化完成，输出目标: {:?}", log_target);
 
     // 重新初始化日志系统
+    match log::init_logger_with_level_and_target(log_level, log_target) {
+        Ok(_) => log::info!("日志系统重新初始化成功"),
+        Err(e) => log::error!("日志系统重新初始化失败: {}", e),
+    }
+
+    // 如果指定了初始化数据库参数
     todo!();
 }
 
