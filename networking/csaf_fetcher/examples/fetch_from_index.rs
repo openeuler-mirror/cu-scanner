@@ -139,5 +139,10 @@ fn main() {
     println!("    - output_dir: 文件保存目录");
     println!();
     println!("  index.txt 文件格式:");
+    println!("    每行一个相对路径，例如:");
+    println!("      2021/csaf-openeuler-sa-2021-1001.json");
+    println!("      2021/csaf-openeuler-sa-2021-1002.json");
+    println!("      2022/csaf-openeuler-sa-2022-1001.json");
+    println!();
     todo!();
 }
