@@ -22,5 +22,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 测试1: 列出所有OS信息
     println!("\n=== 测试1: 列出所有OS信息 ===");
+    let os_infos = db_manager.list_all_os_info().await?;
+    for os_info in &os_infos {
+        println!(
+            "ID: {:?}, OS: {} {}, Dist: {}, Package: {}, Verify File: {}",
+            os_info.id,
+            os_info.os_type,
+            os_info.os_version,
+            os_info.dist,
+            os_info.package_name,
+            os_info.verify_file
+        );
+    }
+
+    // 测试2: 根据dist查找OS信息
+    println!("\n=== 测试2: 根据dist查找OS信息 ===");
     todo!();
 }
