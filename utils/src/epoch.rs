@@ -92,7 +92,37 @@ impl PackageEpochs {
     /// 返回 Option<u32>，成功时包含 epoch 值，失败时返回 None
     fn get_epoch_from_yum(package_name: &str) -> Option<u32> {
         debug!("尝试从 YUM 查询包 {} 的 epoch", package_name);
-        todo!();
+
+        let output = Command::new("yum")
+            .args(["info", package_name])
+            .output();
+
+        match output {
+            Ok(output) if output.status.success() => {
+                let stdout = String::from_utf8_lossy(&output.stdout);
+                // 解析 YUM 输出，查找 Epoch 字段
+                for line in stdout.lines() {
+                    if line.trim().starts_with("Epoch") {
+                        if let Some(epoch_str) = line.split(':').nth(1) {
+                            if let Ok(epoch) = epoch_str.trim().parse::<u32>() {
+                                debug!("从 YUM 查询到包 {} 的 epoch: {}", package_name, epoch);
+                                return Some(epoch);
+                            }
+                        }
+                    }
+                }
+                debug!("YUM 未返回包 {} 的 epoch 信息", package_name);
+                None
+            }
+            Ok(_) => {
+                warn!("YUM 查询包 {} 失败", package_name);
+                None
+            }
+            Err(e) => {
+                warn!("执行 YUM 命令失败: {}", e);
+                None
+            }
+        }
     }
 
     /// 从 Extra YUM 源查询包的 epoch 值
