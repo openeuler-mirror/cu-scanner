@@ -81,7 +81,7 @@ impl TestConfig {
 
     /// 获取Parser测试文件列表
     pub fn get_parser_files(&self) -> &[String] {
-        todo!()
+        &self.parser_files
     }
 
     /// 获取通用测试文件列表
