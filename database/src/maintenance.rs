@@ -107,7 +107,11 @@ impl DatabaseManager {
 
     /// 详细检查数据库中的ID
     pub async fn check_database_ids(&self) -> Result<(), DatabaseError> {
-        todo!()
+        info!("详细检查数据库中的ID");
+
+        // 检查rpminfo_objects表中的所有ID
+        println!("检查rpminfo_objects表中的所有ID:");
+        todo!();
     }
 
     /// 修复数据库中格式错误的ID
