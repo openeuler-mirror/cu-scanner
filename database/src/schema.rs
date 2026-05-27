@@ -131,6 +131,22 @@ impl DatabaseManager {
             .await?;
 
         // 创建RPM信息对象表
+        self.client
+            .execute(
+                "CREATE TABLE IF NOT EXISTS rpminfo_objects (
+                id BIGSERIAL PRIMARY KEY,
+                oval_definition_id TEXT NOT NULL,
+                object_id TEXT,
+                ver BIGINT,
+                rpm_name TEXT,
+                FOREIGN KEY (oval_definition_id) REFERENCES oval_definitions(id) ON DELETE CASCADE,
+                UNIQUE (oval_definition_id, object_id)
+            )",
+                &[],
+            )
+            .await?;
+
+        // 创建RPM信息状态表（合并EVR信息）
         todo!();
     }
 
