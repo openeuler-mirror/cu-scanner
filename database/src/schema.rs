@@ -112,6 +112,25 @@ impl DatabaseManager {
             .await?;
 
         // 创建RPM信息测试表
+        self.client
+            .execute(
+                "CREATE TABLE IF NOT EXISTS rpminfo_tests (
+                id BIGSERIAL PRIMARY KEY,
+                oval_definition_id TEXT NOT NULL,
+                check_field TEXT,
+                comment TEXT,
+                test_id TEXT,
+                version INTEGER,
+                object_ref TEXT,
+                state_ref TEXT,
+                FOREIGN KEY (oval_definition_id) REFERENCES oval_definitions(id) ON DELETE CASCADE,
+                UNIQUE (oval_definition_id, test_id)
+            )",
+                &[],
+            )
+            .await?;
+
+        // 创建RPM信息对象表
         todo!();
     }
 
