@@ -447,7 +447,11 @@ impl CSAF {
     ///
     /// 返回Result<CSAF>，成功时包含解析的CSAF对象，失败时包含错误信息
     pub fn from_file(path: &str) -> Result<Self> {
-        todo!()
+        info!("从文件加载CSAF数据: {}", path);
+        let data = std::fs::read_to_string(path)?;
+        let csaf: Self = serde_json::from_str::<Self>(&data)?;
+        info!("成功加载CSAF数据，漏洞数量: {}", csaf.vulnerabilities.len());
+        Ok(csaf)
     }
 
     /// 将CSAF数据保存到文件
@@ -461,7 +465,9 @@ impl CSAF {
     ///
     /// 返回Result<()>，成功时返回()，失败时包含错误信息
     pub fn to_file(self, path: &str) -> Result<()> {
-        todo!()
+        info!("将CSAF数据保存到文件: {}", path);
+        let data = serde_json::to_string_pretty(&self)?;
+        todo!();
     }
 
     /// 从URL加载CSAF数据
