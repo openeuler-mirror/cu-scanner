@@ -76,7 +76,7 @@ impl TestConfig {
 
     /// 获取CSAF测试文件列表
     pub fn get_csaf_files(&self) -> &[String] {
-        todo!()
+        &self.csaf_files
     }
 
     /// 获取Parser测试文件列表
