@@ -123,5 +123,9 @@ fn print_usage(program: &str) {
     println!();
     println!("1. 导出所有OVAL定义:");
     println!("   {} --all [output_file]", program);
+    println!("   示例: {} --all all_definitions.xml", program);
+    println!();
+    println!("2. 导出指定ID列表:");
+    println!("   {} --ids <id1> <id2> ... <output_file>", program);
     todo!();
 }
