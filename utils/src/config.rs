@@ -142,7 +142,21 @@ pub struct AppConfig {
 
 impl Default for AppConfig {
     fn default() -> Self {
-        todo!()
+        Self {
+            database: DatabaseConfig {
+                host: "localhost".to_string(),
+                port: 5432,
+                database: "cu_scanner".to_string(),
+                username: "user".to_string(),
+                password: "password".to_string(),
+            },
+            csaf_db: None,
+            csaf_url: None,
+            logging: LoggingConfig::default(),
+            api: ApiConfig::default(),
+            server: ServerConfig::default(),
+            package: PackageConfig::default(),
+        }
     }
 }
 
