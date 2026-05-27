@@ -92,7 +92,10 @@ impl PersistentIdCounter {
 
     /// 生成唯一ID
     pub async fn generate_unique_id(&mut self, prefix: &str) -> Result<String, DatabaseError> {
-        todo!()
+        self.load_from_database().await?;
+        self.current_counter += 1;
+        // 在数字ID前添加1，避免ID以0开头
+        todo!();
     }
 }
 
