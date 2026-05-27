@@ -122,7 +122,16 @@ impl DatabaseIdGenerator {
         definition_key: &str,
         prefix: &str,
     ) -> Result<String, DatabaseError> {
-        todo!()
+        if let Some(id) = self.definition_ids.get(definition_key) {
+            debug!("使用现有定义ID: {} -> {}", definition_key, id);
+            Ok(id.clone())
+        } else {
+            let id = self.generate_unique_id(prefix).await?;
+            self.definition_ids
+                .insert(definition_key.to_string(), id.clone());
+            debug!("创建新定义ID: {} -> {}", definition_key, id);
+            Ok(id)
+        }
     }
 
     /// 为CSAF漏洞生成定义ID
