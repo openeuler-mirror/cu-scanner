@@ -21,5 +21,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 连接数据库
     let mut db_manager = DatabaseManager::new(&db_config).await?;
+
+    println!("\n=== 测试1: 创建不带os_info_id的OVAL定义 ===");
+
+    // 创建一个测试用的OVAL定义（os_info_id为None）
+    let definition = OvalDefinition {
+        id: "oval:test:def:1001".to_string(),
+        class: "patch".to_string(),
+        version: 1,
+        title: "Test Definition for OS Info ID Auto Fill".to_string(),
+        description: "Testing automatic os_info_id population".to_string(),
+        family: "unix".to_string(),
+        platform: "openEuler 20.03 LTS".to_string(),
+        severity: "Important".to_string(),
+        rights: "Copyright".to_string(),
+        from: "test@example.com".to_string(),
+        issued_date: "2025-01-01".to_string(),
+        updated_date: "2025-01-01".to_string(),
+        os_info_id: None, // 故意设置为None，测试自动填充
+    };
     todo!();
 }
