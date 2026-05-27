@@ -90,5 +90,28 @@ async fn main() {
             Err(e) => println!("  ✗ {}: 失败 - {}", url, e),
         }
     }
-    todo!();
+    println!();
+
+    // 6. 并发批量异步获取
+    println!("【6. 并发批量异步获取】");
+    let concurrent_urls = vec![
+        "https://example.com/csaf3.json".to_string(),
+        "https://example.com/csaf4.json".to_string(),
+        "https://example.com/csaf5.json".to_string(),
+    ];
+
+    println!("  并发批量获取 {} 个 URL", concurrent_urls.len());
+    let concurrent_results = custom_fetcher
+        .fetch_batch_concurrent(&concurrent_urls)
+        .await;
+
+    for (url, result) in concurrent_results {
+        match result {
+            Ok(_csaf) => println!("  ✓ {}: 成功", url),
+            Err(e) => println!("  ✗ {}: 失败 - {}", url, e),
+        }
+    }
+    println!();
+
+    println!("异步示例执行完成！");
 }
