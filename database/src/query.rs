@@ -150,6 +150,15 @@ impl DatabaseManager {
                 ref_item
             })
             .collect();
+        metadata.references = Some(oval_references);
+
+        // 创建建议信息
+        let mut advisory = oval::Advisory::new();
+        advisory.from = definition.from.clone();
+        advisory.severity = definition.severity.clone();
+        advisory.rights = definition.rights.clone();
+
+        let mut issued = oval::Issued::new();
         todo!();
     }
 
