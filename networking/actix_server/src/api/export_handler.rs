@@ -239,7 +239,14 @@ pub async fn export_yearly(
     query: web::Query<ExportQuery>,
     db_config: web::Data<DatabaseConfig>,
 ) -> impl Responder {
-    todo!()
+    let year = path.into_inner();
+    let os_type = query.os_type.as_deref();
+
+    info!(
+        "收到按年导出请求: {}, 系统类型过滤: {:?}",
+        year, os_type
+    );
+    todo!();
 }
 
 /// 按日期范围导出OVAL定义
