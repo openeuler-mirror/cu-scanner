@@ -106,6 +106,45 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     // 如果指定了初始化数据库参数
+    if args.init_db {
+        return init_database(&config).await;
+    }
+
+    if args.daemon {
+        log::info!("以守护进程模式运行服务...");
+
+        // 如果配置了csaf_url，启动CSAF定时获取线程
+        if config.csaf_url.is_some() {
+            log::info!("检测到csaf_url配置，启动CSAF定时获取线程");
+            let config_clone = config.clone();
+            tokio::spawn(async move {
+                csaf_fetch_daemon(config_clone).await;
+            });
+        } else {
+            log::info!("未配置csaf_url，跳过CSAF定时获取");
+        }
+
+        // 创建服务器配置
+        let port = config.server.port.parse::<u16>().unwrap_or(8091);
+        log::info!("服务器将监听: {}:{}", config.server.address, port);
+
+        let server_config = ServerConfig {
+            database_config: DatabaseConfig::new(
+                &config.database.host,
+                config.database.port,
+                &config.database.database,
+                &config.database.username,
+                &config.database.password,
+            ),
+            address: config.server.address.clone(),
+            port,
+            api_group_name: config.api.group_name.clone(),
+        };
+
+        // 启动网络服务（这会阻塞当前任务）
+        create_default_server(server_config).await?;
+        return Ok(());
+    }
     todo!();
 }
 
