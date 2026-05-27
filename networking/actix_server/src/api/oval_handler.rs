@@ -168,7 +168,33 @@ pub async fn get_single_oval_file(
     info!("解析出OVAL ID: {}", oval_id);
 
     // 连接数据库
-    todo!();
+    let db_manager = match DatabaseManager::new(&db_config).await {
+        Ok(manager) => manager,
+        Err(e) => {
+            error!("数据库连接失败: {:?}", e);
+            return HttpResponse::InternalServerError().body("数据库连接失败");
+        }
+    };
+
+    info!("成功连接到数据库");
+
+    // 从数据库获取OVAL XML内容
+    let xml_content = match db_manager.get_oval_xml_by_id(&oval_id).await {
+        Ok(Some(content)) => content,
+        Ok(None) => {
+            info!("未找到指定的OVAL文件: {} (OVAL ID: {})", file_name, oval_id);
+            return HttpResponse::NotFound().body("未找到指定的OVAL文件");
+        }
+        Err(e) => {
+            error!("获取OVAL文件失败: {:?}", e);
+            return HttpResponse::InternalServerError().body("获取OVAL文件失败");
+        }
+    };
+
+    info!("成功获取OVAL文件内容，长度: {} 字节", xml_content.len());
+    HttpResponse::Ok()
+        .content_type("application/xml")
+        .body(xml_content)
 }
 
 /// 配置OVAL处理相关的路由
