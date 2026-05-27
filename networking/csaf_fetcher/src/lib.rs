@@ -188,7 +188,11 @@ impl CsafFetcher {
         let csaf = self.fetch(url)?;
 
         // 保存到文件
-        todo!();
+        let json_str = serde_json::to_string_pretty(&csaf)?;
+        std::fs::write(output_path, json_str)?;
+
+        info!("成功保存CSAF文件到: {}", output_path);
+        Ok(csaf)
     }
 
     /// 批量获取CSAF文件
