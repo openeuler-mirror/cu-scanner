@@ -19,5 +19,34 @@ fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     println!("\n=== 执行CSAF到OVAL转换 ===");
     let oval = csaf_to_oval(&csaf)?;
     println!("OVAL转换成功！\n");
+    // 显示OVAL基本信息
+    println!("=== OVAL基本信息 ===");
+    println!("Generator产品名: {}", oval.generator.product_name);
+    println!("Generator时间戳: {}", oval.generator.time_stamp);
+    // 显示OVAL定义信息
+    println!("\n=== OVAL定义信息 ===");
+    if let Some(first_def) = oval.definitions.items.first() {
+        println!("定义ID: {}", first_def.id);
+        println!("标题: {}", first_def.metadata.title);
+        println!("严重级别: {}", first_def.metadata.advisory.severity);
+        // 显示Criteria结构（重点显示OS信息）
+        println!("\n=== Criteria结构（OS检查） ===");
+        println!("顶层操作符: {}", first_def.criteria.operator);
+        for (i, criterion) in first_def.criteria.criterion.iter().enumerate() {
+            println!("\n{}. Criterion:", i + 1);
+            println!("   Comment: {}", criterion.comment);
+            println!("   Test Ref: {}", criterion.test_ref);
+        }
+        if let Some(sub_criteria) = &first_def.criteria.sub_criteria {
+            println!("\n子Criteria数量: {}", sub_criteria.len());
+            for (i, sub) in sub_criteria.iter().enumerate() {
+                println!("\n子Criteria {}: operator={}", i + 1, sub.operator);
+                for (j, crit) in sub.criterion.iter().enumerate() {
+                    println!("  {}. {}", j + 1, crit.comment);
+                }
+            }
+        }
+    }
+    // 显示测试信息
     todo!();
 }
