@@ -97,6 +97,22 @@ impl DatabaseManager {
             references.len(),
             cves.len()
         );
+
+        // 如果definition的os_info_id为None,尝试从RPM状态中提取
+        let final_definition = if definition.os_info_id.is_none() {
+            let os_info_id = self.extract_os_info_id_from_states(rpminfo_states).await?;
+            if let Some(id) = os_info_id {
+                info!("自动匹配到os_info_id: {}", id);
+                let mut updated_def = definition.clone();
+                updated_def.os_info_id = Some(id);
+                updated_def
+            } else {
+                warn!("无法自动匹配os_info_id,将保存为None");
+                definition.clone()
+            }
+        } else {
+            definition.clone()
+        };
         todo!();
     }
 }
