@@ -15,5 +15,9 @@ fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
             println!("{}. {}", i + 1, product);
         }
     }
+    // 执行CSAF到OVAL转换
+    println!("\n=== 执行CSAF到OVAL转换 ===");
+    let oval = csaf_to_oval(&csaf)?;
+    println!("OVAL转换成功！\n");
     todo!();
 }
