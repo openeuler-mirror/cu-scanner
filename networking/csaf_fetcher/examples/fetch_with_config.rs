@@ -115,5 +115,61 @@ async fn main() {
     // 为了演示，只获取前 3 个文件
     let demo_count = std::cmp::min(3, paths.len());
     println!("  演示模式：只获取前 {} 个文件", demo_count);
+
+    match fetcher
+        .fetch_from_index_concurrent(index_url, base_url)
+        .await
+    {
+        Ok(results) => {
+            let success_count = results.iter().filter(|(_, r)| r.is_ok()).count();
+            let fail_count = results.len() - success_count;
+
+            println!("  ✓ 批量获取完成");
+            println!("  总计: {} 个文件", results.len());
+            println!("  成功: {} 个", success_count);
+            println!("  失败: {} 个", fail_count);
+
+            // 显示成功获取的文件信息
+            if success_count > 0 {
+                println!("\n  成功获取的文件:");
+                for (i, (path, result)) in results
+                    .iter()
+                    .filter(|(_, r)| r.is_ok())
+                    .take(3)
+                    .enumerate()
+                {
+                    if let Ok(csaf) = result {
+                        println!("    {}. {}", i + 1, path);
+                        println!("       - ID: {}", csaf.document.tracking.id);
+                        println!("       - 标题: {}", csaf.document.title);
+                        println!("       - 漏洞数: {}", csaf.vulnerabilities.len());
+                    }
+                }
+            }
+
+            // 显示失败的文件
+            if fail_count > 0 {
+                println!("\n  失败的文件:");
+                for (i, (path, result)) in results
+                    .iter()
+                    .filter(|(_, r)| r.is_err())
+                    .take(3)
+                    .enumerate()
+                {
+                    if let Err(e) = result {
+                        println!("    {}. {}", i + 1, path);
+                        println!("       错误: {}", e);
+                    }
+                }
+            }
+        }
+        Err(e) => {
+            eprintln!("  ✗ 批量获取失败: {}", e);
+        }
+    }
+
+    // 7. 保存到本地（可选）
+    println!("\n【7. 保存到本地（可选）】");
+    let output_dir = "/tmp/csaf_files";
     todo!();
 }
