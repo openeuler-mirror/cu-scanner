@@ -208,7 +208,11 @@ fn convert_rpminfo_test(test: &oval::RpmInfoTest) -> RpmInfoTest {
 ///
 /// 返回转换后的数据库RpmInfoObject列表
 pub fn convert_rpminfo_objects(objects: &oval::Objects) -> Vec<RpmInfoObject> {
-    todo!()
+    objects
+        .rpm_info_objects
+        .iter()
+        .map(convert_rpminfo_object)
+        .collect()
 }
 
 /// 转换RPM信息对象
