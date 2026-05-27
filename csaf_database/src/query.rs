@@ -95,7 +95,20 @@ impl CsafQuery {
         &self,
         timestamp: &str,
     ) -> Result<Vec<String>, DatabaseError> {
-        todo!()
+        info!("查询更新时间在 {} 之后的安全公告ID列表", timestamp);
+
+        let rows = self
+            .db_manager
+            .client
+            .query(
+                "SELECT sa_id FROM sa_info WHERE updated_time > $1 ORDER BY updated_time ASC",
+                &[&timestamp],
+            )
+            .await?;
+
+        let sa_ids: Vec<String> = rows.iter().map(|row| row.get("sa_id")).collect();
+        debug!("成功查询到 {} 个安全公告ID（基于更新时间）", sa_ids.len());
+        Ok(sa_ids)
     }
 
     /// 根据 ID 获取 CVE 信息
