@@ -71,5 +71,13 @@ fn main() -> Result<()> {
     println!("【产品信息】");
     println!("  产品数量: {}", csaf.product_tree.get_product_count());
     let product_ids = csaf.product_tree.get_all_product_ids();
+    println!("  产品列表 (前3个):");
+    for (i, pid) in product_ids.iter().take(3).enumerate() {
+        println!("    {}. {}", i + 1, pid);
+    }
+    println!();
+
+    // 漏洞信息
+    println!("【漏洞信息】");
     todo!();
 }
