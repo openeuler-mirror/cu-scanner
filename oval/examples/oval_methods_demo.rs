@@ -161,5 +161,22 @@ fn main() -> Result<()> {
     println!("  测试数量: {}", oval.get_test_count());
     println!("  对象数量: {}", oval.get_object_count());
     println!("  状态数量: {}", oval.get_state_count());
+    println!("  是否为空: {}", oval.is_empty());
+    println!();
+
+    // 生成 XML
+    println!("【9. 生成 XML】");
+    let xml = oval.to_oval_string()?;
+    println!("  XML 长度: {} 字符", xml.len());
+    println!(
+        "  XML 包含定义ID: {}",
+        xml.contains("oval:cn.chinaunicom.culinux.cusa:def:20241001")
+    );
+    println!("  XML 包含CVE: {}", xml.contains("CVE-2024-1234"));
+    println!();
+
+    // 保存到文件
+    println!("【10. 保存到文件】");
+    let output_path = "test/oval_demo_output.xml";
     todo!();
 }
