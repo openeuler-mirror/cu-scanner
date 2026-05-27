@@ -175,5 +175,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("OVAL定义列表为空，没有数据需要保存");
         }
     }
-    todo!();
+
+    println!("\n所有CSAF文件处理完成");
+    Ok(())
 }
