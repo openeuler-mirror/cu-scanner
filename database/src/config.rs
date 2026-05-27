@@ -99,7 +99,13 @@ impl DatabaseManager {
                 &[&counter_id],
             )
             .await?;
-        todo!();
+
+        if let Some(row) = row {
+            let counter_value: i64 = row.get("counter_value");
+            Ok(Some(counter_value as u64))
+        } else {
+            Ok(None)
+        }
     }
 
     /// 设置指定ID计数器的值
