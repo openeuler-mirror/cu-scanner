@@ -127,5 +127,9 @@ fn print_usage(program: &str) {
     println!();
     println!("2. 导出指定ID列表:");
     println!("   {} --ids <id1> <id2> ... <output_file>", program);
-    todo!();
+    println!("   示例: {} --ids oval:cn.chinaunicom.culinux.cusa:def:20251004 oval:cn.chinaunicom.culinux.cusa:def:20251009 merged.xml", program);
+    println!();
+    println!("3. 导出指定时间范围:");
+    println!("   {} --date-range <start_date> <end_date> <output_file>", program);
+    println!("   示例: {} --date-range 2025-01-01 2025-01-31 january.xml", program);
 }
