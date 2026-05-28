@@ -113,7 +113,8 @@ impl CsafQuery {
 
     /// 根据 ID 获取 CVE 信息
     pub async fn get_cve_info_by_id(&self, id: i32) -> Result<Option<CveInfo>, DatabaseError> {
-        todo!()
+        info!("查询 CVE 信息，ID: {}", id);
+        todo!();
     }
 
     /// 根据 CVE ID 获取 CVE 信息
