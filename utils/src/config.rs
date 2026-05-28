@@ -173,7 +173,10 @@ impl AppConfig {
     pub fn from_file<P: AsRef<std::path::Path>>(
         path: P,
     ) -> Result<Self, Box<dyn std::error::Error>> {
-        todo!()
+        info!("从文件加载配置: {:?}", path.as_ref());
+        let contents = fs::read_to_string(path)?;
+        let mut config: AppConfig = toml::from_str(&contents)?;
+        todo!();
     }
 
     /// 保存配置到文件
