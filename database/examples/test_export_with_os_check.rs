@@ -19,5 +19,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 连接数据库
     let db_manager = DatabaseManager::new(&db_config).await?;
+
+    // 列出所有OVAL定义
+    println!("正在查询所有OVAL定义...");
     todo!();
 }
