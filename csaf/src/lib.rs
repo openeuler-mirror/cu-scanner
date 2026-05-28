@@ -467,7 +467,17 @@ impl CSAF {
     pub fn to_file(self, path: &str) -> Result<()> {
         info!("将CSAF数据保存到文件: {}", path);
         let data = serde_json::to_string_pretty(&self)?;
-        todo!();
+        let res = std::fs::write(path, &data);
+        match res {
+            Ok(_) => {
+                info!("成功保存CSAF数据到文件: {}", path);
+                Ok(())
+            }
+            Err(e) => {
+                error!("保存CSAF数据到文件失败: {}", e);
+                Err(e.into())
+            }
+        }
     }
 
     /// 从URL加载CSAF数据
@@ -480,7 +490,8 @@ impl CSAF {
     ///
     /// 返回Result<CSAF>，成功时包含解析的CSAF对象，失败时包含错误信息
     pub fn from_url(url: &str) -> Result<Self> {
-        todo!()
+        info!("从URL加载CSAF数据: {}", url);
+        todo!();
     }
 }
 
