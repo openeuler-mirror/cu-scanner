@@ -178,5 +178,40 @@ fn main() -> Result<()> {
     // 保存到文件
     println!("【10. 保存到文件】");
     let output_path = "test/oval_demo_output.xml";
-    todo!();
+    match oval.save_to_file(output_path) {
+        Ok(_) => println!("  成功保存到: {}", output_path),
+        Err(e) => println!("  保存失败: {}", e),
+    }
+    println!();
+
+    // 测试查找功能
+    println!("【11. 测试查找功能】");
+    let def_id = "oval:cn.chinaunicom.culinux.cusa:def:20241001";
+    if let Some(found_def) = oval.definitions.find_by_id(def_id) {
+        println!("  找到定义: {}", found_def.get_id());
+        println!("  定义标题: {}", found_def.get_title());
+    }
+
+    let test_id = "oval:cn.chinaunicom.culinux.cusa:tst:20241001";
+    if let Some(found_test) = oval.tests.find_by_id(test_id) {
+        println!("  找到测试: {}", found_test.id);
+        println!("  测试注释: {}", found_test.comment);
+    }
+
+    let state_id = "oval:cn.chinaunicom.culinux.cusa:ste:20241001";
+    if let Some(found_state) = oval.states.find_by_id(state_id) {
+        println!("  找到状态: {}", found_state.id);
+    }
+    println!();
+
+    // 测试清空功能
+    println!("【12. 测试清空功能】");
+    println!("  清空前 - 定义数量: {}", oval.get_definition_count());
+    oval.clear();
+    println!("  清空后 - 定义数量: {}", oval.get_definition_count());
+    println!("  清空后 - 是否为空: {}", oval.is_empty());
+    println!();
+
+    println!("示例执行完成！");
+    Ok(())
 }
