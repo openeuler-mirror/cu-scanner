@@ -24,6 +24,18 @@ fn main() -> Result<()> {
     let csaf_list = vec![&csaf, &csaf, &csaf];
     let oval_list = batch_csaf_to_oval(&csaf_list, 10000)?;
     println!("  成功转换 {} 个OVAL定义", oval_list.len());
+    // 收集所有ID并检查重复
+    let mut all_ids = HashSet::new();
+    let mut duplicate_count = 0;
+    for (i, oval) in oval_list.iter().enumerate() {
+        let ids = collect_all_ids(oval);
+        println!("  OVAL[{}] ID数量: {}", i, ids.len());
+        for id in ids {
+            if !all_ids.insert(id.clone()) {
+                duplicate_count += 1;
+            }
+        }
+    }
     todo!();
 }
 /// 收集OVAL定义中的所有ID
