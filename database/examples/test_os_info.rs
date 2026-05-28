@@ -37,5 +37,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 测试2: 根据dist查找OS信息
     println!("\n=== 测试2: 根据dist查找OS信息 ===");
+    let test_dists = vec!["oe1", "oe2203", "el7", "el8"];
+    for dist in test_dists {
+        if let Some(os_info) = db_manager.find_os_info_by_dist(dist).await? {
+            println!(
+                "Found {} -> {} {}",
+                dist, os_info.os_type, os_info.os_version
+            );
+        } else {
+            println!("Not found: {}", dist);
+        }
+    }
+
+    // 测试3: 从软件包版本中提取并匹配OS信息
+    println!("\n=== 测试3: 从软件包版本提取dist并匹配OS ===");
     todo!();
 }
