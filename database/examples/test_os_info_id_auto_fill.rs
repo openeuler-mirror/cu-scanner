@@ -40,5 +40,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         updated_date: "2025-01-01".to_string(),
         os_info_id: None, // 故意设置为None，测试自动填充
     };
+
+    println!(
+        "创建的定义: ID={}, os_info_id={:?}",
+        definition.id, definition.os_info_id
+    );
+
+    // 创建包含oe1标识的RPM对象（应该匹配到openEuler 20.03）
+    let rpminfo_objects = vec![RpmInfoObject {
+        id: None,
+        object_id: "oval:test:obj:1001".to_string(),
+        ver: 1,
+        rpm_name: "test-package".to_string(), // 包名不包含dist
+    }];
     todo!();
 }
