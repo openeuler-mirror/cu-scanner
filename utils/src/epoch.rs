@@ -133,7 +133,10 @@ impl PackageEpochs {
     /// # 返回值
     /// 返回 Option<u32>，成功时包含 epoch 值，失败时返回 None
     fn get_epoch_from_extra_yum(package_name: &str) -> Option<u32> {
-        todo!()
+        debug!("尝试从 Extra YUM 查询包 {} 的 epoch", package_name);
+
+        // 使用 --enablerepo 参数启用额外的仓库
+        todo!();
     }
 
     /// 根据配置和优先级获取指定包名的 epoch 值
