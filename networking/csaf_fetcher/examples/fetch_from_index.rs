@@ -144,5 +144,12 @@ fn main() {
     println!("      2021/csaf-openeuler-sa-2021-1002.json");
     println!("      2022/csaf-openeuler-sa-2022-1001.json");
     println!();
-    todo!();
+    println!("  程序会自动:");
+    println!("    1. 下载并解析 index.txt 文件");
+    println!("    2. 提取所有 .json 文件路径");
+    println!("    3. 拼接完整 URL 并下载每个 CSAF 文件");
+    println!("    4. 可选择保存到本地文件系统");
+    println!();
+
+    println!("示例执行完成！");
 }
