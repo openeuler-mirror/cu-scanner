@@ -199,5 +199,6 @@ pub async fn get_single_oval_file(
 
 /// 配置OVAL处理相关的路由
 pub fn config(cfg: &mut web::ServiceConfig) {
-    todo!()
+    cfg.service(get_all_oval_files)
+        .service(get_single_oval_file);
 }
