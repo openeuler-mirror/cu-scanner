@@ -114,6 +114,11 @@ impl DatabaseManager {
         counter_id: &str,
         counter_value: u64,
     ) -> Result<(), DatabaseError> {
-        todo!()
+        self.client.execute(
+            "INSERT INTO id_counters (id, counter_value) VALUES ($1, $2)
+             ON CONFLICT (id) DO UPDATE SET counter_value = EXCLUDED.counter_value, updated_at = CURRENT_TIMESTAMP",
+            &[&counter_id, &(counter_value as i64)]
+        ).await?;
+        todo!();
     }
 }
