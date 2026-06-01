@@ -139,7 +139,12 @@ impl DatabaseIdGenerator {
         &mut self,
         cve_id: &str,
     ) -> Result<String, DatabaseError> {
-        todo!()
+        let key = format!("cve:{}", cve_id);
+        let id = self
+            .get_or_create_definition_id(&key, CU_LINUX_SA_DEF_PREFIX)
+            .await?;
+        debug!("为CVE生成定义ID: {} -> {}", cve_id, id);
+        Ok(id)
     }
 
     /// 为软件包生成对象ID

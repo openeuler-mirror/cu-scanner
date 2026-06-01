@@ -111,6 +111,32 @@ impl DatabaseManager {
 
         // 检查rpminfo_objects表中的所有ID
         println!("检查rpminfo_objects表中的所有ID:");
+        let rows = self
+            .client
+            .query(
+                "SELECT id, object_id, oval_definition_id FROM rpminfo_objects ORDER BY id",
+                &[],
+            )
+            .await?;
+
+        for (i, row) in rows.iter().enumerate() {
+            let id: String = row.get("id");
+            let object_id: String = row.get("object_id");
+            let oval_definition_id: String = row.get("oval_definition_id");
+
+            // 检查ID是否以"o,val,:"开头
+            if id.starts_with("o,val,:") {
+                println!("发现问题ID: {}", id);
+            }
+
+            println!("{}. id: '{}'", i + 1, id);
+            if id != object_id {
+                println!("   object_id: '{}' (不匹配)", object_id);
+            }
+            println!("   oval_definition_id: '{}'", oval_definition_id);
+        }
+
+        println!("\n检查rpminfo_states表中的所有ID:");
         todo!();
     }
 
