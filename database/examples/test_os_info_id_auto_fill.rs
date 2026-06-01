@@ -53,5 +53,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         ver: 1,
         rpm_name: "test-package".to_string(), // 包名不包含dist
     }];
+
+    println!("RPM对象: rpm_name={}", rpminfo_objects[0].rpm_name);
+
+    let references = vec![];
+    let cves = vec![];
     todo!();
 }
