@@ -171,5 +171,17 @@ async fn main() {
     // 7. 保存到本地（可选）
     println!("\n【7. 保存到本地（可选）】");
     let output_dir = "/tmp/csaf_files";
-    todo!();
+    println!("  如果需要保存文件，可以使用 fetch_from_index_and_save 方法");
+    println!("  输出目录: {}", output_dir);
+    println!("  示例代码:");
+    println!(
+        "    fetcher.fetch_from_index_and_save(index_url, base_url, \"{}\").await?;",
+        output_dir
+    );
+
+    println!("\n示例执行完成！");
+    println!("\n提示:");
+    println!("  - 完整获取所有文件，请移除演示模式限制");
+    println!("  - 使用 RUST_LOG=debug 环境变量查看详细日志");
+    println!("  - 配置文件路径: {}", config_path);
 }
