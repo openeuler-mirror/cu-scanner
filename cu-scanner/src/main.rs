@@ -145,7 +145,214 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         create_default_server(server_config).await?;
         return Ok(());
     }
-    todo!();
+
+    log::info!("cu-scanner主程序启动");
+
+    // 如果指定了从网络获取CSAF文件
+    if args.fetch_csaf {
+        fetch_csaf_from_network(&config).await?;
+    }
+    // 如果提供了CSAF目录路径，则处理目录中的所有CSAF文件
+    else if let Some(csaf_dir_path) = args.csaf_dir {
+        log::info!("处理CSAF目录: {}", csaf_dir_path);
+
+        // 创建数据库连接
+        let db_config = DatabaseConfig::new(
+            &config.database.host,
+            config.database.port,
+            &config.database.database,
+            &config.database.username,
+            &config.database.password,
+        );
+
+        let db_manager = match DatabaseManager::new(&db_config).await {
+            Ok(manager) => Arc::new(Mutex::new(manager)),
+            Err(e) => {
+                log::error!("数据库连接失败: {}", e);
+                return Ok(());
+            }
+        };
+
+        // 读取目录中的所有CSAF文件
+        let dir_entries = match fs::read_dir(&csaf_dir_path) {
+            Ok(entries) => entries,
+            Err(e) => {
+                log::error!("读取目录失败: {}", e);
+                return Ok(());
+            }
+        };
+
+        for entry in dir_entries.flatten() {
+                let path = entry.path();
+
+                // 只处理.json文件
+                if path.extension().and_then(|s| s.to_str()) == Some("json") {
+                    let file_name = path.file_name().unwrap().to_str().unwrap();
+                    log::info!("发现CSAF文件: {}", file_name);
+
+                    // 从文件名提取OVAL ID
+                    if let Some(oval_id) = extract_oval_id_from_filename(file_name) {
+                        log::info!("从文件名提取的OVAL ID: {}", oval_id);
+
+                        // 查询数据库中是否已存在该ID
+                        let exists = {
+                            let db = db_manager.lock().await;
+                            match db.get_oval_definition(&oval_id).await {
+                                Ok(Some(_)) => true,
+                                Ok(None) => false,
+                                Err(e) => {
+                                    log::error!("查询数据库失败: {}", e);
+                                    continue;
+                                }
+                            }
+                        };
+
+                        if exists {
+                            log::info!("OVAL定义 {} 已存在于数据库中，跳过", oval_id);
+                            continue;
+                        }
+
+                        log::info!("OVAL定义 {} 不存在，开始处理文件", oval_id);
+
+                        // 读取并转换CSAF文件
+                        match CSAF::from_file(path.to_str().unwrap()) {
+                            Ok(csaf) => {
+                                log::info!("CSAF文件加载成功: {}", csaf.document.title);
+
+                                // 转换CSAF到OVAL（使用数据库计数器）
+                                match database::csaf_to_oval_with_default_db_counter(
+                                    &csaf,
+                                    db_manager.clone(),
+                                )
+                                .await
+                                {
+                                    Ok(oval) => {
+                                        log::info!("CSAF到OVAL转换成功");
+
+                                        // 保存到数据库
+                                        if let Some(definition) = oval.definitions.items.first() {
+                                            let (
+                                                db_definition,
+                                                references,
+                                                cves,
+                                                tests,
+                                                objects,
+                                                states,
+                                            ) = converter::convert_full_oval_definition(
+                                                definition,
+                                                &oval.tests,
+                                                &oval.objects,
+                                                &oval.states,
+                                            );
+
+                                            let mut db = db_manager.lock().await;
+                                            match db
+                                                .save_full_oval_definition(
+                                                    &db_definition,
+                                                    &references,
+                                                    &cves,
+                                                    &tests,
+                                                    &objects,
+                                                    &states,
+                                                )
+                                                .await
+                                            {
+                                                Ok(_) => {
+                                                    log::info!(
+                                                        "OVAL定义保存成功: {}",
+                                                        db_definition.id
+                                                    );
+                                                }
+                                                Err(e) => {
+                                                    log::error!("保存OVAL定义到数据库失败: {}", e);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    Err(e) => {
+                                        log::error!("CSAF到OVAL转换失败: {}", e);
+                                    }
+                                }
+                            }
+                            Err(e) => {
+                                log::error!("加载CSAF文件失败: {}", e);
+                            }
+                        }
+                    } else {
+                        log::warn!("无法从文件名提取OVAL ID: {}", file_name);
+                    }
+                }
+        }
+    }
+    // 如果提供了CSAF文件路径，则处理CSAF文件
+    else if let Some(csaf_file_path) = args.csaf_file {
+        log::info!("处理CSAF文件: {}", csaf_file_path);
+
+        // 读取CSAF文件
+        match CSAF::from_file(&csaf_file_path) {
+            Ok(csaf) => {
+                log::info!("CSAF文件加载成功: {}", csaf.document.title);
+
+                // 转换CSAF到OVAL
+                match csaf_to_oval(&csaf) {
+                    Ok(oval) => {
+                        log::info!("CSAF到OVAL转换成功");
+
+                        // 如果提供了输出路径，则保存转换结果
+                        if let Some(output_path) = args.output {
+                            log::info!("转换结果将保存到: {}", output_path);
+
+                            // 将OVAL转换为XML字符串
+                            match oval.to_oval_string() {
+                                Ok(xml_content) => {
+                                    // 保存到文件
+                                    match fs::write(&output_path, xml_content) {
+                                        Ok(_) => {
+                                            log::info!("OVAL XML文件保存成功: {}", output_path);
+                                        }
+                                        Err(e) => {
+                                            log::error!("保存OVAL XML文件失败: {}", e);
+                                            return Ok(());
+                                        }
+                                    }
+                                }
+                                Err(e) => {
+                                    log::error!("将OVAL转换为XML字符串失败: {}", e);
+                                    return Ok(());
+                                }
+                            }
+                        } else {
+                            // 如果没有指定输出文件，则输出到标准输出
+                            match oval.to_oval_string() {
+                                Ok(xml_content) => {
+                                    println!("{}", xml_content);
+                                    log::info!("OVAL XML内容已输出到标准输出");
+                                }
+                                Err(e) => {
+                                    log::error!("将OVAL转换为XML字符串失败: {}", e);
+                                    return Ok(());
+                                }
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("CSAF到OVAL转换失败: {}", e);
+                        return Ok(());
+                    }
+                }
+            }
+            Err(e) => {
+                log::error!("加载CSAF文件失败: {}", e);
+                return Ok(());
+            }
+        }
+    } else {
+        log::info!("未提供CSAF文件路径，跳过CSAF处理");
+    }
+
+    // 程序执行完成
+    log::info!("cu-scanner执行完成");
+    Ok(())
 }
 
 /// 从CSAF文件名中提取OVAL ID
