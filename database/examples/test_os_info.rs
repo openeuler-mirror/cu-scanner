@@ -51,5 +51,30 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 测试3: 从软件包版本中提取并匹配OS信息
     println!("\n=== 测试3: 从软件包版本提取dist并匹配OS ===");
-    todo!();
+    let test_packages = vec![
+        "ansible-2.9-1.oe1",
+        "kernel-5.10.0-136.12.0.86.oe2203",
+        "systemd-239-58.el7",
+        "glibc-2.28-151.el8",
+        "unknown-package-1.0.fc35", // 不存在的dist
+    ];
+
+    for package in test_packages {
+        println!("\n软件包: {}", package);
+        match db_manager.extract_and_match_os_info(package).await? {
+            Some(os_info) => {
+                println!("  ✓ 匹配成功!");
+                println!("    OS类型: {}", os_info.os_type);
+                println!("    OS版本: {}", os_info.os_version);
+                println!("    Dist: {}", os_info.dist);
+                println!("    验证文件: {}", os_info.verify_file);
+            }
+            None => {
+                println!("  ✗ 未找到匹配的OS信息");
+            }
+        }
+    }
+
+    println!("\n所有测试完成!");
+    Ok(())
 }
