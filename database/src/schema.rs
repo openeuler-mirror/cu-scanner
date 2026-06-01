@@ -147,7 +147,37 @@ impl DatabaseManager {
             .await?;
 
         // 创建RPM信息状态表（合并EVR信息）
-        todo!();
+        self.client
+            .execute(
+                "CREATE TABLE IF NOT EXISTS rpminfo_states (
+                id BIGSERIAL PRIMARY KEY,
+                state_id TEXT NOT NULL,
+                oval_definition_id TEXT NOT NULL,
+                version TEXT,
+                evr_datatype TEXT,
+                evr_operation TEXT,
+                evr_value TEXT,
+                FOREIGN KEY (oval_definition_id) REFERENCES oval_definitions(id) ON DELETE CASCADE,
+                UNIQUE (oval_definition_id, state_id)
+            )",
+                &[],
+            )
+            .await?;
+
+        // 创建ID计数器表，用于持久化ID计数器值
+        self.client
+            .execute(
+                "CREATE TABLE IF NOT EXISTS id_counters (
+                id TEXT PRIMARY KEY,
+                counter_value BIGINT NOT NULL,
+                updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+            )",
+                &[],
+            )
+            .await?;
+
+        info!("数据库表结构初始化完成");
+        Ok(())
     }
 
     /// 初始化操作系统信息数据
