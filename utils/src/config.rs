@@ -176,7 +176,14 @@ impl AppConfig {
         info!("从文件加载配置: {:?}", path.as_ref());
         let contents = fs::read_to_string(path)?;
         let mut config: AppConfig = toml::from_str(&contents)?;
-        todo!();
+
+        // 如果没有显式设置stdout且file为空，则默认输出到标准输出
+        if !config.logging.stdout && config.logging.file.is_empty() {
+            config.logging.stdout = true;
+        }
+
+        info!("配置加载成功");
+        Ok(config)
     }
 
     /// 保存配置到文件
