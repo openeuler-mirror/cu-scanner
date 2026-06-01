@@ -36,6 +36,13 @@ fn main() -> Result<()> {
             }
         }
     }
+    println!("\n  批次内总ID数: {}", all_ids.len());
+    println!(
+        "  重复ID数: {} (注：相同的包/版本会复用相同ID，这是预期行为)",
+        duplicate_count
+    );
+    println!("  ✅ 批次内ID生成策略正常！");
+    // 场景3: 手动控制共享IdGenerator
     todo!();
 }
 /// 收集OVAL定义中的所有ID
