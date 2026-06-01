@@ -205,7 +205,8 @@ impl CsafFetcher {
     ///
     /// 返回成功和失败的结果列表
     pub fn fetch_batch(&self, urls: &[String]) -> Vec<(String, Result<CSAF>)> {
-        todo!()
+        info!("批量获取 {} 个CSAF文件", urls.len());
+        todo!();
     }
 
     /// 从index.txt文件获取CSAF文件路径列表
