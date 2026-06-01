@@ -114,7 +114,20 @@ impl CsafQuery {
     /// 根据 ID 获取 CVE 信息
     pub async fn get_cve_info_by_id(&self, id: i32) -> Result<Option<CveInfo>, DatabaseError> {
         info!("查询 CVE 信息，ID: {}", id);
-        todo!();
+
+        let row = self.db_manager.client.query_opt(
+            "SELECT id, cve_id, description, base_severity, base_score, vector_string, cvss_version, published_date, updated_date, status, created_at, updated_at FROM cve_info WHERE id = $1",
+            &[&id]
+        ).await?;
+
+        if let Some(row) = row {
+            let cve_info = self.row_to_cve_info(&row);
+            debug!("成功查询到 CVE 信息，ID: {}", id);
+            Ok(Some(cve_info))
+        } else {
+            debug!("未找到 CVE 信息，ID: {}", id);
+            Ok(None)
+        }
     }
 
     /// 根据 CVE ID 获取 CVE 信息
