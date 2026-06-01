@@ -159,6 +159,25 @@ impl DatabaseManager {
         advisory.rights = definition.rights.clone();
 
         let mut issued = oval::Issued::new();
+        issued.date = definition.issued_date.clone();
+        advisory.issued = issued;
+
+        let mut updated = oval::Updated::new();
+        updated.date = definition.updated_date.clone();
+        advisory.updated = updated;
+
+        // 创建CVE列表
+        let oval_cves: Vec<oval::CVE> = cves
+            .iter()
+            .map(|c| {
+                let mut cve = oval::CVE::new();
+                cve.cvss3 = c.cvss3.clone();
+                cve.href = c.href.clone();
+                cve.impact = c.impact.clone();
+                cve.content = c.content.clone();
+                cve
+            })
+            .collect();
         todo!();
     }
 
