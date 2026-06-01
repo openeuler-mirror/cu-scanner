@@ -95,7 +95,10 @@ impl PersistentIdCounter {
         self.load_from_database().await?;
         self.current_counter += 1;
         // 在数字ID前添加1，避免ID以0开头
-        todo!();
+        let id = format!("{}1{}", prefix, self.current_counter);
+        self.save_to_database().await?;
+        debug!("生成唯一ID: {}", id);
+        Ok(id)
     }
 }
 
