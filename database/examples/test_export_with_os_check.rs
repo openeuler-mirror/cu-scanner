@@ -22,5 +22,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 列出所有OVAL定义
     println!("正在查询所有OVAL定义...");
+    let definitions = db_manager.list_all_oval_definitions().await?;
+
+    if definitions.is_empty() {
+        println!("数据库中没有OVAL定义");
+        return Ok(());
+    }
     todo!();
 }
