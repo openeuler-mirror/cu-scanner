@@ -48,5 +48,12 @@ fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         }
     }
     // 显示测试信息
+    println!("\n=== OVAL测试信息 ===");
+    println!("RPM Info Tests数量: {}", oval.tests.rpminfo_tests.len());
+    if let Some(first_test) = oval.tests.rpminfo_tests.first() {
+        println!("第一个测试ID: {}", first_test.id);
+        println!("Comment: {}", first_test.comment);
+    }
+    // 显示对象信息
     todo!();
 }
