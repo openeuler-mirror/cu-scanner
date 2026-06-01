@@ -116,6 +116,44 @@ impl DatabaseManager {
 
         // 开始事务
         let transaction = self.client.transaction().await?;
+
+        // 保存OVAL定义主信息（使用可能已更新的definition）
+        transaction
+            .execute(
+                "INSERT INTO oval_definitions (
+                id, class, version, title, description, family, platform,
+                severity, rights, from_field, issued_date, updated_date, os_info_id
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+            ON CONFLICT (id) DO UPDATE SET
+                class = EXCLUDED.class,
+                version = EXCLUDED.version,
+                title = EXCLUDED.title,
+                description = EXCLUDED.description,
+                family = EXCLUDED.family,
+                platform = EXCLUDED.platform,
+                severity = EXCLUDED.severity,
+                rights = EXCLUDED.rights,
+                from_field = EXCLUDED.from_field,
+                issued_date = EXCLUDED.issued_date,
+                updated_date = EXCLUDED.updated_date,
+                os_info_id = EXCLUDED.os_info_id",
+                &[
+                    &final_definition.id,
+                    &final_definition.class,
+                    &(final_definition.version as i32),
+                    &final_definition.title,
+                    &final_definition.description,
+                    &final_definition.family,
+                    &final_definition.platform,
+                    &final_definition.severity,
+                    &final_definition.rights,
+                    &final_definition.from,
+                    &final_definition.issued_date,
+                    &final_definition.updated_date,
+                    &final_definition.os_info_id,
+                ],
+            )
+            .await?;
         todo!();
     }
 }
