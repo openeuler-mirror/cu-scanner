@@ -86,7 +86,7 @@ impl TestConfig {
 
     /// 获取通用测试文件列表
     pub fn get_common_files(&self) -> &[String] {
-        todo!()
+        &self.common_files
     }
 
     /// 根据模块名获取测试文件列表
