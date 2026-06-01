@@ -225,7 +225,12 @@ pub fn convert_rpminfo_objects(objects: &oval::Objects) -> Vec<RpmInfoObject> {
 ///
 /// 返回转换后的数据库RpmInfoObject
 fn convert_rpminfo_object(object: &oval::RpmInfoObject) -> RpmInfoObject {
-    todo!()
+    RpmInfoObject {
+        id: None, // 数据库自增ID，在保存时由数据库生成
+        object_id: object.id.to_string(),
+        ver: object.ver,
+        rpm_name: object.rpm_name.clone(),
+    }
 }
 
 /// 转换RPM信息状态列表
