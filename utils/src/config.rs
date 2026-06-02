@@ -213,7 +213,34 @@ mod tests {
 
     #[test]
     fn test_config_serialization() {
-        todo!()
+        let config = AppConfig {
+            database: DatabaseConfig {
+                host: "localhost".to_string(),
+                port: 5432,
+                database: "test_db".to_string(),
+                username: "user".to_string(),
+                password: "pass".to_string(),
+            },
+            csaf_db: None,
+            csaf_url: None,
+            logging: LoggingConfig {
+                level: "info".to_string(),
+                file: "tmp/app.log".to_string(),
+                stdout: false,
+            },
+            api: ApiConfig {
+                group_name: "test_api".to_string(),
+            },
+            server: ServerConfig::default(),
+            package: PackageConfig::default(),
+        };
+
+        // 测试序列化为 TOML 字符串
+        let toml_str = toml::to_string_pretty(&config).expect("Failed to serialize config");
+        // 测试反序列化
+        let loaded_config: AppConfig =
+            toml::from_str(&toml_str).expect("Failed to deserialize config");
+        todo!();
     }
 
     #[test]
