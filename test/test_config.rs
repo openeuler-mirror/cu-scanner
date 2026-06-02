@@ -91,7 +91,11 @@ impl TestConfig {
 
     /// 根据模块名获取测试文件列表
     pub fn get_files_by_module(&self, module: &str) -> &[String] {
-        todo!()
+        match module {
+            "csaf" => self.get_csaf_files(),
+            "parser" => self.get_parser_files(),
+            _ => self.get_common_files(),
+        }
     }
 }
 
