@@ -123,6 +123,13 @@ mod tests {
                 return Ok(());
             }
         };
+
+        let mut id_counter =
+            PersistentIdCounter::new(db_manager, "test_counter".to_string(), 10000);
+
+        // 获取当前计数器值
+        let current_counter = id_counter.get_current_counter().await?;
+        assert_eq!(current_counter, 10000);
         todo!();
     }
 }
