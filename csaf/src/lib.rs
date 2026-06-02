@@ -535,7 +535,7 @@ impl Document {
 
     /// 获取文档类别
     pub fn get_category(&self) -> &str {
-        todo!()
+        &self.category
     }
 
     /// 获取文档语言
