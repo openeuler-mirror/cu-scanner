@@ -55,5 +55,14 @@ fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         println!("Comment: {}", first_test.comment);
     }
     // 显示对象信息
+    println!("\n=== OVAL对象信息 ===");
+    println!(
+        "RPM Info Objects数量: {}",
+        oval.objects.rpm_info_objects.len()
+    );
+    for (i, obj) in oval.objects.rpm_info_objects.iter().take(3).enumerate() {
+        println!("{}. ID: {}, RPM名称: {}", i + 1, obj.id, obj.rpm_name);
+    }
+    // 显示状态信息
     todo!();
 }
