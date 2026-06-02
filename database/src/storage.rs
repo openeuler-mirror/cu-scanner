@@ -154,6 +154,24 @@ impl DatabaseManager {
                 ],
             )
             .await?;
+
+        // 保存引用信息（使用final_definition的id）
+        for reference in references {
+            transaction
+                .execute(
+                    "INSERT INTO references_info (
+                    oval_definition_id, ref_id, ref_url, source
+                ) VALUES ($1, $2, $3, $4)
+                ON CONFLICT DO NOTHING",
+                    &[
+                        &final_definition.id,
+                        &reference.ref_id,
+                        &reference.ref_url,
+                        &reference.source,
+                    ],
+                )
+                .await?;
+        }
         todo!();
     }
 }
