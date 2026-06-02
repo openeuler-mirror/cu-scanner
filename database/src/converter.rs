@@ -259,5 +259,11 @@ pub fn convert_rpminfo_states(states: &oval::States) -> Vec<RpmInfoState> {
 ///
 /// 返回转换后的数据库RpmInfoState
 fn convert_rpminfo_state(state: &oval::RpmInfoState) -> RpmInfoState {
-    todo!()
+    RpmInfoState {
+        state_id: state.id.clone(),
+        version: state.version.clone(),
+        evr_datatype: state.evr.as_ref().map(|e| e.datatype.clone()),
+        evr_operation: state.evr.as_ref().map(|e| e.operation.clone()),
+        evr_value: state.evr.as_ref().map(|e| e.evr.clone()),
+    }
 }
