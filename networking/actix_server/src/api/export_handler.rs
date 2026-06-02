@@ -259,6 +259,28 @@ pub async fn export_yearly(
     };
 
     // 查询并导出
+    let merged = match db_manager.export_oval_by_year(year, os_type).await {
+        Ok(oval) => oval,
+        Err(e) => {
+            error!("导出OVAL定义失败: {:?}", e);
+            return HttpResponse::InternalServerError().json(serde_json::json!({
+                "error": "导出OVAL定义失败",
+                "details": format!("{:?}", e)
+            }));
+        }
+    };
+
+    // 检查是否有数据
+    if merged.is_empty() {
+        info!("未找到匹配的OVAL定义");
+        return HttpResponse::Ok().json(serde_json::json!({
+            "message": "未找到匹配的OVAL定义",
+            "filters": {
+                "year": year,
+                "os_type": os_type
+            }
+        }));
+    }
     todo!();
 }
 
