@@ -187,6 +187,15 @@ impl DatabaseManager {
         // 构建criteria的嵌套结构：
         // 1. 最外层：OR条件，包含操作系统必须安装的criterion
         // 2. 第二层：AND条件，包含操作系统已安装的criterion
+        // 3. 第三层：OR条件，包含所有软件包的AND条件
+        // 4. 最内层：每个软件包的AND条件（虽然目前只有一个criterion）
+
+        let mut criteria = oval::Criteria::new();
+
+        // 根据os_info_id获取OS信息并生成OS检查组件
+        let mut os_tests: Vec<oval::RpmVerifyFileTest> = Vec::new();
+        let mut os_objects: Vec<oval::RpmVerifyFileObject> = Vec::new();
+        let mut os_states: Vec<oval::RpmVerifyFileState> = Vec::new();
         todo!();
     }
 
