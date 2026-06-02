@@ -183,7 +183,22 @@ impl PackageEpochs {
     /// # 返回值
     /// 返回 u32 类型的 epoch 值，如果所有来源都未找到则返回 0
     pub fn get_epoch_with_priority(&self, package_name: &str, config: &AppConfig) -> u32 {
-        todo!()
+        // 优先级 1: Extra YUM
+        if config.package.use_extra_yum {
+            if let Some(epoch) = Self::get_epoch_from_extra_yum(package_name) {
+                debug!("从 Extra YUM 获取到包 {} 的 epoch: {}", package_name, epoch);
+                return epoch;
+            }
+        }
+
+        // 优先级 2: YUM
+        if config.package.use_yum {
+            if let Some(epoch) = Self::get_epoch_from_yum(package_name) {
+                debug!("从 YUM 获取到包 {} 的 epoch: {}", package_name, epoch);
+                return epoch;
+            }
+        }
+        todo!();
     }
 
     /// 添加或更新包的 epoch 信息
