@@ -374,7 +374,26 @@ fn extract_oval_id_from_filename(filename: &str) -> Option<String> {
     let parts: Vec<&str> = name_without_ext.split('-').collect();
 
     // 需要至少有2个数字部分
-    todo!();
+    if parts.len() < 2 {
+        return None;
+    }
+
+    // 从右向左查找最后两个数字部分
+    let last_part = parts[parts.len() - 1];
+    let second_last_part = parts[parts.len() - 2];
+
+    // 检查最后两个部分是否都是数字
+    if last_part.chars().all(|c| c.is_ascii_digit())
+        && second_last_part.chars().all(|c| c.is_ascii_digit())
+    {
+        // 合并最后两个数字部分，去掉减号
+        let numeric_id = format!("{}{}", second_last_part, last_part);
+
+        // 添加OVAL定义前缀
+        Some(format!("{}{}", oval::CU_LINUX_SA_DEF_PREFIX, numeric_id))
+    } else {
+        None
+    }
 }
 
 /// 从网络获取CSAF文件并存储到数据库
