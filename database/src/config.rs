@@ -119,6 +119,7 @@ impl DatabaseManager {
              ON CONFLICT (id) DO UPDATE SET counter_value = EXCLUDED.counter_value, updated_at = CURRENT_TIMESTAMP",
             &[&counter_id, &(counter_value as i64)]
         ).await?;
-        todo!();
+
+        Ok(())
     }
 }
