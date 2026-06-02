@@ -75,5 +75,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }];
 
     println!("RPM状态: evr_value={:?}", rpminfo_states[0].evr_value);
+    println!("\ndist应该从EVR中提取: 1.0-1.oe1 -> oe1");
+
+    // 保存到数据库（应该自动填充os_info_id）
+    println!("\n保存到数据库...");
     todo!();
 }
