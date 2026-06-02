@@ -135,7 +135,8 @@ impl CsafQuery {
         &self,
         cve_id: &str,
     ) -> Result<Option<CveInfo>, DatabaseError> {
-        todo!()
+        info!("查询 CVE 信息，CVE ID: {}", cve_id);
+        todo!();
     }
 
     /// 获取所有 CVE 信息
