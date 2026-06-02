@@ -512,14 +512,25 @@ impl CSAF {
 
 impl Default for Document {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
 impl Document {
     /// 创建新的空Document实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            aggregate_severity: AggregateSeverity::new(),
+            category: String::new(),
+            csaf_version: "2.0".to_string(),
+            distribution: Distribution::new(),
+            lang: "en".to_string(),
+            notes: Vec::new(),
+            publisher: Publisher::new(),
+            references: Vec::new(),
+            title: String::new(),
+            tracking: Tracking::new(),
+        }
     }
 
     /// 获取文档类别
