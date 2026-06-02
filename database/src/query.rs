@@ -178,6 +178,15 @@ impl DatabaseManager {
                 cve
             })
             .collect();
+        advisory.cve = oval_cves;
+
+        metadata.advisory = advisory;
+        oval_definition.metadata = metadata;
+
+        // 参考parser crate从csaf生成criteria的逻辑重新组装criteria
+        // 构建criteria的嵌套结构：
+        // 1. 最外层：OR条件，包含操作系统必须安装的criterion
+        // 2. 第二层：AND条件，包含操作系统已安装的criterion
         todo!();
     }
 
