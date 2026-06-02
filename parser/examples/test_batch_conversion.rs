@@ -43,6 +43,10 @@ fn main() -> Result<()> {
     );
     println!("  ✅ 批次内ID生成策略正常！");
     // 场景3: 手动控制共享IdGenerator
+    println!("\n--- 场景3: 手动共享IdGenerator ---");
+    let mut shared_gen = IdGenerator::new(10000);
+    let oval_a = csaf_to_oval_with_shared_generator(&csaf, &mut shared_gen)?;
+    let oval_b = csaf_to_oval_with_shared_generator(&csaf, &mut shared_gen)?;
     todo!();
 }
 /// 收集OVAL定义中的所有ID
