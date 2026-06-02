@@ -111,6 +111,18 @@ mod tests {
 
     #[tokio::test]
     async fn test_persistent_id_counter() -> Result<(), Box<dyn std::error::Error>> {
-        todo!()
+        // 创建数据库管理器配置（使用测试数据库配置）
+        let db_config =
+            DatabaseConfig::new("localhost", 5432, "test_db", "test_user", "test_password");
+
+        // 尝试连接数据库
+        let db_manager = match DatabaseManager::new(&db_config).await {
+            Ok(manager) => Arc::new(Mutex::new(manager)),
+            Err(_) => {
+                println!("数据库连接失败，跳过测试");
+                return Ok(());
+            }
+        };
+        todo!();
     }
 }
