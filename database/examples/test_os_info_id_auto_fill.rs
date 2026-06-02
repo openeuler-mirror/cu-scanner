@@ -58,5 +58,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let references = vec![];
     let cves = vec![];
+    let rpminfo_tests = vec![RpmInfoTest {
+        check: "at least one".to_string(),
+        comment: "test package check".to_string(),
+        test_id: "oval:test:tst:1001".to_string(),
+        version: 1,
+        object_ref: "oval:test:obj:1001".to_string(),
+        state_ref: "oval:test:ste:1001".to_string(),
+    }];
+    let rpminfo_states = vec![RpmInfoState {
+        state_id: "oval:test:ste:1001".to_string(),
+        version: "1".to_string(),
+        evr_datatype: Some("evr_string".to_string()),
+        evr_operation: Some("less than".to_string()),
+        evr_value: Some("1.0-1.oe1".to_string()), // dist在EVR中
+    }];
+
+    println!("RPM状态: evr_value={:?}", rpminfo_states[0].evr_value);
     todo!();
 }
