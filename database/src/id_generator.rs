@@ -161,7 +161,11 @@ impl DatabaseIdGenerator {
 
     /// 为EVR生成状态ID
     pub async fn generate_state_id_for_evr(&mut self, evr: &str) -> Result<String, DatabaseError> {
-        todo!()
+        let id = self
+            .get_or_create_state_id(evr, CU_LINUX_SA_STE_PREFIX)
+            .await?;
+        debug!("为EVR生成状态ID: {} -> {}", evr, id);
+        Ok(id)
     }
 
     /// 为测试生成ID
