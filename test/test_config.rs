@@ -101,7 +101,7 @@ impl TestConfig {
 
 impl Default for TestConfig {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
