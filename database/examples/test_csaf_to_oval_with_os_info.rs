@@ -64,5 +64,17 @@ fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         println!("{}. ID: {}, RPM名称: {}", i + 1, obj.id, obj.rpm_name);
     }
     // 显示状态信息
-    todo!();
+    println!("\n=== OVAL状态信息 ===");
+    if let Some(states) = &oval.states.rpminfo_states {
+        println!("RPM Info States数量: {}", states.len());
+        for (i, state) in states.iter().take(3).enumerate() {
+            println!("{}. ID: {}", i + 1, state.id);
+            if let Some(evr) = &state.evr {
+                println!("   EVR值: {}", evr.evr);
+                println!("   EVR操作: {}", evr.operation);
+            }
+        }
+    }
+    println!("\n✓ CSAF到OVAL转换完成，OS信息已成功匹配！");
+    Ok(())
 }
