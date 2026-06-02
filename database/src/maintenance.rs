@@ -137,7 +137,29 @@ impl DatabaseManager {
         }
 
         println!("\n检查rpminfo_states表中的所有ID:");
-        todo!();
+        let rows = self
+            .client
+            .query(
+                "SELECT id, state_id, oval_definition_id FROM rpminfo_states ORDER BY id",
+                &[],
+            )
+            .await?;
+
+        for (i, row) in rows.iter().enumerate() {
+            let id: i64 = row.get("id");
+            let state_id: String = row.get("state_id");
+            let oval_definition_id: String = row.get("oval_definition_id");
+
+            // 检查state_id是否以"o,val,:"开头
+            if state_id.starts_with("o,val,:") {
+                println!("发现问题state_id: {}", state_id);
+            }
+
+            println!("{}. id: {}, state_id: '{}'", i + 1, id, state_id);
+            println!("   oval_definition_id: '{}'", oval_definition_id);
+        }
+
+        Ok(())
     }
 
     /// 修复数据库中格式错误的ID
