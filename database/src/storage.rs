@@ -172,6 +172,26 @@ impl DatabaseManager {
                 )
                 .await?;
         }
+
+        // 保存CVE信息
+        for cve in cves {
+            transaction
+                .execute(
+                    "INSERT INTO cves (
+                    oval_definition_id, cve_id, cvss3, impact, href, content
+                ) VALUES ($1, $2, $3, $4, $5, $6)
+                ON CONFLICT DO NOTHING",
+                    &[
+                        &final_definition.id,
+                        &cve.cve_id,
+                        &cve.cvss3,
+                        &cve.impact,
+                        &cve.href,
+                        &cve.content,
+                    ],
+                )
+                .await?;
+        }
         todo!();
     }
 }

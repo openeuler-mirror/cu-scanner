@@ -183,6 +183,8 @@ impl DatabaseManager {
     /// 初始化操作系统信息数据
     pub async fn init_os_info_data(&mut self) -> Result<(), DatabaseError> {
         info!("正在初始化操作系统信息数据");
+
+        // 定义操作系统信息数据
         todo!();
     }
 }
