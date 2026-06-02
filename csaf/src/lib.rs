@@ -491,7 +491,20 @@ impl CSAF {
     /// 返回Result<CSAF>，成功时包含解析的CSAF对象，失败时包含错误信息
     pub fn from_url(url: &str) -> Result<Self> {
         info!("从URL加载CSAF数据: {}", url);
-        todo!();
+        let response = get(url)?;
+        if response.status().is_success() {
+            let body = response.text()?;
+            let csaf: Self = serde_json::from_str::<Self>(&body)?;
+            info!(
+                "成功从URL加载CSAF数据，漏洞数量: {}",
+                csaf.vulnerabilities.len()
+            );
+            Ok(csaf)
+        } else {
+            let error_data = format!("Get csaf data file from {} error", url);
+            error!("从URL加载CSAF数据失败: {}", error_data);
+            Err(error_data.into())
+        }
     }
 }
 
