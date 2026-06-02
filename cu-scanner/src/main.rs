@@ -367,7 +367,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 ///
 /// 返回OVAL ID，例如 "oval:org.openeuler.cu-scanner:def:20251004"
 fn extract_oval_id_from_filename(filename: &str) -> Option<String> {
-    todo!()
+    // 移除文件扩展名
+    let name_without_ext = Path::new(filename).file_stem()?.to_str()?;
+
+    // 按减号分割
+    let parts: Vec<&str> = name_without_ext.split('-').collect();
+
+    // 需要至少有2个数字部分
+    todo!();
 }
 
 /// 从网络获取CSAF文件并存储到数据库
