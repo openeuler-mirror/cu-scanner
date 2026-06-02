@@ -47,6 +47,10 @@ fn main() -> Result<()> {
     let mut shared_gen = IdGenerator::new(10000);
     let oval_a = csaf_to_oval_with_shared_generator(&csaf, &mut shared_gen)?;
     let oval_b = csaf_to_oval_with_shared_generator(&csaf, &mut shared_gen)?;
+    let ids_a = collect_all_ids(&oval_a);
+    let ids_b = collect_all_ids(&oval_b);
+    let mut combined = HashSet::new();
+    let mut dup = 0;
     todo!();
 }
 /// 收集OVAL定义中的所有ID
