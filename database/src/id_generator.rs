@@ -152,7 +152,11 @@ impl DatabaseIdGenerator {
         &mut self,
         package_name: &str,
     ) -> Result<String, DatabaseError> {
-        todo!()
+        let id = self
+            .get_or_create_object_id(package_name, CU_LINUX_SA_OBJ_PREFIX)
+            .await?;
+        debug!("为软件包生成对象ID: {} -> {}", package_name, id);
+        Ok(id)
     }
 
     /// 为EVR生成状态ID
