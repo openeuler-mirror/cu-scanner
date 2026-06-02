@@ -243,7 +243,10 @@ fn convert_rpminfo_object(object: &oval::RpmInfoObject) -> RpmInfoObject {
 ///
 /// 返回转换后的数据库RpmInfoState列表
 pub fn convert_rpminfo_states(states: &oval::States) -> Vec<RpmInfoState> {
-    todo!()
+    match &states.rpminfo_states {
+        Some(s) => s.iter().map(convert_rpminfo_state).collect(),
+        None => Vec::new(),
+    }
 }
 
 /// 转换RPM信息状态
