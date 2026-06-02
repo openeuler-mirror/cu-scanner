@@ -198,7 +198,16 @@ impl PackageEpochs {
                 return epoch;
             }
         }
-        todo!();
+
+        // 优先级 3: JSON 文件
+        if let Some(epoch) = self.get_epoch(package_name) {
+            debug!("从 JSON 文件获取到包 {} 的 epoch: {}", package_name, epoch);
+            return epoch;
+        }
+
+        // 优先级 4: 默认值 0
+        debug!("包 {} 未找到 epoch 信息，使用默认值 0", package_name);
+        0
     }
 
     /// 添加或更新包的 epoch 信息
