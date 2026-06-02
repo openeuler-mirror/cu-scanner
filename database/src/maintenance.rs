@@ -164,6 +164,9 @@ impl DatabaseManager {
 
     /// 修复数据库中格式错误的ID
     pub async fn fix_database_ids(&mut self) -> Result<(), DatabaseError> {
-        todo!()
+        info!("修复数据库中格式错误的ID");
+
+        // 检查并修复rpminfo_objects表中的ID
+        todo!();
     }
 }
