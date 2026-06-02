@@ -225,7 +225,23 @@ impl CsafFetcher {
     ///
     /// 返回CSAF文件相对路径列表
     pub fn fetch_index(&self, index_url: &str) -> Result<Vec<String>> {
-        todo!()
+        info!("获取CSAF索引文件: {}", index_url);
+
+        let response = self.client.get(index_url).send()?;
+
+        let status = response.status();
+        if !status.is_success() {
+            let body = response
+                .text()
+                .unwrap_or_else(|_| String::from("无法读取响应体"));
+            return Err(FetchError::StatusError {
+                status: status.as_u16(),
+                body,
+            });
+        }
+
+        let text = response.text()?;
+        todo!();
     }
 
     /// 从index.txt文件批量获取所有CSAF文件
