@@ -199,7 +199,11 @@ impl AppConfig {
         &self,
         path: P,
     ) -> Result<(), Box<dyn std::error::Error>> {
-        todo!()
+        info!("保存配置到文件: {:?}", path.as_ref());
+        let contents = toml::to_string_pretty(self)?;
+        fs::write(path, contents)?;
+        info!("配置保存成功");
+        Ok(())
     }
 }
 
