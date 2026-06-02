@@ -241,7 +241,18 @@ impl CsafFetcher {
         }
 
         let text = response.text()?;
-        todo!();
+        debug!("接收到索引文件，长度: {} 字节", text.len());
+
+        // 解析index.txt文件，每行一个文件路径
+        let paths: Vec<String> = text
+            .lines()
+            .map(|line| line.trim())
+            .filter(|line| !line.is_empty() && line.ends_with(".json"))
+            .map(|line| line.to_string())
+            .collect();
+
+        info!("从索引文件中解析出 {} 个CSAF文件路径", paths.len());
+        Ok(paths)
     }
 
     /// 从index.txt文件批量获取所有CSAF文件
