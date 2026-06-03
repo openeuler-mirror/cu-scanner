@@ -175,6 +175,36 @@ impl DatabaseManager {
                 &[],
             )
             .await?;
+
+        if !rows.is_empty() {
+            println!("发现 {} 个格式错误的object_id，正在修复...", rows.len());
+            for row in rows {
+                let id: i64 = row.get("id");
+                let old_object_id: String = row.get("object_id");
+                let new_object_id = old_object_id.replacen("o,val,:", "oval:", 1);
+                println!("修复object_id: '{}' -> '{}'", old_object_id, new_object_id);
+
+                // 更新rpminfo_objects表
+                self.client
+                    .execute(
+                        "UPDATE rpminfo_objects SET object_id = $1 WHERE id = $2",
+                        &[&new_object_id, &id],
+                    )
+                    .await?;
+
+                // 更新rpminfo_tests表中的object_ref
+                self.client
+                    .execute(
+                        "UPDATE rpminfo_tests SET object_ref = $1 WHERE object_ref = $2",
+                        &[&new_object_id, &old_object_id],
+                    )
+                    .await?;
+            }
+        } else {
+            println!("rpminfo_objects表中没有发现格式错误的object_id");
+        }
+
+        // 检查并修复rpminfo_states表中的state_id
         todo!();
     }
 }
