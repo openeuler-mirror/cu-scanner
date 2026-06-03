@@ -111,7 +111,12 @@ mod tests {
 
     #[test]
     fn test_config_loading() {
-        todo!()
+        let config = TestConfig::load_from_file("test_config.toml");
+        assert!(config.is_ok());
+
+        let config = config.unwrap();
+        assert!(!config.csaf_files.is_empty());
+        assert!(!config.parser_files.is_empty());
     }
 
     #[test]
