@@ -406,7 +406,14 @@ fn extract_oval_id_from_filename(filename: &str) -> Option<String> {
 ///
 /// 返回Result<()>，成功时为()，失败时包含错误信息
 pub async fn fetch_csaf_from_network(config: &AppConfig) -> Result<(), Box<dyn std::error::Error>> {
-    todo!()
+    log::info!("从网络获取CSAF文件");
+
+    // 检查配置文件中是否有csaf_url配置
+    if config.csaf_url.is_none() {
+        log::error!("配置文件中未找到csaf_url配置，无法从网络获取CSAF文件");
+        return Ok(());
+    }
+    todo!();
 }
 
 /// CSAF定时获取守护线程
