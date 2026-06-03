@@ -212,7 +212,14 @@ impl PackageEpochs {
 
     /// 添加或更新包的 epoch 信息
     pub fn set_epoch(&mut self, package_name: &str, epoch: u32) {
-        todo!()
+        if let Some(pkg) = self.packages.iter_mut().find(|pkg| pkg.name == package_name) {
+            pkg.epoch = epoch;
+        } else {
+            self.packages.push(PackageEpoch {
+                name: package_name.to_string(),
+                epoch,
+            });
+        }
     }
 
     /// 转换为 HashMap 便于快速查找
