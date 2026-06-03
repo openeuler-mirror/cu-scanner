@@ -328,7 +328,15 @@ pub async fn export_range(
     query: web::Query<RangeQuery>,
     db_config: web::Data<DatabaseConfig>,
 ) -> impl Responder {
-    todo!()
+    let start_date = &query.start_date;
+    let end_date = &query.end_date;
+    let os_type = query.os_type.as_deref();
+
+    info!(
+        "收到按日期范围导出请求: {} 到 {}, 系统类型过滤: {:?}",
+        start_date, end_date, os_type
+    );
+    todo!();
 }
 
 /// 按操作系统类型导出所有OVAL定义
