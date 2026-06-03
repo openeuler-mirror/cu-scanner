@@ -187,7 +187,12 @@ impl DatabaseIdGenerator {
         &mut self,
         test_type: &str,
     ) -> Result<String, DatabaseError> {
-        todo!()
+        let key = format!("base:{}", test_type);
+        let id = self
+            .get_or_create_test_id(&key, CU_LINUX_BA_TST_PREFIX)
+            .await?;
+        debug!("为基本测试生成ID: {} -> {}", test_type, id);
+        Ok(id)
     }
 }
 
