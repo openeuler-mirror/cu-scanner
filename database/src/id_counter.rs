@@ -136,6 +136,13 @@ mod tests {
         assert_eq!(id1, "test:110001");
 
         let id2 = id_counter.generate_unique_id("test:").await?;
-        todo!();
+        assert_eq!(id2, "test:110002");
+
+        // 更新计数器值
+        id_counter.set_current_counter(50000).await?;
+        let updated_counter = id_counter.get_current_counter().await?;
+        assert_eq!(updated_counter, 50000);
+
+        Ok(())
     }
 }
