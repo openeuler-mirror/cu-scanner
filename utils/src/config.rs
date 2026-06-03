@@ -240,6 +240,12 @@ mod tests {
         // 测试反序列化
         let loaded_config: AppConfig =
             toml::from_str(&toml_str).expect("Failed to deserialize config");
+
+        assert_eq!(config.database.host, loaded_config.database.host);
+        assert_eq!(config.database.port, loaded_config.database.port);
+        assert_eq!(config.database.database, loaded_config.database.database);
+        assert_eq!(config.database.username, loaded_config.database.username);
+        assert_eq!(config.database.password, loaded_config.database.password);
         todo!();
     }
 
