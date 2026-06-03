@@ -540,12 +540,12 @@ impl Document {
 
     /// 获取文档语言
     pub fn get_lang(&self) -> &str {
-        todo!()
+        &self.lang
     }
 
     /// 获取发布者名称
     pub fn get_publisher_name(&self) -> &str {
-        todo!()
+        &self.publisher.name
     }
 }
 
