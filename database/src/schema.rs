@@ -185,6 +185,72 @@ impl DatabaseManager {
         info!("正在初始化操作系统信息数据");
 
         // 定义操作系统信息数据
+        let os_info_data = [
+            // (os_type, os_version, package_name, verify_file, verify_pattern, dist, description)
+            (
+                "openEuler",
+                "20.03",
+                "openeuler-release",
+                "/etc/openeuler-release",
+                "^openEuler",
+                "oe1",
+                "openEuler 20.03 LTS",
+            ),
+            (
+                "openEuler",
+                "22.03",
+                "openeuler-release",
+                "/etc/openeuler-release",
+                "^openEuler",
+                "oe2203",
+                "openEuler 22.03 LTS",
+            ),
+            (
+                "openEuler",
+                "24.03",
+                "openeuler-release",
+                "/etc/openeulr-release",
+                "^openEuler",
+                "oe2403",
+                "openEuler 24.03 LTS",
+            ),
+            (
+                "Red Hat Enterprise Linux",
+                "7",
+                "redhat-release",
+                "/etc/redhat-release",
+                "^Red Hat Enterprise Linux",
+                "el7",
+                "Red Hat Enterprise Linux 7",
+            ),
+            (
+                "Red Hat Enterprise Linux",
+                "9",
+                "redhat-release",
+                "/etc/redhat-release",
+                "^Red Hat Enterprise Linux",
+                "el9",
+                "Red Hat Enterprise Linux 9",
+            ),
+            (
+                "Red Hat Enterprise Linux",
+                "8",
+                "redhat-release",
+                "/etc/redhat-release",
+                "^Red Hat Enterprise Linux",
+                "el8",
+                "Red Hat Enterprise Linux 8",
+            ),
+            (
+                "CUOS",
+                "4.0",
+                "culinux-release",
+                "/etc/culinux-release",
+                "^CULinux",
+                "ule4",
+                "culinux 4.0 (Telephone)",
+            ),
+        ];
         todo!();
     }
 }
