@@ -196,6 +196,231 @@ impl DatabaseManager {
         let mut os_tests: Vec<oval::RpmVerifyFileTest> = Vec::new();
         let mut os_objects: Vec<oval::RpmVerifyFileObject> = Vec::new();
         let mut os_states: Vec<oval::RpmVerifyFileState> = Vec::new();
+
+        if !rpminfo_tests.is_empty() {
+            // 为每个RPM信息测试创建独立的AND criteria
+            let mut pkg_and_criterions: Vec<oval::Criteria> = Vec::new();
+
+            for test in rpminfo_tests {
+                let pkg_criteria = oval::Criteria {
+                    operator: "AND".to_string(),
+                    criterion: vec![oval::Criterion {
+                        comment: test.comment.clone(),
+                        test_ref: test.test_id.clone(),
+                    }],
+                    sub_criteria: None,
+                };
+                pkg_and_criterions.push(pkg_criteria);
+            }
+
+            // 创建包含所有软件包条件的OR criteria
+            let pkg_or_criteria = oval::Criteria {
+                operator: "OR".to_string(),
+                criterion: Vec::new(),
+                sub_criteria: Some(pkg_and_criterions),
+            };
+
+            // 根据os_info_id生成OS检查组件
+            if let Some(os_info_id) = definition.os_info_id {
+                if let Ok(Some(os_info)) = self.get_os_info_by_id(os_info_id).await {
+                    info!("找到OS信息: {} {}", os_info.os_type, os_info.os_version);
+
+                    // 使用共享的 ID 生成函数
+                    let (
+                        os_object_id,
+                        os_state_full_id,
+                        os_state_name_only_id,
+                        os_test_must_id,
+                        os_test_is_id,
+                    ) = crate::generate_os_check_ids(os_info_id);
+
+                    // 创建RpmVerifyFileObject
+                    let os_object = oval::RpmVerifyFileObject {
+                        id: os_object_id.clone(),
+                        ver: 1,
+                        behaviors: oval::Behaviors::new(),
+                        name: oval::Data {
+                            operation: "pattern match".to_string(),
+                        },
+                        epoch: oval::Data {
+                            operation: "pattern match".to_string(),
+                        },
+                        version: oval::Data {
+                            operation: "pattern match".to_string(),
+                        },
+                        release: oval::Data {
+                            operation: "pattern match".to_string(),
+                        },
+                        arch: oval::Data {
+                            operation: "pattern match".to_string(),
+                        },
+                        filepath: os_info.verify_file.clone(),
+                    };
+                    os_objects.push(os_object);
+
+                    // 创建两个RpmVerifyFileState
+                    // State 1: 完整检查 (name + version) - 用于 "must be installed"
+                    // version 字段使用 os_version 进行匹配
+                    // 转义特殊字符（如 . 转为 \\.)
+                    let version_match_pattern =
+                        format!("^{}", os_info.os_version);
+                    let os_state_full = oval::RpmVerifyFileState {
+                        id: os_state_full_id.clone(),
+                        version: "1".to_string(),
+                        name: oval::StateData {
+                            operation: "pattern match".to_string(),
+                            content: os_info.package_name.clone(),
+                        },
+                        os_version: Some(oval::StateData {
+                            operation: "pattern match".to_string(),
+                            content: version_match_pattern, // 使用 os_version
+                        }),
+                    };
+                    os_states.push(os_state_full);
+
+                    // State 2: 仅检查名称 (name only) - 用于 "is installed"
+                    let os_state_name_only = oval::RpmVerifyFileState {
+                        id: os_state_name_only_id.clone(),
+                        version: "1".to_string(),
+                        name: oval::StateData {
+                            operation: "pattern match".to_string(),
+                            content: os_info.package_name.clone(),
+                        },
+                        os_version: None, // 不检查版本
+                    };
+                    os_states.push(os_state_name_only);
+
+                    // 创建两个RpmVerifyFileTest
+                    // Test 1: "must be installed" - 使用仅检查名称 state
+                    // 反向检查：如果没有找到包名，说明系统不匹配（只检查OS类型，不含版本）
+                    let os_test_must = oval::RpmVerifyFileTest {
+                        check: "none satisfy".to_string(),
+                        comment: format!("{} must be installed", os_info.os_type),
+                        id: os_test_must_id.clone(),
+                        version: 1,
+                        object: oval::ObjectReference {
+                            object_ref: os_object_id.clone(),
+                        },
+                        state: oval::StateReference {
+                            state_ref: os_state_name_only_id.clone(),
+                        },
+                    };
+                    os_tests.push(os_test_must);
+
+                    // Test 2: "is installed" - 使用完整检查 state
+                    // 正向检查：检查是否安装了特定版本
+                    let os_test_is = oval::RpmVerifyFileTest {
+                        check: "at least one".to_string(),
+                        comment: format!("{} {} is installed", os_info.os_type, os_info.os_version),
+                        id: os_test_is_id.clone(),
+                        version: 1,
+                        object: oval::ObjectReference {
+                            object_ref: os_object_id.clone(),
+                        },
+                        state: oval::StateReference {
+                            state_ref: os_state_full_id.clone(),
+                        },
+                    };
+                    os_tests.push(os_test_is);
+
+                    // 使用OS信息创建criteria
+                    let platform = format!("{} {}", os_info.os_type, os_info.os_version);
+
+                    // 创建操作系统已安装的AND criteria
+                    let os_and_criteria = oval::Criteria {
+                        operator: "AND".to_string(),
+                        criterion: vec![oval::Criterion {
+                            comment: format!("{} is installed", platform),
+                            test_ref: os_test_is_id,
+                        }],
+                        sub_criteria: Some(vec![pkg_or_criteria]),
+                    };
+
+                    // 创建最外层的OR criteria
+                    // "must be installed" 只使用 os_type，不包含版本号
+                    criteria = oval::Criteria {
+                        operator: "OR".to_string(),
+                        criterion: vec![oval::Criterion {
+                            comment: format!("{} must be installed", os_info.os_type),
+                            test_ref: os_test_must_id,
+                        }],
+                        sub_criteria: Some(vec![os_and_criteria]),
+                    };
+                } else {
+                    // 如果没有找到OS信息，使用os_info_id=0（Unknown）生成ID
+                    let (_, _, _, os_test_must_id_unknown, os_test_is_id_unknown) =
+                        crate::generate_os_check_ids(0);
+
+                    let platform = if !definition.platform.is_empty() {
+                        definition.platform.clone()
+                    } else {
+                        "operating system".to_string()
+                    };
+
+                    // 创建操作系统已安装的AND criteria
+                    let os_and_criteria = oval::Criteria {
+                        operator: "AND".to_string(),
+                        criterion: vec![oval::Criterion {
+                            comment: format!("{} is installed", platform),
+                            test_ref: os_test_is_id_unknown,
+                        }],
+                        sub_criteria: Some(vec![pkg_or_criteria]),
+                    };
+
+                    // 创建最外层的OR criteria
+                    criteria = oval::Criteria {
+                        operator: "OR".to_string(),
+                        criterion: vec![oval::Criterion {
+                            comment: format!("{} must be installed", platform),
+                            test_ref: os_test_must_id_unknown,
+                        }],
+                        sub_criteria: Some(vec![os_and_criteria]),
+                    };
+                }
+            } else {
+                // 如果没有os_info_id，使用os_info_id=0（Unknown）生成ID
+                let (_, _, _, os_test_must_id_unknown, os_test_is_id_unknown) =
+                    crate::generate_os_check_ids(0);
+
+                let platform = if !definition.platform.is_empty() {
+                    definition.platform.clone()
+                } else {
+                    "operating system".to_string()
+                };
+
+                // 创建操作系统已安装的AND criteria
+                let os_and_criteria = oval::Criteria {
+                    operator: "AND".to_string(),
+                    criterion: vec![oval::Criterion {
+                        comment: format!("{} is installed", platform),
+                        test_ref: os_test_is_id_unknown,
+                    }],
+                    sub_criteria: Some(vec![pkg_or_criteria]),
+                };
+
+                // 创建最外层的OR criteria
+                criteria = oval::Criteria {
+                    operator: "OR".to_string(),
+                    criterion: vec![oval::Criterion {
+                        comment: format!("{} must be installed", platform),
+                        test_ref: os_test_must_id_unknown,
+                    }],
+                    sub_criteria: Some(vec![os_and_criteria]),
+                };
+            }
+        } else {
+            // 如果没有测试，创建一个空的AND criteria
+            criteria.operator = "AND".to_string();
+        }
+
+        oval_definition.criteria = criteria;
+
+        // 添加到定义列表
+        let mut definitions = oval::Definitions::new();
+        definitions.items.push(oval_definition);
+        oval.definitions = definitions;
+
+        // 创建测试列表
         todo!();
     }
 
