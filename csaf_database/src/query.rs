@@ -154,7 +154,13 @@ impl CsafQuery {
 
     /// 获取所有 CVE 信息
     pub async fn get_all_cve_info(&self) -> Result<Vec<CveInfo>, DatabaseError> {
-        todo!()
+        info!("查询所有 CVE 信息");
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, cve_id, description, base_severity, base_score, vector_string, cvss_version, published_date, updated_date, status, created_at, updated_at FROM cve_info ORDER BY created_at DESC",
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 根据 ID 获取 OS 版本映射信息
