@@ -421,6 +421,63 @@ impl DatabaseManager {
         oval.definitions = definitions;
 
         // 创建测试列表
+        let oval_tests: Vec<oval::RpmInfoTest> = rpminfo_tests
+            .iter()
+            .map(|t| {
+                let mut test = oval::RpmInfoTest::new();
+                test.check = t.check.clone();
+                test.comment = t.comment.clone();
+                test.id = t.test_id.clone();
+                test.version = t.version;
+
+                let mut object_ref = oval::ObjectReference::new();
+                object_ref.object_ref = t.object_ref.clone();
+                test.object = object_ref;
+
+                let mut state_ref = oval::StateReference::new();
+                state_ref.state_ref = t.state_ref.clone();
+                test.state = state_ref;
+
+                test
+            })
+            .collect();
+        oval.tests.rpminfo_tests = oval_tests;
+
+        // 创建对象列表
+        let oval_objects: Vec<oval::RpmInfoObject> = rpminfo_objects
+            .iter()
+            .map(|o| {
+                let mut object = oval::RpmInfoObject::new();
+                object.id = o.object_id.clone();
+                object.ver = o.ver;
+                object.rpm_name = o.rpm_name.clone();
+                object
+            })
+            .collect();
+        oval.objects.rpm_info_objects = oval_objects;
+
+        // 创建状态列表
+        let oval_states: Vec<oval::RpmInfoState> = rpminfo_states
+            .iter()
+            .map(|s| {
+                let mut state = oval::RpmInfoState::new();
+                state.id = s.state_id.clone();
+                state.version = s.version.clone();
+
+                // 如果EVR信息存在，则创建 EVR 对象
+                if let (Some(datatype), Some(operation), Some(evr_value)) =
+                    (&s.evr_datatype, &s.evr_operation, &s.evr_value)
+                {
+                    let mut oval_evr = oval::Evr::new();
+                    oval_evr.datatype = datatype.clone();
+                    oval_evr.operation = operation.clone();
+                    oval_evr.evr = evr_value.clone();
+                    state.evr = Some(oval_evr);
+                }
+
+                state
+            })
+            .collect();
         todo!();
     }
 
