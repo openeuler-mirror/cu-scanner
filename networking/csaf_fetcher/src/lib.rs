@@ -270,7 +270,12 @@ impl CsafFetcher {
         index_url: &str,
         base_url: &str,
     ) -> Result<Vec<(String, Result<CSAF>)>> {
-        todo!()
+        info!("从索引文件批量获取CSAF文件");
+        info!("  索引URL: {}", index_url);
+        info!("  基础URL: {}", base_url);
+
+        // 获取文件路径列表
+        todo!();
     }
 
     /// 从index.txt文件批量获取并保存所有CSAF文件
