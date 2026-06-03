@@ -167,6 +167,14 @@ impl DatabaseManager {
         info!("修复数据库中格式错误的ID");
 
         // 检查并修复rpminfo_objects表中的ID
+        println!("检查并修复rpminfo_objects表中的ID...");
+        let rows = self
+            .client
+            .query(
+                "SELECT id, object_id FROM rpminfo_objects WHERE object_id LIKE 'o,val,%'",
+                &[],
+            )
+            .await?;
         todo!();
     }
 }
