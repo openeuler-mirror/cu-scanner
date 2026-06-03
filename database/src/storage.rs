@@ -216,6 +216,26 @@ impl DatabaseManager {
                 ]
             ).await?;
         }
+
+        // 保存RPM信息对象
+        for rpminfo_object in rpminfo_objects {
+            transaction
+                .execute(
+                    "INSERT INTO rpminfo_objects (
+                    oval_definition_id, object_id, ver, rpm_name
+                ) VALUES ($1, $2, $3, $4)
+                ON CONFLICT (oval_definition_id, object_id) DO UPDATE SET
+                    ver = EXCLUDED.ver,
+                    rpm_name = EXCLUDED.rpm_name",
+                    &[
+                        &final_definition.id,
+                        &rpminfo_object.object_id,
+                        &(rpminfo_object.ver as i64),
+                        &rpminfo_object.rpm_name,
+                    ],
+                )
+                .await?;
+        }
         todo!();
     }
 }

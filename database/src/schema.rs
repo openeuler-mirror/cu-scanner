@@ -251,6 +251,8 @@ impl DatabaseManager {
                 "culinux 4.0 (Telephone)",
             ),
         ];
+
+        // 批量插入数据
         todo!();
     }
 }
