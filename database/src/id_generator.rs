@@ -174,7 +174,12 @@ impl DatabaseIdGenerator {
         package_name: &str,
         evr: &str,
     ) -> Result<String, DatabaseError> {
-        todo!()
+        let key = format!("{}:{}", package_name, evr);
+        let id = self
+            .get_or_create_test_id(&key, CU_LINUX_SA_TST_PREFIX)
+            .await?;
+        debug!("为测试生成ID: {}:{} -> {}", package_name, evr, id);
+        Ok(id)
     }
 
     /// 为基本测试生成ID（用于OS检查等）
