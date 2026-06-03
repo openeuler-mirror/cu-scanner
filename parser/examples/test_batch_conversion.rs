@@ -51,6 +51,14 @@ fn main() -> Result<()> {
     let ids_b = collect_all_ids(&oval_b);
     let mut combined = HashSet::new();
     let mut dup = 0;
+    for id in ids_a.iter().chain(ids_b.iter()) {
+        if !combined.insert(id.clone()) {
+            dup += 1;
+        }
+    }
+    println!("  OVAL_A ID数: {}", ids_a.len());
+    println!("  OVAL_B ID数: {}", ids_b.len());
+    println!("  合并后总ID数: {}", combined.len());
     todo!();
 }
 /// 收集OVAL定义中的所有ID
