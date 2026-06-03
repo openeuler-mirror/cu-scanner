@@ -192,6 +192,30 @@ impl DatabaseManager {
                 )
                 .await?;
         }
+
+        // 保存RPM信息测试
+        for rpminfo_test in rpminfo_tests {
+            transaction.execute(
+                "INSERT INTO rpminfo_tests (
+                    oval_definition_id, check_field, comment, test_id, version, object_ref, state_ref
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+                ON CONFLICT (oval_definition_id, test_id) DO UPDATE SET
+                    check_field = EXCLUDED.check_field,
+                    comment = EXCLUDED.comment,
+                    version = EXCLUDED.version,
+                    object_ref = EXCLUDED.object_ref,
+                    state_ref = EXCLUDED.state_ref",
+                &[
+                    &final_definition.id,
+                    &rpminfo_test.check,
+                    &rpminfo_test.comment,
+                    &rpminfo_test.test_id,
+                    &(rpminfo_test.version as i32),
+                    &rpminfo_test.object_ref,
+                    &rpminfo_test.state_ref,
+                ]
+            ).await?;
+        }
         todo!();
     }
 }
