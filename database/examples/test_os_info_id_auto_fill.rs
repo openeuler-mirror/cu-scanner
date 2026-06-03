@@ -79,5 +79,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 保存到数据库（应该自动填充os_info_id）
     println!("\n保存到数据库...");
+    db_manager
+        .save_full_oval_definition(
+            &definition,
+            &references,
+            &cves,
+            &rpminfo_tests,
+            &rpminfo_objects,
+            &rpminfo_states,
+        )
+        .await?;
+
+    println!("✓ 保存成功!");
+
+    // 从数据库读取并验证os_info_id是否已自动填充
     todo!();
 }
