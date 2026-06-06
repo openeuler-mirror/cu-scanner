@@ -413,6 +413,11 @@ pub async fn fetch_csaf_from_network(config: &AppConfig) -> Result<(), Box<dyn s
         log::error!("配置文件中未找到csaf_url配置，无法从网络获取CSAF文件");
         return Ok(());
     }
+
+    let csaf_url = config.csaf_url.as_ref().unwrap();
+    log::info!("CSAF索引URL: {}", csaf_url.url);
+
+    // 从URL中提取基础URL（去掉index.txt部分）
     todo!();
 }
 
