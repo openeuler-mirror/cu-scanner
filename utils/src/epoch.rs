@@ -244,7 +244,8 @@ mod tests {
 
     #[test]
     fn test_package_epochs_new() {
-        todo!()
+        let epochs = PackageEpochs::new();
+        assert!(epochs.packages.is_empty());
     }
 
     #[test]
