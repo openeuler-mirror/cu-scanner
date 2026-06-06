@@ -501,7 +501,35 @@ impl DatabaseManager {
         id: &str,
     ) -> Result<Option<OvalDefinition>, DatabaseError> {
         debug!("查询OVAL定义: {}", id);
-        todo!();
+        let row = self
+            .client
+            .query_opt(
+                "SELECT id, class, version, title, description, family, platform,
+                    severity, rights, from_field, issued_date, updated_date, os_info_id
+             FROM oval_definitions WHERE id = $1",
+                &[&id],
+            )
+            .await?;
+
+        if let Some(row) = row {
+            Ok(Some(OvalDefinition {
+                id: row.get("id"),
+                class: row.get("class"),
+                version: row.get::<_, i32>("version") as u32,
+                title: row.get("title"),
+                description: row.get("description"),
+                family: row.get("family"),
+                platform: row.get("platform"),
+                severity: row.get("severity"),
+                rights: row.get("rights"),
+                from: row.get("from_field"),
+                issued_date: row.get("issued_date"),
+                updated_date: row.get("updated_date"),
+                os_info_id: row.get("os_info_id"),
+            }))
+        } else {
+            Ok(None)
+        }
     }
 
     /// 获取指定OVAL定义的引用信息
