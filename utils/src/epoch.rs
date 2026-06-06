@@ -250,7 +250,8 @@ mod tests {
 
     #[test]
     fn test_package_epochs_default() {
-        todo!()
+        let epochs = PackageEpochs::default();
+        assert!(epochs.packages.is_empty());
     }
 
     #[test]
