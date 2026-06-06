@@ -354,6 +354,29 @@ pub async fn export_range(
             "details": "开始日期不能晚于结束日期"
         }));
     }
+
+    // 连接数据库
+    let db_manager = match DatabaseManager::new(&db_config).await {
+        Ok(manager) => manager,
+        Err(e) => {
+            error!("数据库连接失败: {:?}", e);
+            return HttpResponse::InternalServerError().json(serde_json::json!({
+                "error": "数据库连接失败"
+            }));
+        }
+    };
+
+    // 查询并导出
+    let merged = match db_manager.export_oval_by_time_and_os(start_date, end_date, os_type).await {
+        Ok(oval) => oval,
+        Err(e) => {
+            error!("导出OVAL定义失败: {:?}", e);
+            return HttpResponse::InternalServerError().json(serde_json::json!({
+                "error": "导出OVAL定义失败",
+                "details": format!("{:?}", e)
+            }));
+        }
+    };
     todo!();
 }
 
