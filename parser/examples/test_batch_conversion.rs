@@ -112,5 +112,8 @@ fn collect_all_ids(oval: &oval::OvalDefinitions) -> HashSet<String> {
 }
 /// 从ID字符串中提取数字部分
 fn extract_id_number(id: &str) -> u64 {
-    todo!()
+    id.split(':')
+        .next_back()
+        .and_then(|s| s.parse::<u64>().ok())
+        .unwrap_or(0)
 }
