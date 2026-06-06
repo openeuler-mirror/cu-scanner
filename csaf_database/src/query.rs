@@ -194,7 +194,8 @@ impl CsafQuery {
         &self,
         os_version: &str,
     ) -> Result<Option<OsVersionMap>, DatabaseError> {
-        todo!()
+        info!("查询 OS 版本映射信息，OS 版本: {}", os_version);
+        todo!();
     }
 
     /// 获取所有 OS 版本映射信息
