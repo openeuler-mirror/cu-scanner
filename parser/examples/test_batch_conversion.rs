@@ -78,7 +78,23 @@ fn main() -> Result<()> {
 }
 /// 收集OVAL定义中的所有ID
 fn collect_all_ids(oval: &oval::OvalDefinitions) -> HashSet<String> {
-    todo!()
+    let mut ids = HashSet::new();
+    // Definition IDs
+    for def in &oval.definitions.items {
+        ids.insert(def.id.clone());
+    }
+    // Test IDs
+    for test in &oval.tests.rpminfo_tests {
+        ids.insert(test.id.clone());
+    }
+    for test in &oval.tests.rpmverifyfile_tests {
+        ids.insert(test.id.clone());
+    }
+    // Object IDs
+    for obj in &oval.objects.rpm_info_objects {
+        ids.insert(obj.id.clone());
+    }
+    todo!();
 }
 /// 从ID字符串中提取数字部分
 fn extract_id_number(id: &str) -> u64 {
