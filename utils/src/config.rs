@@ -267,6 +267,11 @@ mod tests {
         assert_eq!(default_config.database.host, "localhost");
         assert_eq!(default_config.database.port, 5432);
         assert_eq!(default_config.database.database, "cu_scanner");
+        assert_eq!(default_config.database.username, "user");
+        assert_eq!(default_config.database.password, "password");
+        assert!(default_config.csaf_db.is_none());
+
+        let default_logging = default_config.logging;
         todo!();
     }
 
