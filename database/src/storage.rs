@@ -236,6 +236,30 @@ impl DatabaseManager {
                 )
                 .await?;
         }
+
+        // 保存RPM信息状态（包含EVR信息）
+        for rpminfo_state in rpminfo_states {
+            transaction
+                .execute(
+                    "INSERT INTO rpminfo_states (
+                    state_id, oval_definition_id, version, evr_datatype, evr_operation, evr_value
+                ) VALUES ($1, $2, $3, $4, $5, $6)
+                ON CONFLICT (oval_definition_id, state_id) DO UPDATE SET
+                    version = EXCLUDED.version,
+                    evr_datatype = EXCLUDED.evr_datatype,
+                    evr_operation = EXCLUDED.evr_operation,
+                    evr_value = EXCLUDED.evr_value",
+                    &[
+                        &rpminfo_state.state_id,
+                        &final_definition.id,
+                        &rpminfo_state.version,
+                        &rpminfo_state.evr_datatype,
+                        &rpminfo_state.evr_operation,
+                        &rpminfo_state.evr_value,
+                    ],
+                )
+                .await?;
+        }
         todo!();
     }
 }
