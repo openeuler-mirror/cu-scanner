@@ -281,7 +281,25 @@ impl CsafFetcher {
         let base_url = base_url.trim_end_matches('/');
 
         // 构建完整URL并获取文件
-        todo!();
+        let results: Vec<(String, Result<CSAF>)> = paths
+            .iter()
+            .map(|path| {
+                let full_url = format!("{}/{}", base_url, path);
+                debug!("获取CSAF文件: {}", full_url);
+                let result = self.fetch(&full_url);
+                (path.clone(), result)
+            })
+            .collect();
+
+        // 统计结果
+        let success_count = results.iter().filter(|(_, r)| r.is_ok()).count();
+        let fail_count = results.len() - success_count;
+        info!(
+            "批量获取完成: 成功 {} 个, 失败 {} 个",
+            success_count, fail_count
+        );
+
+        Ok(results)
     }
 
     /// 从index.txt文件批量获取并保存所有CSAF文件
@@ -301,7 +319,13 @@ impl CsafFetcher {
         base_url: &str,
         output_dir: &str,
     ) -> Result<Vec<(String, Result<()>)>> {
-        todo!()
+        info!("从索引文件批量获取并保存CSAF文件到: {}", output_dir);
+
+        // 确保输出目录存在
+        std::fs::create_dir_all(output_dir)?;
+
+        // 获取所有CSAF文件
+        todo!();
     }
 }
 
