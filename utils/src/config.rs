@@ -255,7 +255,10 @@ mod tests {
 
     #[test]
     fn test_default_logging_config() {
-        todo!()
+        let default_logging = LoggingConfig::default();
+        assert_eq!(default_logging.level, "info");
+        assert_eq!(default_logging.file, "");
+        // 默认情况下stdout为false，但在from_file中会根据file是否为空来设置
     }
 
     #[test]
