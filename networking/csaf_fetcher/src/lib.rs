@@ -275,6 +275,12 @@ impl CsafFetcher {
         info!("  基础URL: {}", base_url);
 
         // 获取文件路径列表
+        let paths = self.fetch_index(index_url)?;
+
+        // 确保base_url末尾没有斜杠
+        let base_url = base_url.trim_end_matches('/');
+
+        // 构建完整URL并获取文件
         todo!();
     }
 
