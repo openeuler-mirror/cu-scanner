@@ -253,6 +253,26 @@ impl DatabaseManager {
         ];
 
         // 批量插入数据
-        todo!();
+        for (os_type, os_version, package_name, verify_file, verify_pattern, dist, description) in
+            os_info_data.iter()
+        {
+            self.client.execute(
+                "INSERT INTO os_info (os_type, os_version, package_name, verify_file, verify_pattern, dist, description)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7)
+                 ON CONFLICT (dist) DO NOTHING",
+                &[
+                    os_type,
+                    os_version,
+                    package_name,
+                    verify_file,
+                    verify_pattern,
+                    dist,
+                    description,
+                ]
+            ).await?;
+        }
+
+        info!("操作系统信息数据初始化完成");
+        Ok(())
     }
 }
