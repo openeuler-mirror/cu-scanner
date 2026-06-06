@@ -356,7 +356,14 @@ impl CsafFetcher {
             .collect();
 
         // 统计结果
-        todo!();
+        let success_count = save_results.iter().filter(|(_, r)| r.is_ok()).count();
+        let fail_count = save_results.len() - success_count;
+        info!(
+            "批量保存完成: 成功 {} 个, 失败 {} 个",
+            success_count, fail_count
+        );
+
+        Ok(save_results)
     }
 }
 
