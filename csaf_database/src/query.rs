@@ -173,7 +173,20 @@ impl CsafQuery {
         id: i32,
     ) -> Result<Option<OsVersionMap>, DatabaseError> {
         info!("查询 OS 版本映射信息，ID: {}", id);
-        todo!();
+
+        let row = self.db_manager.client.query_opt(
+            "SELECT id, os_version, upstream_series, dist, release_date, end_of_life, description FROM os_version_map WHERE id = $1",
+            &[&id]
+        ).await?;
+
+        if let Some(row) = row {
+            let os_version_map = self.row_to_os_version_map(&row);
+            debug!("成功查询到 OS 版本映射信息，ID: {}", id);
+            Ok(Some(os_version_map))
+        } else {
+            debug!("未找到 OS 版本映射信息，ID: {}", id);
+            Ok(None)
+        }
     }
 
     /// 根据 OS 版本获取 OS 版本映射信息
