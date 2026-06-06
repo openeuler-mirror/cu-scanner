@@ -160,7 +160,11 @@ impl CsafQuery {
             "SELECT id, cve_id, description, base_severity, base_score, vector_string, cvss_version, published_date, updated_date, status, created_at, updated_at FROM cve_info ORDER BY created_at DESC",
             &[]
         ).await?;
-        todo!();
+
+        let cve_info_list: Vec<CveInfo> =
+            rows.iter().map(|row| self.row_to_cve_info(row)).collect();
+        debug!("成功查询到 {} 条 CVE 信息", cve_info_list.len());
+        Ok(cve_info_list)
     }
 
     /// 根据 ID 获取 OS 版本映射信息
@@ -168,7 +172,8 @@ impl CsafQuery {
         &self,
         id: i32,
     ) -> Result<Option<OsVersionMap>, DatabaseError> {
-        todo!()
+        info!("查询 OS 版本映射信息，ID: {}", id);
+        todo!();
     }
 
     /// 根据 OS 版本获取 OS 版本映射信息
