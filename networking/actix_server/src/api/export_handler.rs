@@ -336,6 +336,24 @@ pub async fn export_range(
         "收到按日期范围导出请求: {} 到 {}, 系统类型过滤: {:?}",
         start_date, end_date, os_type
     );
+
+    // 基本日期格式验证
+    if start_date.len() != 10 || end_date.len() != 10 {
+        warn!("无效的日期格式: {} - {}", start_date, end_date);
+        return HttpResponse::BadRequest().json(serde_json::json!({
+            "error": "无效的日期格式",
+            "details": "日期格式必须为YYYY-MM-DD"
+        }));
+    }
+
+    // 验证开始日期不能晚于结束日期
+    if start_date > end_date {
+        warn!("开始日期晚于结束日期: {} > {}", start_date, end_date);
+        return HttpResponse::BadRequest().json(serde_json::json!({
+            "error": "无效的日期范围",
+            "details": "开始日期不能晚于结束日期"
+        }));
+    }
     todo!();
 }
 
