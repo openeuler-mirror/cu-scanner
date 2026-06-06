@@ -418,6 +418,15 @@ pub async fn fetch_csaf_from_network(config: &AppConfig) -> Result<(), Box<dyn s
     log::info!("CSAF索引URL: {}", csaf_url.url);
 
     // 从URL中提取基础URL（去掉index.txt部分）
+    let base_url = if let Some(pos) = csaf_url.url.rfind('/') {
+        &csaf_url.url[..pos]
+    } else {
+        log::error!("无效的CSAF URL格式: {}", csaf_url.url);
+        return Ok(());
+    };
+    log::info!("基础URL: {}", base_url);
+
+    // 创建数据库连接
     todo!();
 }
 
