@@ -246,7 +246,11 @@ mod tests {
         assert_eq!(config.database.database, loaded_config.database.database);
         assert_eq!(config.database.username, loaded_config.database.username);
         assert_eq!(config.database.password, loaded_config.database.password);
-        todo!();
+        assert!(loaded_config.csaf_db.is_none());
+        assert_eq!(config.logging.level, loaded_config.logging.level);
+        assert_eq!(config.logging.file, loaded_config.logging.file);
+        assert_eq!(config.logging.stdout, loaded_config.logging.stdout);
+        assert_eq!(config.api.group_name, loaded_config.api.group_name);
     }
 
     #[test]
