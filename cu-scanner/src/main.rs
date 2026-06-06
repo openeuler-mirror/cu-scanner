@@ -444,6 +444,16 @@ pub async fn fetch_csaf_from_network(config: &AppConfig) -> Result<(), Box<dyn s
     };
 
     // 创建异步CSAF获取器
+    let fetcher_config = FetcherConfig::default();
+    let fetcher = match AsyncCsafFetcher::new(fetcher_config) {
+        Ok(f) => f,
+        Err(e) => {
+            log::error!("创建CSAF获取器失败: {}", e);
+            return Ok(());
+        }
+    };
+
+    // 创建数据库检查回调函数
     todo!();
 }
 
