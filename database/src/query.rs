@@ -500,7 +500,8 @@ impl DatabaseManager {
         &self,
         id: &str,
     ) -> Result<Option<OvalDefinition>, DatabaseError> {
-        todo!()
+        debug!("查询OVAL定义: {}", id);
+        todo!();
     }
 
     /// 获取指定OVAL定义的引用信息
