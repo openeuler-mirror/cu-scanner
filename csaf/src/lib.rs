@@ -576,13 +576,13 @@ impl AggregateSeverity {
 
     /// 检查是否为高危级别
     pub fn is_high(&self) -> bool {
-        todo!()
+        self.text.to_lowercase() == "high"
     }
 }
 
 impl Default for Distribution {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
