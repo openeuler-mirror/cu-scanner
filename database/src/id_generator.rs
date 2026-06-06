@@ -224,6 +224,15 @@ mod tests {
         // 获取当前计数器值
         let current_counter = id_generator.get_current_counter().await?;
         assert_eq!(current_counter, 10000);
+
+        // 生成对象ID
+        let obj_id1 = id_generator
+            .generate_object_id_for_package("test-package")
+            .await?;
+        let obj_id2 = id_generator
+            .generate_object_id_for_package("test-package")
+            .await?;
+        assert_eq!(obj_id1, obj_id2);
         todo!();
     }
 }
