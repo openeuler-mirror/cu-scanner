@@ -325,6 +325,37 @@ impl CsafFetcher {
         std::fs::create_dir_all(output_dir)?;
 
         // 获取所有CSAF文件
+        let results = self.fetch_from_index(index_url, base_url)?;
+
+        // 保存文件
+        let save_results: Vec<(String, Result<()>)> = results
+            .into_iter()
+            .map(|(path, csaf_result)| {
+                let save_result = match csaf_result {
+                    Ok(csaf) => {
+                        // 构建输出文件路径
+                        let filename = path.replace('/', "_");
+                        let output_path = format!("{}/{}", output_dir, filename);
+
+                        // 保存文件
+                        match serde_json::to_string_pretty(&csaf) {
+                            Ok(json_str) => match std::fs::write(&output_path, json_str) {
+                                Ok(_) => {
+                                    info!("成功保存: {} -> {}", path, output_path);
+                                    Ok(())
+                                }
+                                Err(e) => Err(FetchError::IoError(e)),
+                            },
+                            Err(e) => Err(FetchError::JsonError(e)),
+                        }
+                    }
+                    Err(e) => Err(e),
+                };
+                (path, save_result)
+            })
+            .collect();
+
+        // 统计结果
         todo!();
     }
 }
