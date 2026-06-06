@@ -478,7 +478,21 @@ impl DatabaseManager {
                 state
             })
             .collect();
-        todo!();
+        oval.states.rpminfo_states = Some(oval_states);
+
+        // 添加OS检查相关的tests、objects和states
+        if !os_tests.is_empty() {
+            oval.tests.rpmverifyfile_tests = os_tests;
+        }
+        if !os_objects.is_empty() {
+            oval.objects.rpmverifyfile_objects = os_objects;
+        }
+        if !os_states.is_empty() {
+            oval.states.rpmverifyfile_states = Some(os_states);
+        }
+
+        info!("成功将数据库实体转换为OVAL定义");
+        Ok(oval)
     }
 
     /// 根据ID获取OVAL定义（移除了oval_data字段）
