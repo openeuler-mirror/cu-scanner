@@ -427,6 +427,23 @@ pub async fn fetch_csaf_from_network(config: &AppConfig) -> Result<(), Box<dyn s
     log::info!("基础URL: {}", base_url);
 
     // 创建数据库连接
+    let db_config = DatabaseConfig::new(
+        &config.database.host,
+        config.database.port,
+        &config.database.database,
+        &config.database.username,
+        &config.database.password,
+    );
+
+    let db_manager = match DatabaseManager::new(&db_config).await {
+        Ok(manager) => Arc::new(Mutex::new(manager)),
+        Err(e) => {
+            log::error!("数据库连接失败: {}", e);
+            return Ok(());
+        }
+    };
+
+    // 创建异步CSAF获取器
     todo!();
 }
 
