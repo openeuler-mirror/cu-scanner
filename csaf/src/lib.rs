@@ -571,7 +571,7 @@ impl AggregateSeverity {
 
     /// 检查是否为严重级别
     pub fn is_critical(&self) -> bool {
-        todo!()
+        self.text.to_lowercase() == "critical"
     }
 
     /// 检查是否为高危级别
