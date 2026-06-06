@@ -234,7 +234,7 @@ impl PackageEpochs {
 
 impl Default for PackageEpochs {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
