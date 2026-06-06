@@ -217,6 +217,13 @@ mod tests {
                 return Ok(());
             }
         };
+
+        let mut id_generator =
+            DatabaseIdGenerator::new(db_manager, "test_generator".to_string(), 10000);
+
+        // 获取当前计数器值
+        let current_counter = id_generator.get_current_counter().await?;
+        assert_eq!(current_counter, 10000);
         todo!();
     }
 }
