@@ -205,6 +205,44 @@ impl DatabaseManager {
         }
 
         // 检查并修复rpminfo_states表中的state_id
-        todo!();
+        println!("\n检查并修复rpminfo_states表中的state_id...");
+        let rows = self
+            .client
+            .query(
+                "SELECT id, state_id FROM rpminfo_states WHERE state_id LIKE 'o,val,%'",
+                &[],
+            )
+            .await?;
+
+        if !rows.is_empty() {
+            println!("发现 {} 个格式错误的state_id，正在修复...", rows.len());
+            for row in rows {
+                let id: i64 = row.get("id");
+                let old_state_id: String = row.get("state_id");
+                let new_state_id = old_state_id.replacen("o,val,:", "oval:", 1);
+                println!("修复state_id: '{}' -> '{}'", old_state_id, new_state_id);
+
+                // 更新rpminfo_states表
+                self.client
+                    .execute(
+                        "UPDATE rpminfo_states SET state_id = $1 WHERE id = $2",
+                        &[&new_state_id, &id],
+                    )
+                    .await?;
+
+                // 更新rpminfo_tests表中的state_ref
+                self.client
+                    .execute(
+                        "UPDATE rpminfo_tests SET state_ref = $1 WHERE state_ref = $2",
+                        &[&new_state_id, &old_state_id],
+                    )
+                    .await?;
+            }
+        } else {
+            println!("rpminfo_states表中没有发现格式错误的state_id");
+        }
+
+        println!("\n数据库ID修复完成");
+        Ok(())
     }
 }
