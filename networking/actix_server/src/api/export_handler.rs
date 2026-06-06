@@ -377,6 +377,30 @@ pub async fn export_range(
             }));
         }
     };
+
+    // 检查是否有数据
+    if merged.is_empty() {
+        info!("未找到匹配的OVAL定义");
+        return HttpResponse::Ok().json(serde_json::json!({
+            "message": "未找到匹配的OVAL定义",
+            "filters": {
+                "start_date": start_date,
+                "end_date": end_date,
+                "os_type": os_type
+            }
+        }));
+    }
+
+    // 转换为XML
+    let xml_content = match merged.to_oval_string() {
+        Ok(xml) => xml,
+        Err(e) => {
+            error!("转换为XML失败: {:?}", e);
+            return HttpResponse::InternalServerError().json(serde_json::json!({
+                "error": "转换为XML失败"
+            }));
+        }
+    };
     todo!();
 }
 
