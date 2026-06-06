@@ -558,12 +558,15 @@ impl Default for AggregateSeverity {
 impl AggregateSeverity {
     /// 创建新的空AggregateSeverity实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            namespace: String::new(),
+            text: String::new(),
+        }
     }
 
     /// 获取严重性级别
     pub fn get_severity(&self) -> &str {
-        todo!()
+        &self.text
     }
 
     /// 检查是否为严重级别
