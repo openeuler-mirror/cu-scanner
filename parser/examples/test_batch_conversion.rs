@@ -94,7 +94,21 @@ fn collect_all_ids(oval: &oval::OvalDefinitions) -> HashSet<String> {
     for obj in &oval.objects.rpm_info_objects {
         ids.insert(obj.id.clone());
     }
-    todo!();
+    for obj in &oval.objects.rpmverifyfile_objects {
+        ids.insert(obj.id.clone());
+    }
+    // State IDs
+    if let Some(states) = &oval.states.rpminfo_states {
+        for state in states {
+            ids.insert(state.id.clone());
+        }
+    }
+    if let Some(states) = &oval.states.rpmverifyfile_states {
+        for state in states {
+            ids.insert(state.id.clone());
+        }
+    }
+    ids
 }
 /// 从ID字符串中提取数字部分
 fn extract_id_number(id: &str) -> u64 {
