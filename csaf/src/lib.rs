@@ -551,7 +551,7 @@ impl Document {
 
 impl Default for AggregateSeverity {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
