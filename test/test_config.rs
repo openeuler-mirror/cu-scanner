@@ -124,6 +124,9 @@ mod tests {
         let config = TestConfig::load_from_file("test_config.toml").unwrap();
 
         let csaf_files = config.get_files_by_module("csaf");
-        todo!();
+        assert!(!csaf_files.is_empty());
+
+        let parser_files = config.get_files_by_module("parser");
+        assert!(!parser_files.is_empty());
     }
 }
