@@ -263,7 +263,11 @@ mod tests {
 
     #[test]
     fn test_default_app_config() {
-        todo!()
+        let default_config = AppConfig::default();
+        assert_eq!(default_config.database.host, "localhost");
+        assert_eq!(default_config.database.port, 5432);
+        assert_eq!(default_config.database.database, "cu_scanner");
+        todo!();
     }
 
     #[test]
