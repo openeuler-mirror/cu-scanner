@@ -121,6 +121,9 @@ mod tests {
 
     #[test]
     fn test_get_files_by_module() {
-        todo!()
+        let config = TestConfig::load_from_file("test_config.toml").unwrap();
+
+        let csaf_files = config.get_files_by_module("csaf");
+        todo!();
     }
 }
