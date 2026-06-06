@@ -260,6 +260,14 @@ impl DatabaseManager {
                 )
                 .await?;
         }
-        todo!();
+
+        // 提交事务
+        transaction.commit().await?;
+
+        info!(
+            "OVAL定义保存成功: {}, os_info_id: {:?}",
+            final_definition.id, final_definition.os_info_id
+        );
+        Ok(())
     }
 }
