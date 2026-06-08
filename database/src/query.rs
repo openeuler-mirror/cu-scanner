@@ -588,7 +588,8 @@ impl DatabaseManager {
         &self,
         oval_definition_id: &str,
     ) -> Result<Criteria, DatabaseError> {
-        todo!()
+        debug!("查询条件标准信息: {}", oval_definition_id);
+        todo!();
     }
 
     /// 获取指定OVAL定义的RPM信息测试
