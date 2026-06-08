@@ -591,7 +591,13 @@ async fn csaf_fetch_daemon(config: AppConfig) {
 
 /// 初始化数据库
 async fn init_database(config: &AppConfig) -> Result<(), Box<dyn std::error::Error>> {
-    todo!()
+    log::info!("使用配置初始化数据库");
+    log::info!(
+        "数据库主机: {}:{}",
+        config.database.host,
+        config.database.port
+    );
+    todo!();
 }
 
 #[cfg(test)]
