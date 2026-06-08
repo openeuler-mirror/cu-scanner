@@ -545,7 +545,17 @@ impl DatabaseManager {
                 &[&oval_definition_id],
             )
             .await?;
-        todo!();
+
+        let mut references = Vec::new();
+        for row in rows {
+            references.push(Reference {
+                ref_id: row.get("ref_id"),
+                ref_url: row.get("ref_url"),
+                source: row.get("source"),
+            });
+        }
+
+        Ok(references)
     }
 
     /// 获取指定OVAL定义的CVE信息
