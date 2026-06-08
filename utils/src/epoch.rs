@@ -285,6 +285,42 @@ mod tests {
 
     #[test]
     fn test_json_serialization() {
-        todo!()
+        let json_str = r#"{
+  "packages": [
+    {
+      "name": "bind-utils",
+      "epoch": 32
+    },
+    {
+      "name": "grub2-pc",
+      "epoch": 1
+    },
+    {
+      "name": "irqbalance",
+      "epoch": 3
+    },
+    {
+      "name": "NetworkManager",
+      "epoch": 1
+    },
+    {
+      "name": "lvm2",
+      "epoch": 8
+    },
+    {
+      "name": "tcpdump",
+      "epoch": 14
+    },
+    {
+      "name": "audit",
+      "epoch": 1
+    }
+  ]
+}"#;
+
+        let epochs = PackageEpochs::from_json_str(json_str).unwrap();
+        assert_eq!(epochs.packages.len(), 7);
+        assert_eq!(epochs.get_epoch("bind-utils"), Some(32));
+        todo!();
     }
 }
