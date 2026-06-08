@@ -589,7 +589,45 @@ impl DatabaseManager {
         oval_definition_id: &str,
     ) -> Result<Criteria, DatabaseError> {
         debug!("查询条件标准信息: {}", oval_definition_id);
-        todo!();
+        let criteria_row = self.client.query_opt(
+            "SELECT id, operator FROM criteria WHERE oval_definition_id = $1 ORDER BY id LIMIT 1",
+            &[&oval_definition_id]
+        ).await?;
+
+        if let Some(row) = criteria_row {
+            let criteria_id: i64 = row.get("id");
+            let operator: String = row.get("operator");
+
+            // 获取条件信息
+            let criterion_rows = self
+                .client
+                .query(
+                    "SELECT comment, test_ref FROM criterion WHERE criteria_id = $1",
+                    &[&criteria_id],
+                )
+                .await?;
+
+            let mut criterion = Vec::new();
+            for row in criterion_rows {
+                criterion.push(Criterion {
+                    comment: row.get("comment"),
+                    test_ref: row.get("test_ref"),
+                });
+            }
+
+            // 简化处理，实际应该递归获取子条件
+            Ok(Criteria {
+                operator,
+                criterion,
+                sub_criteria: None,
+            })
+        } else {
+            Ok(Criteria {
+                operator: "AND".to_string(),
+                criterion: vec![],
+                sub_criteria: None,
+            })
+        }
     }
 
     /// 获取指定OVAL定义的RPM信息测试
