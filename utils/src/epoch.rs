@@ -277,7 +277,10 @@ mod tests {
         let mut epochs = PackageEpochs::new();
         epochs.set_epoch("package1", 1);
         epochs.set_epoch("package2", 2);
-        todo!();
+
+        let map = epochs.to_hashmap();
+        assert_eq!(map.get("package1"), Some(&1));
+        assert_eq!(map.get("package2"), Some(&2));
     }
 
     #[test]
