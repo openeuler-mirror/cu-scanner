@@ -396,7 +396,7 @@ impl AsyncCsafFetcher {
 
     /// 使用默认配置创建获取器
     pub fn with_defaults() -> Result<Self> {
-        todo!()
+        Self::new(FetcherConfig::default())
     }
 
     /// 从URL异步获取CSAF文件
