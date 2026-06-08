@@ -237,7 +237,34 @@ impl CsafQuery {
         sa_id: i32,
         cve_id: i32,
     ) -> Result<Option<SaCve>, DatabaseError> {
-        todo!()
+        info!(
+            "查询 SA 与 CVE 关联信息，SA ID: {}, CVE ID: {}",
+            sa_id, cve_id
+        );
+
+        let row = self
+            .db_manager
+            .client
+            .query_opt(
+                "SELECT sa_id, cve_id FROM sa_cve WHERE sa_id = $1 AND cve_id = $2",
+                &[&sa_id, &cve_id],
+            )
+            .await?;
+
+        if let Some(row) = row {
+            let sa_cve = self.row_to_sa_cve(&row);
+            debug!(
+                "成功查询到 SA 与 CVE 关联信息，SA ID: {}, CVE ID: {}",
+                sa_id, cve_id
+            );
+            Ok(Some(sa_cve))
+        } else {
+            debug!(
+                "未找到 SA 与 CVE 关联信息，SA ID: {}, CVE ID: {}",
+                sa_id, cve_id
+            );
+            Ok(None)
+        }
     }
 
     /// 获取特定 SA 的所有 CVE 关联信息
