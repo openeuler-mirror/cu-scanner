@@ -537,7 +537,15 @@ impl DatabaseManager {
         &self,
         oval_definition_id: &str,
     ) -> Result<Vec<Reference>, DatabaseError> {
-        todo!()
+        debug!("查询引用信息: {}", oval_definition_id);
+        let rows = self
+            .client
+            .query(
+                "SELECT ref_id, ref_url, source FROM references_info WHERE oval_definition_id = $1",
+                &[&oval_definition_id],
+            )
+            .await?;
+        todo!();
     }
 
     /// 获取指定OVAL定义的CVE信息
