@@ -495,7 +495,60 @@ pub async fn fetch_csaf_from_network(config: &AppConfig) -> Result<(), Box<dyn s
     log::info!("共获取到 {} 个新的CSAF文件", results.len());
 
     // 处理获取到的CSAF文件
-    todo!();
+    for (path, csaf_result) in results {
+        match csaf_result {
+            Ok(csaf) => {
+                log::info!("CSAF文件获取成功: {} - {}", path, csaf.document.title);
+
+                // 转换CSAF到OVAL（使用数据库计数器）
+                match database::csaf_to_oval_with_default_db_counter(&csaf, db_manager.clone()).await {
+                    Ok(oval) => {
+                        log::info!("CSAF到OVAL转换成功");
+
+                        // 保存到数据库
+                        if let Some(definition) = oval.definitions.items.first() {
+                            let (db_definition, references, cves, tests, objects, states) =
+                                converter::convert_full_oval_definition(
+                                    definition,
+                                    &oval.tests,
+                                    &oval.objects,
+                                    &oval.states,
+                                );
+
+                            let mut db = db_manager.lock().await;
+                            match db
+                                .save_full_oval_definition(
+                                    &db_definition,
+                                    &references,
+                                    &cves,
+                                    &tests,
+                                    &objects,
+                                    &states,
+                                )
+                                .await
+                            {
+                                Ok(_) => {
+                                    log::info!("OVAL定义保存成功: {}", db_definition.id);
+                                }
+                                Err(e) => {
+                                    log::error!("保存OVAL定义到数据库失败: {}", e);
+                                }
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("CSAF到OVAL转换失败: {}", e);
+                    }
+                }
+            }
+            Err(e) => {
+                log::error!("获取CSAF文件失败 {}: {}", path, e);
+            }
+        }
+    }
+
+    log::info!("网络获取CSAF文件完成");
+    Ok(())
 }
 
 /// CSAF定时获取守护线程
