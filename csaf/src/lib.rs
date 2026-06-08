@@ -635,14 +635,22 @@ impl Publisher {
 
 impl Default for Tracking {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
 impl Tracking {
     /// 创建新的Tracking实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            initial_release_date: String::new(),
+            revision_history: Vec::new(),
+            generator: Generator::new(),
+            current_release_date: String::new(),
+            id: String::new(),
+            version: String::new(),
+            status: String::new(),
+        }
     }
 
     /// 获取修订历史数量
