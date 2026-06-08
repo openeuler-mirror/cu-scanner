@@ -568,7 +568,19 @@ impl DatabaseManager {
             "SELECT cve_id, cvss3, impact, href, content FROM cves WHERE oval_definition_id = $1",
             &[&oval_definition_id]
         ).await?;
-        todo!();
+
+        let mut cves = Vec::new();
+        for row in rows {
+            cves.push(Cve {
+                cve_id: row.get("cve_id"),
+                cvss3: row.get("cvss3"),
+                impact: row.get("impact"),
+                href: row.get("href"),
+                content: row.get("content"),
+            });
+        }
+
+        Ok(cves)
     }
 
     /// 获取指定OVAL定义的条件标准信息
