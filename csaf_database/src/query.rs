@@ -279,7 +279,10 @@ impl CsafQuery {
                 &[&sa_id],
             )
             .await?;
-        todo!();
+
+        let sa_cve_list: Vec<SaCve> = rows.iter().map(|row| self.row_to_sa_cve(row)).collect();
+        debug!("成功查询到 {} 条 SA 与 CVE 关联信息", sa_cve_list.len());
+        Ok(sa_cve_list)
     }
 
     /// 获取特定 CVE 的所有 SA 关联信息
