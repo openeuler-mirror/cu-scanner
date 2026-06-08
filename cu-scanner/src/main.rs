@@ -559,7 +559,10 @@ pub async fn fetch_csaf_from_network(config: &AppConfig) -> Result<(), Box<dyn s
 ///
 /// * `config` - 应用配置
 async fn csaf_fetch_daemon(config: AppConfig) {
-    todo!()
+    log::info!("CSAF定时获取线程启动");
+
+    // 获取定时间隔配置
+    todo!();
 }
 
 /// 初始化数据库
