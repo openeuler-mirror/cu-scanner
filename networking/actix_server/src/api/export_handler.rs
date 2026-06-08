@@ -472,7 +472,31 @@ pub async fn export_by_os(
             }
         }));
     }
-    todo!();
+
+    // 转换为XML
+    let xml_content = match merged.to_oval_string() {
+        Ok(xml) => xml,
+        Err(e) => {
+            error!("转换为XML失败: {:?}", e);
+            return HttpResponse::InternalServerError().json(serde_json::json!({
+                "error": "转换为XML失败"
+            }));
+        }
+    };
+
+    // 生成文件名
+    let filename = format!("oval-{}.xml", os_type);
+
+    info!(
+        "成功导出OVAL定义，包含 {} 个definitions，文件名: {}",
+        merged.get_definition_count(),
+        filename
+    );
+
+    HttpResponse::Ok()
+        .content_type("application/xml")
+        .insert_header(("Content-Disposition", format!("attachment; filename=\"{}\"", filename)))
+        .body(xml_content)
 }
 
 /// 配置导出相关的路由
