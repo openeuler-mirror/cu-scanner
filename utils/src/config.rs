@@ -313,7 +313,10 @@ mod tests {
         assert!(loaded_config.csaf_db.is_some());
         let csaf_db = loaded_config.csaf_db.unwrap();
         assert_eq!(csaf_db.host, "csaf-host");
-        todo!();
+        assert_eq!(csaf_db.port, 5433);
+        assert_eq!(csaf_db.database, "csaf_database");
+        assert_eq!(csaf_db.username, "csaf_user");
+        assert_eq!(csaf_db.password, "csaf_pass");
     }
 
     #[test]
