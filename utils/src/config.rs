@@ -307,6 +307,12 @@ mod tests {
         // 测试序列化
         let toml_str = toml::to_string_pretty(&config).expect("Failed to serialize config");
         // 测试反序列化
+        let loaded_config: AppConfig =
+            toml::from_str(&toml_str).expect("Failed to deserialize config");
+
+        assert!(loaded_config.csaf_db.is_some());
+        let csaf_db = loaded_config.csaf_db.unwrap();
+        assert_eq!(csaf_db.host, "csaf-host");
         todo!();
     }
 
