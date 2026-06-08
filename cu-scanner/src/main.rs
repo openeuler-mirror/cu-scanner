@@ -562,7 +562,31 @@ async fn csaf_fetch_daemon(config: AppConfig) {
     log::info!("CSAF定时获取线程启动");
 
     // 获取定时间隔配置
-    todo!();
+    let fetch_interval = config
+        .csaf_url
+        .as_ref()
+        .map(|c| c.fetch_interval_secs)
+        .unwrap_or(3600);
+
+    log::info!("CSAF定时获取间隔: {} 秒", fetch_interval);
+
+    loop {
+        log::info!("开始执行CSAF定时获取任务");
+
+        // 执行获取操作
+        match fetch_csaf_from_network(&config).await {
+            Ok(_) => {
+                log::info!("CSAF定时获取任务执行成功");
+            }
+            Err(e) => {
+                log::error!("CSAF定时获取任务执行失败: {}", e);
+            }
+        }
+
+        // 等待下次执行
+        log::info!("等待 {} 秒后执行下次获取", fetch_interval);
+        tokio::time::sleep(tokio::time::Duration::from_secs(fetch_interval)).await;
+    }
 }
 
 /// 初始化数据库
