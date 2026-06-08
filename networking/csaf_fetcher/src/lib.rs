@@ -384,7 +384,8 @@ impl AsyncCsafFetcher {
     ///
     /// 返回Result<AsyncCsafFetcher>
     pub fn new(config: FetcherConfig) -> Result<Self> {
-        todo!()
+        info!("创建CSAF异步获取器，超时: {}秒", config.timeout_secs);
+        todo!();
     }
 
     /// 使用默认配置创建获取器
