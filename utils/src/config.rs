@@ -272,7 +272,12 @@ mod tests {
         assert!(default_config.csaf_db.is_none());
 
         let default_logging = default_config.logging;
-        todo!();
+        assert_eq!(default_logging.level, "info");
+        assert_eq!(default_logging.file, "");
+        assert!(!default_logging.stdout);
+
+        let default_api = default_config.api;
+        assert_eq!(default_api.group_name, "api");
     }
 
     #[test]
