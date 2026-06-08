@@ -282,7 +282,32 @@ mod tests {
 
     #[test]
     fn test_csaf_db_config() {
-        todo!()
+        let config = AppConfig {
+            database: DatabaseConfig {
+                host: "localhost".to_string(),
+                port: 5432,
+                database: "cu_scanner".to_string(),
+                username: "user".to_string(),
+                password: "pass".to_string(),
+            },
+            csaf_db: Some(DatabaseConfig {
+                host: "csaf-host".to_string(),
+                port: 5433,
+                database: "csaf_database".to_string(),
+                username: "csaf_user".to_string(),
+                password: "csaf_pass".to_string(),
+            }),
+            csaf_url: None,
+            logging: LoggingConfig::default(),
+            api: ApiConfig::default(),
+            server: ServerConfig::default(),
+            package: PackageConfig::default(),
+        };
+
+        // 测试序列化
+        let toml_str = toml::to_string_pretty(&config).expect("Failed to serialize config");
+        // 测试反序列化
+        todo!();
     }
 
     #[test]
