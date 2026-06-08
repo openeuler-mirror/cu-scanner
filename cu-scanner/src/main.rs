@@ -484,6 +484,17 @@ pub async fn fetch_csaf_from_network(config: &AppConfig) -> Result<(), Box<dyn s
     });
 
     // 使用带数据库检查的方法批量获取CSAF文件
+    let results = match fetcher.fetch_from_index_with_check(&csaf_url.url, base_url, check_exists).await {
+        Ok(r) => r,
+        Err(e) => {
+            log::error!("从网络获取CSAF文件失败: {}", e);
+            return Ok(());
+        }
+    };
+
+    log::info!("共获取到 {} 个新的CSAF文件", results.len());
+
+    // 处理获取到的CSAF文件
     todo!();
 }
 
