@@ -265,7 +265,11 @@ mod tests {
 
     #[test]
     fn test_update_epoch() {
-        todo!()
+        let mut epochs = PackageEpochs::new();
+        epochs.set_epoch("test-package", 42);
+        epochs.set_epoch("test-package", 84);
+
+        assert_eq!(epochs.get_epoch("test-package"), Some(84));
     }
 
     #[test]
