@@ -243,6 +243,11 @@ mod tests {
         let test_id1 = id_generator
             .generate_test_id("test-package", "1.0-1")
             .await?;
-        todo!();
+        let test_id2 = id_generator
+            .generate_test_id("test-package", "1.0-1")
+            .await?;
+        assert_eq!(test_id1, test_id2); // 应该是相同的ID
+
+        Ok(())
     }
 }
