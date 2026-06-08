@@ -409,7 +409,12 @@ impl AsyncCsafFetcher {
     ///
     /// 返回Result<CSAF>
     pub async fn fetch(&self, url: &str) -> Result<CSAF> {
-        todo!()
+        info!("异步获取CSAF文件: {}", url);
+
+        // 验证URL
+        let parsed_url = Url::parse(url)?;
+        debug!("URL解析成功: {}", parsed_url);
+        todo!();
     }
 
     /// 单次异步获取（不重试）
