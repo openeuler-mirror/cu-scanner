@@ -563,7 +563,12 @@ impl DatabaseManager {
         &self,
         oval_definition_id: &str,
     ) -> Result<Vec<Cve>, DatabaseError> {
-        todo!()
+        debug!("查询CVE信息: {}", oval_definition_id);
+        let rows = self.client.query(
+            "SELECT cve_id, cvss3, impact, href, content FROM cves WHERE oval_definition_id = $1",
+            &[&oval_definition_id]
+        ).await?;
+        todo!();
     }
 
     /// 获取指定OVAL定义的条件标准信息
