@@ -213,7 +213,13 @@ impl CsafQuery {
 
     /// 获取所有 OS 版本映射信息
     pub async fn get_all_os_version_maps(&self) -> Result<Vec<OsVersionMap>, DatabaseError> {
-        todo!()
+        info!("查询所有 OS 版本映射信息");
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, os_version, upstream_series, dist, release_date, end_of_life, description FROM os_version_map ORDER BY id",
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 根据 SA ID 和 CVE ID 获取关联信息
