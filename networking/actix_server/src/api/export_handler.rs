@@ -501,5 +501,9 @@ pub async fn export_by_os(
 
 /// 配置导出相关的路由
 pub fn config(cfg: &mut web::ServiceConfig) {
-    todo!()
+    cfg.service(export_monthly)
+        .service(export_weekly)
+        .service(export_yearly)
+        .service(export_range)
+        .service(export_by_os);
 }
