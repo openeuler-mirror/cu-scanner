@@ -321,6 +321,29 @@ mod tests {
 
     #[test]
     fn test_csaf_url_config() {
-        todo!()
+        let config = AppConfig {
+            database: DatabaseConfig {
+                host: "localhost".to_string(),
+                port: 5432,
+                database: "cu_scanner".to_string(),
+                username: "user".to_string(),
+                password: "pass".to_string(),
+            },
+            csaf_db: None,
+            csaf_url: Some(CsafUrlConfig {
+                url: "https://dl-cdn.openeuler.openatom.cn/security/data/csaf/advisories/index.txt"
+                    .to_string(),
+                fetch_interval_secs: 3600,
+            }),
+            logging: LoggingConfig::default(),
+            api: ApiConfig::default(),
+            server: ServerConfig::default(),
+            package: PackageConfig::default(),
+        };
+
+        // 测试序列化
+        let toml_str = toml::to_string_pretty(&config).expect("Failed to serialize config");
+        // 测试反序列化
+        todo!();
     }
 }
