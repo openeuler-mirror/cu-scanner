@@ -589,7 +589,7 @@ impl Default for Distribution {
 impl Distribution {
     /// 创建新的Distribution实例
     pub fn new() -> Self {
-        todo!()
+        Self { tlp: Tlp::new() }
     }
 }
 
