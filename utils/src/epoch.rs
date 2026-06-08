@@ -274,7 +274,10 @@ mod tests {
 
     #[test]
     fn test_to_hashmap() {
-        todo!()
+        let mut epochs = PackageEpochs::new();
+        epochs.set_epoch("package1", 1);
+        epochs.set_epoch("package2", 2);
+        todo!();
     }
 
     #[test]
