@@ -616,14 +616,20 @@ impl Tlp {
 
 impl Default for Publisher {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
 impl Publisher {
     /// 创建新的Publisher实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            issuing_authority: String::new(),
+            name: String::new(),
+            namespace: String::new(),
+            contact_details: String::new(),
+            category: String::new(),
+        }
     }
 }
 
