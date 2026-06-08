@@ -454,6 +454,36 @@ pub async fn fetch_csaf_from_network(config: &AppConfig) -> Result<(), Box<dyn s
     };
 
     // 创建数据库检查回调函数
+    let db_manager_clone = db_manager.clone();
+    let check_exists: csaf_fetcher::AsyncCheckCallback = Box::new(move |path: String| {
+        let db_manager = db_manager_clone.clone();
+        Box::pin(async move {
+            // 从路径中提取文件名并生成OVAL ID
+            let filename = path.replace('/', "_");
+            if let Some(oval_id) = extract_oval_id_from_filename(&filename) {
+                let db = db_manager.lock().await;
+                match db.get_oval_definition(&oval_id).await {
+                    Ok(Some(_)) => {
+                        log::debug!("OVAL定义 {} 已存在于数据库中", oval_id);
+                        true
+                    }
+                    Ok(None) => {
+                        log::debug!("OVAL定义 {} 不存在于数据库中", oval_id);
+                        false
+                    }
+                    Err(e) => {
+                        log::error!("查询数据库失败: {}", e);
+                        false // 出错时仍然下载
+                    }
+                }
+            } else {
+                log::warn!("无法从文件名提取OVAL ID: {}", filename);
+                false // 无法提取ID时仍然下载
+            }
+        })
+    });
+
+    // 使用带数据库检查的方法批量获取CSAF文件
     todo!();
 }
 
