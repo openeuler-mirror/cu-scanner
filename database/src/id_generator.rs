@@ -237,6 +237,12 @@ mod tests {
         // 生成状态ID
         let state_id1 = id_generator.generate_state_id_for_evr("1.0-1").await?;
         let state_id2 = id_generator.generate_state_id_for_evr("1.0-1").await?;
+        assert_eq!(state_id1, state_id2); // 应该是相同的ID
+
+        // 生成测试ID
+        let test_id1 = id_generator
+            .generate_test_id("test-package", "1.0-1")
+            .await?;
         todo!();
     }
 }
