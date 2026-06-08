@@ -219,7 +219,16 @@ impl CsafQuery {
             "SELECT id, os_version, upstream_series, dist, release_date, end_of_life, description FROM os_version_map ORDER BY id",
             &[]
         ).await?;
-        todo!();
+
+        let os_version_map_list: Vec<OsVersionMap> = rows
+            .iter()
+            .map(|row| self.row_to_os_version_map(row))
+            .collect();
+        debug!(
+            "成功查询到 {} 条 OS 版本映射信息",
+            os_version_map_list.len()
+        );
+        Ok(os_version_map_list)
     }
 
     /// 根据 SA ID 和 CVE ID 获取关联信息
