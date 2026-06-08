@@ -232,7 +232,11 @@ mod tests {
         let obj_id2 = id_generator
             .generate_object_id_for_package("test-package")
             .await?;
-        assert_eq!(obj_id1, obj_id2);
+        assert_eq!(obj_id1, obj_id2); // 应该是相同的ID
+
+        // 生成状态ID
+        let state_id1 = id_generator.generate_state_id_for_evr("1.0-1").await?;
+        let state_id2 = id_generator.generate_state_id_for_evr("1.0-1").await?;
         todo!();
     }
 }
