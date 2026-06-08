@@ -344,6 +344,15 @@ mod tests {
         // 测试序列化
         let toml_str = toml::to_string_pretty(&config).expect("Failed to serialize config");
         // 测试反序列化
-        todo!();
+        let loaded_config: AppConfig =
+            toml::from_str(&toml_str).expect("Failed to deserialize config");
+
+        assert!(loaded_config.csaf_url.is_some());
+        let csaf_url = loaded_config.csaf_url.unwrap();
+        assert_eq!(
+            csaf_url.url,
+            "https://dl-cdn.openeuler.openatom.cn/security/data/csaf/advisories/index.txt"
+        );
+        assert_eq!(csaf_url.fetch_interval_secs, 3600);
     }
 }
