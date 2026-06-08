@@ -256,7 +256,11 @@ mod tests {
 
     #[test]
     fn test_add_and_get_epoch() {
-        todo!()
+        let mut epochs = PackageEpochs::new();
+        epochs.set_epoch("test-package", 42);
+
+        assert_eq!(epochs.get_epoch("test-package"), Some(42));
+        assert_eq!(epochs.get_epoch("non-existent"), None);
     }
 
     #[test]
