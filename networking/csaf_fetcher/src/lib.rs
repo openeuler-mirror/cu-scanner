@@ -414,12 +414,52 @@ impl AsyncCsafFetcher {
         // 验证URL
         let parsed_url = Url::parse(url)?;
         debug!("URL解析成功: {}", parsed_url);
-        todo!();
+
+        let mut last_error = None;
+
+        // 重试逻辑
+        for attempt in 1..=self.config.max_retries {
+            debug!("异步尝试第 {} 次获取", attempt);
+
+            match self.fetch_once(url).await {
+                Ok(csaf) => {
+                    info!(
+                        "成功异步获取CSAF文件，漏洞数量: {}",
+                        csaf.vulnerabilities.len()
+                    );
+                    return Ok(csaf);
+                }
+                Err(e) => {
+                    warn!("异步第 {} 次获取失败: {}", attempt, e);
+                    last_error = Some(e);
+
+                    if attempt < self.config.max_retries {
+                        tokio::time::sleep(Duration::from_millis(self.config.retry_delay_ms)).await;
+                    }
+                }
+            }
+        }
+
+        error!("所有异步重试均失败");
+        Err(last_error.unwrap())
     }
 
     /// 单次异步获取（不重试）
     async fn fetch_once(&self, url: &str) -> Result<CSAF> {
-        todo!()
+        let response = self.client.get(url).send().await?;
+
+        let status = response.status();
+        if !status.is_success() {
+            let body = response
+                .text()
+                .await
+                .unwrap_or_else(|_| String::from("无法读取响应体"));
+            return Err(FetchError::StatusError {
+                status: status.as_u16(),
+                body,
+            });
+        }
+        todo!();
     }
 
     /// 从URL异步获取CSAF并保存到文件
