@@ -595,14 +595,17 @@ impl Distribution {
 
 impl Default for Tlp {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
 impl Tlp {
     /// 创建新的Tlp实例，默认为WHITE
     pub fn new() -> Self {
-        todo!()
+        Self {
+            label: "WHITE".to_string(),
+            url: "https://www.first.org/tlp/".to_string(),
+        }
     }
 
     /// 检查是否可以公开共享
