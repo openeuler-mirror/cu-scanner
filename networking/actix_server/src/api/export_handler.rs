@@ -435,7 +435,21 @@ pub async fn export_by_os(
     path: web::Path<String>,
     db_config: web::Data<DatabaseConfig>,
 ) -> impl Responder {
-    todo!()
+    let os_type = path.into_inner();
+
+    info!("收到按操作系统类型导出请求: {}", os_type);
+
+    // 连接数据库
+    let db_manager = match DatabaseManager::new(&db_config).await {
+        Ok(manager) => manager,
+        Err(e) => {
+            error!("数据库连接失败: {:?}", e);
+            return HttpResponse::InternalServerError().json(serde_json::json!({
+                "error": "数据库连接失败"
+            }));
+        }
+    };
+    todo!();
 }
 
 /// 配置导出相关的路由
