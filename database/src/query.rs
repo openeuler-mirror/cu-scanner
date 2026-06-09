@@ -702,7 +702,19 @@ impl DatabaseManager {
                 &[&oval_definition_id],
             )
             .await?;
-        todo!();
+
+        let mut rpminfo_states = Vec::new();
+        for row in rows {
+            rpminfo_states.push(RpmInfoState {
+                state_id: row.get("state_id"),
+                version: row.get("version"),
+                evr_datatype: row.get("evr_datatype"),
+                evr_operation: row.get("evr_operation"),
+                evr_value: row.get("evr_value"),
+            });
+        }
+
+        Ok(rpminfo_states)
     }
 
     /// 列出所有OVAL定义
