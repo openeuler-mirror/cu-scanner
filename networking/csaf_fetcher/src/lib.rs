@@ -500,7 +500,10 @@ impl AsyncCsafFetcher {
     ///
     /// 返回成功和失败的结果列表
     pub async fn fetch_batch(&self, urls: &[String]) -> Vec<(String, Result<CSAF>)> {
-        todo!()
+        info!("批量异步获取 {} 个CSAF文件", urls.len());
+
+        let mut results = Vec::new();
+        todo!();
     }
 
     /// 并发批量异步获取CSAF文件
