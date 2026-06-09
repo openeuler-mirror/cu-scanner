@@ -305,7 +305,17 @@ impl CsafQuery {
 
     /// 获取所有 SA 与 CVE 关联信息
     pub async fn get_all_sa_cve(&self) -> Result<Vec<SaCve>, DatabaseError> {
-        todo!()
+        info!("查询所有 SA 与 CVE 关联信息");
+
+        let rows = self
+            .db_manager
+            .client
+            .query(
+                "SELECT sa_id, cve_id FROM sa_cve ORDER BY sa_id, cve_id",
+                &[],
+            )
+            .await?;
+        todo!();
     }
 
     /// 根据 ID 获取 CVE 影响信息
