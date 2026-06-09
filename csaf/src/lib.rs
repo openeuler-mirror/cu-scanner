@@ -655,7 +655,7 @@ impl Tracking {
 
     /// 获取修订历史数量
     pub fn get_revision_count(&self) -> usize {
-        todo!()
+        self.revision_history.len()
     }
 
     /// 获取最新修订信息
