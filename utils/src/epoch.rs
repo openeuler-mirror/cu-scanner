@@ -325,6 +325,11 @@ mod tests {
         assert_eq!(epochs.get_epoch("irqbalance"), Some(3));
         assert_eq!(epochs.get_epoch("NetworkManager"), Some(1));
         assert_eq!(epochs.get_epoch("lvm2"), Some(8));
-        todo!();
+        assert_eq!(epochs.get_epoch("tcpdump"), Some(14));
+        assert_eq!(epochs.get_epoch("audit"), Some(1));
+
+        let serialized = epochs.to_json_str().unwrap();
+        let deserialized = PackageEpochs::from_json_str(&serialized).unwrap();
+        assert_eq!(epochs.packages.len(), deserialized.packages.len());
     }
 }
