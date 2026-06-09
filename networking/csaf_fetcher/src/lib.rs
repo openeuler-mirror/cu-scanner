@@ -503,7 +503,13 @@ impl AsyncCsafFetcher {
         info!("批量异步获取 {} 个CSAF文件", urls.len());
 
         let mut results = Vec::new();
-        todo!();
+
+        for url in urls {
+            let result = self.fetch(url).await;
+            results.push((url.clone(), result));
+        }
+
+        results
     }
 
     /// 并发批量异步获取CSAF文件
