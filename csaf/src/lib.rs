@@ -673,7 +673,10 @@ impl Default for Generator {
 impl Generator {
     /// 创建新的Generator实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            date: String::new(),
+            engine: Engine::new(),
+        }
     }
 }
 
