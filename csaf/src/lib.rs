@@ -704,12 +704,25 @@ impl Default for ProductTree {
 impl ProductTree {
     /// 创建新的ProductTree实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            branches: Vec::new(),
+            relationships: Vec::new(),
+        }
     }
 
     /// 获取所有产品ID列表
     pub fn get_all_product_ids(&self) -> Vec<String> {
-        todo!()
+        let mut product_ids = Vec::new();
+
+        // 从branches中收集产品ID
+        for branch in &self.branches {
+            for sub_branch in &branch.branches {
+                for leaf in &sub_branch.branches {
+                    product_ids.push(leaf.product.product_id.clone());
+                }
+            }
+        }
+        todo!();
     }
 
     /// 获取产品数量
