@@ -665,6 +665,13 @@ mod tests {
 
     #[test]
     fn test_extract_oval_id_from_filename() {
-        todo!()
+        // 测试标准格式的CSAF文件名
+        let result = extract_oval_id_from_filename("csaf-openeuler-sa-2025-1004.json");
+        assert!(result.is_some());
+        assert_eq!(
+            result.unwrap(),
+            format!("{}20251004", oval::CU_LINUX_SA_DEF_PREFIX)
+        );
+        todo!();
     }
 }
