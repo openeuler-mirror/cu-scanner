@@ -321,6 +321,10 @@ mod tests {
         let epochs = PackageEpochs::from_json_str(json_str).unwrap();
         assert_eq!(epochs.packages.len(), 7);
         assert_eq!(epochs.get_epoch("bind-utils"), Some(32));
+        assert_eq!(epochs.get_epoch("grub2-pc"), Some(1));
+        assert_eq!(epochs.get_epoch("irqbalance"), Some(3));
+        assert_eq!(epochs.get_epoch("NetworkManager"), Some(1));
+        assert_eq!(epochs.get_epoch("lvm2"), Some(8));
         todo!();
     }
 }
