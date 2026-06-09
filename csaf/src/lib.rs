@@ -697,7 +697,7 @@ impl Engine {
 
 impl Default for ProductTree {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
