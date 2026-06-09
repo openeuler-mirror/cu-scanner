@@ -660,13 +660,13 @@ impl Tracking {
 
     /// 获取最新修订信息
     pub fn get_latest_revision(&self) -> Option<&History> {
-        todo!()
+        self.revision_history.last()
     }
 }
 
 impl Default for Generator {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
