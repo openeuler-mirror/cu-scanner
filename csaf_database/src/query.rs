@@ -324,7 +324,20 @@ impl CsafQuery {
     /// 根据 ID 获取 CVE 影响信息
     pub async fn get_cve_affect_by_id(&self, id: i32) -> Result<Option<CveAffect>, DatabaseError> {
         info!("查询 CVE 影响信息，ID: {}", id);
-        todo!();
+
+        let row = self.db_manager.client.query_opt(
+            "SELECT id, cve_id, package_name, os_version_id, status, fixed_version, last_checked FROM cve_affect WHERE id = $1",
+            &[&id]
+        ).await?;
+
+        if let Some(row) = row {
+            let cve_affect = self.row_to_cve_affect(&row);
+            debug!("成功查询到 CVE 影响信息，ID: {}", id);
+            Ok(Some(cve_affect))
+        } else {
+            debug!("未找到 CVE 影响信息，ID: {}", id);
+            Ok(None)
+        }
     }
 
     /// 根据 CVE ID 获取所有影响信息
