@@ -522,7 +522,8 @@ impl AsyncCsafFetcher {
     ///
     /// 返回成功和失败的结果列表
     pub async fn fetch_batch_concurrent(&self, urls: &[String]) -> Vec<(String, Result<CSAF>)> {
-        todo!()
+        info!("并发批量异步获取 {} 个CSAF文件", urls.len());
+        todo!();
     }
 
     /// 从index.txt文件异步获取CSAF文件路径列表
