@@ -686,6 +686,15 @@ mod tests {
         assert!(result3.is_none());
 
         // 测试只有一个数字部分
-        todo!();
+        let result4 = extract_oval_id_from_filename("csaf-1004.json");
+        assert!(result4.is_none());
+
+        // 测试没有扩展名
+        let result5 = extract_oval_id_from_filename("csaf-openeuler-sa-2025-1004");
+        assert!(result5.is_some());
+        assert_eq!(
+            result5.unwrap(),
+            format!("{}20251004", oval::CU_LINUX_SA_DEF_PREFIX)
+        );
     }
 }
