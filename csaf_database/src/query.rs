@@ -315,12 +315,16 @@ impl CsafQuery {
                 &[],
             )
             .await?;
-        todo!();
+
+        let sa_cve_list: Vec<SaCve> = rows.iter().map(|row| self.row_to_sa_cve(row)).collect();
+        debug!("成功查询到 {} 条 SA 与 CVE 关联信息", sa_cve_list.len());
+        Ok(sa_cve_list)
     }
 
     /// 根据 ID 获取 CVE 影响信息
     pub async fn get_cve_affect_by_id(&self, id: i32) -> Result<Option<CveAffect>, DatabaseError> {
-        todo!()
+        info!("查询 CVE 影响信息，ID: {}", id);
+        todo!();
     }
 
     /// 根据 CVE ID 获取所有影响信息
