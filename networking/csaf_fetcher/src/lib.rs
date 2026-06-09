@@ -483,7 +483,11 @@ impl AsyncCsafFetcher {
         let csaf = self.fetch(url).await?;
 
         // 保存到文件
-        todo!();
+        let json_str = serde_json::to_string_pretty(&csaf)?;
+        tokio::fs::write(output_path, json_str).await?;
+
+        info!("成功异步保存CSAF文件到: {}", output_path);
+        Ok(csaf)
     }
 
     /// 批量异步获取CSAF文件
