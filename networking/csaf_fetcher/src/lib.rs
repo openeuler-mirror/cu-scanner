@@ -459,7 +459,12 @@ impl AsyncCsafFetcher {
                 body,
             });
         }
-        todo!();
+
+        let text = response.text().await?;
+        debug!("异步接收到响应，长度: {} 字节", text.len());
+
+        let csaf: CSAF = serde_json::from_str(&text)?;
+        Ok(csaf)
     }
 
     /// 从URL异步获取CSAF并保存到文件
