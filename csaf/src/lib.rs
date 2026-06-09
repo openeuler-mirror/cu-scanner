@@ -682,14 +682,16 @@ impl Generator {
 
 impl Default for Engine {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
 impl Engine {
     /// 创建新的Engine实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            name: String::new(),
+        }
     }
 }
 
