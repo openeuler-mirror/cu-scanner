@@ -680,6 +680,12 @@ mod tests {
             result2.unwrap(),
             format!("{}20251009", oval::CU_LINUX_SA_DEF_PREFIX)
         );
+
+        // 测试不符合格式的文件名（最后一个部分不是数字）
+        let result3 = extract_oval_id_from_filename("csaf-openeuler-sa.json");
+        assert!(result3.is_none());
+
+        // 测试只有一个数字部分
         todo!();
     }
 }
