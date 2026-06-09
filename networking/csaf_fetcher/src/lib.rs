@@ -478,7 +478,12 @@ impl AsyncCsafFetcher {
     ///
     /// 返回Result<CSAF>
     pub async fn fetch_and_save(&self, url: &str, output_path: &str) -> Result<CSAF> {
-        todo!()
+        info!("异步获取CSAF文件并保存到: {}", output_path);
+
+        let csaf = self.fetch(url).await?;
+
+        // 保存到文件
+        todo!();
     }
 
     /// 批量异步获取CSAF文件
