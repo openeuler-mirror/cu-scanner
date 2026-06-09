@@ -351,7 +351,11 @@ impl CsafQuery {
             "SELECT id, cve_id, package_name, os_version_id, status, fixed_version, last_checked FROM cve_affect WHERE cve_id = $1",
             &[&cve_id]
         ).await?;
-        todo!();
+
+        let cve_affect_list: Vec<CveAffect> =
+            rows.iter().map(|row| self.row_to_cve_affect(row)).collect();
+        debug!("成功查询到 {} 条 CVE 影响信息", cve_affect_list.len());
+        Ok(cve_affect_list)
     }
 
     /// 获取所有 CVE 影响信息
