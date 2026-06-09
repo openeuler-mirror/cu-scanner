@@ -345,7 +345,13 @@ impl CsafQuery {
         &self,
         cve_id: i32,
     ) -> Result<Vec<CveAffect>, DatabaseError> {
-        todo!()
+        info!("查询 CVE 的所有影响信息，CVE ID: {}", cve_id);
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, cve_id, package_name, os_version_id, status, fixed_version, last_checked FROM cve_affect WHERE cve_id = $1",
+            &[&cve_id]
+        ).await?;
+        todo!();
     }
 
     /// 获取所有 CVE 影响信息
