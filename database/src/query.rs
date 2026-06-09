@@ -693,7 +693,16 @@ impl DatabaseManager {
         &self,
         oval_definition_id: &str,
     ) -> Result<Vec<RpmInfoState>, DatabaseError> {
-        todo!()
+        debug!("查询RPM信息状态: {}", oval_definition_id);
+        let rows = self
+            .client
+            .query(
+                "SELECT state_id, version, evr_datatype, evr_operation, evr_value
+             FROM rpminfo_states WHERE oval_definition_id = $1",
+                &[&oval_definition_id],
+            )
+            .await?;
+        todo!();
     }
 
     /// 列出所有OVAL定义
