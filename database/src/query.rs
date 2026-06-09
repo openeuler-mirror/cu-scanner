@@ -665,7 +665,16 @@ impl DatabaseManager {
         &self,
         oval_definition_id: &str,
     ) -> Result<Vec<RpmInfoObject>, DatabaseError> {
-        todo!()
+        debug!("查询RPM信息对象: {}", oval_definition_id);
+        let rows = self
+            .client
+            .query(
+                "SELECT id, object_id, ver, rpm_name
+             FROM rpminfo_objects WHERE oval_definition_id = $1",
+                &[&oval_definition_id],
+            )
+            .await?;
+        todo!();
     }
 
     /// 获取指定OVAL定义的RPM信息状态
