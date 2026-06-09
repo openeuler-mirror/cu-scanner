@@ -644,7 +644,20 @@ impl DatabaseManager {
                 &[&oval_definition_id],
             )
             .await?;
-        todo!();
+
+        let mut rpminfo_tests = Vec::new();
+        for row in rows {
+            rpminfo_tests.push(RpmInfoTest {
+                check: row.get("check_field"),
+                comment: row.get("comment"),
+                test_id: row.get("test_id"),
+                version: row.get::<_, i32>("version") as u32,
+                object_ref: row.get("object_ref"),
+                state_ref: row.get("state_ref"),
+            });
+        }
+
+        Ok(rpminfo_tests)
     }
 
     /// 获取指定OVAL定义的RPM信息对象
