@@ -674,7 +674,18 @@ impl DatabaseManager {
                 &[&oval_definition_id],
             )
             .await?;
-        todo!();
+
+        let mut rpm_info_objects = Vec::new();
+        for row in rows {
+            rpm_info_objects.push(RpmInfoObject {
+                id: Some(row.get("id")), // 数据库自增ID
+                object_id: row.get("object_id"),
+                ver: row.get::<_, i64>("ver") as u64,
+                rpm_name: row.get("rpm_name"),
+            });
+        }
+
+        Ok(rpm_info_objects)
     }
 
     /// 获取指定OVAL定义的RPM信息状态

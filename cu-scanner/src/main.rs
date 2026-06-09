@@ -672,6 +672,14 @@ mod tests {
             result.unwrap(),
             format!("{}20251004", oval::CU_LINUX_SA_DEF_PREFIX)
         );
+
+        // 测试另一个格式
+        let result2 = extract_oval_id_from_filename("csaf-openeuler-sa-2025-1009.json");
+        assert!(result2.is_some());
+        assert_eq!(
+            result2.unwrap(),
+            format!("{}20251009", oval::CU_LINUX_SA_DEF_PREFIX)
+        );
         todo!();
     }
 }
