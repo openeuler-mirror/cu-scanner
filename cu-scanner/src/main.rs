@@ -606,7 +606,57 @@ async fn init_database(config: &AppConfig) -> Result<(), Box<dyn std::error::Err
         &config.database.username,
         &config.database.password,
     );
-    todo!();
+
+    log::info!("正在连接数据库...");
+    let mut db_manager = match DatabaseManager::new(&db_config).await {
+        Ok(manager) => {
+            log::info!("数据库连接成功");
+            manager
+        }
+        Err(e) => {
+            log::error!("数据库连接失败: {}", e);
+            return Err(e.into());
+        }
+    };
+
+    log::info!("正在清空并重新创建数据库表结构...");
+    match db_manager.reinit_tables().await {
+        Ok(_) => {
+            log::info!("数据库表结构初始化成功");
+            log::info!("已创建以下表:");
+            log::info!("  - os_info (操作系统信息表)");
+            log::info!("  - oval_definitions (OVAL定义表)");
+            log::info!("  - references_info (引用信息表)");
+            log::info!("  - cves (CVE信息表)");
+            log::info!("  - rpminfo_tests (RPM测试表)");
+            log::info!("  - rpminfo_objects (RPM对象表)");
+            log::info!("  - rpminfo_states (RPM状态表，包含EVR信息)");
+            log::info!("  - id_counters (ID计数器表)");
+
+            // 初始化OS信息数据
+            log::info!("正在初始化操作系统信息数据...");
+            match db_manager.init_os_info_data().await {
+                Ok(_) => {
+                    log::info!("操作系统信息数据初始化成功");
+                    log::info!("已初始化以下操作系统:");
+                    log::info!("  - openEuler 20.03 (oe1)");
+                    log::info!("  - openEuler 22.03 (oe2203)");
+                    log::info!("  - Red Hat Enterprise Linux 7 (el7)");
+                    log::info!("  - Red Hat Enterprise Linux 8 (el8)");
+                }
+                Err(e) => {
+                    log::error!("操作系统信息数据初始化失败: {}", e);
+                    return Err(e.into());
+                }
+            }
+
+            Ok(())
+        }
+        Err(e) => {
+            log::error!("数据库表结构初始化失败: {}", e);
+            Err(e.into())
+        }
+    }
 }
 
 #[cfg(test)]
