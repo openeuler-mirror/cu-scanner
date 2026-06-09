@@ -597,6 +597,15 @@ async fn init_database(config: &AppConfig) -> Result<(), Box<dyn std::error::Err
         config.database.host,
         config.database.port
     );
+    log::info!("数据库名称: {}", config.database.database);
+
+    let db_config = DatabaseConfig::new(
+        &config.database.host,
+        config.database.port,
+        &config.database.database,
+        &config.database.username,
+        &config.database.password,
+    );
     todo!();
 }
 
