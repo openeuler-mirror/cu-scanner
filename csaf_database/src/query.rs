@@ -360,7 +360,13 @@ impl CsafQuery {
 
     /// 获取所有 CVE 影响信息
     pub async fn get_all_cve_affects(&self) -> Result<Vec<CveAffect>, DatabaseError> {
-        todo!()
+        info!("查询所有 CVE 影响信息");
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, cve_id, package_name, os_version_id, status, fixed_version, last_checked FROM cve_affect ORDER BY cve_id, id",
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 根据 ID 获取包源码映射信息
