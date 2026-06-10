@@ -523,7 +523,19 @@ impl AsyncCsafFetcher {
     /// 返回成功和失败的结果列表
     pub async fn fetch_batch_concurrent(&self, urls: &[String]) -> Vec<(String, Result<CSAF>)> {
         info!("并发批量异步获取 {} 个CSAF文件", urls.len());
-        todo!();
+
+        let futures: Vec<_> = urls
+            .iter()
+            .map(|url| {
+                let url_clone = url.clone();
+                async move {
+                    let result = self.fetch(&url_clone).await;
+                    (url_clone, result)
+                }
+            })
+            .collect();
+
+        futures::future::join_all(futures).await
     }
 
     /// 从index.txt文件异步获取CSAF文件路径列表
