@@ -733,13 +733,13 @@ impl ProductTree {
 
     /// 获取产品数量
     pub fn get_product_count(&self) -> usize {
-        todo!()
+        self.get_all_product_ids().len()
     }
 }
 
 impl Default for Vulnerabilitie {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
