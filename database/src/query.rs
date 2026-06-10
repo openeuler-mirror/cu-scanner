@@ -719,7 +719,17 @@ impl DatabaseManager {
 
     /// 列出所有OVAL定义
     pub async fn list_all_oval_definitions(&self) -> Result<Vec<OvalDefinition>, DatabaseError> {
-        todo!()
+        info!("正在查询所有OVAL定义");
+        let rows = self
+            .client
+            .query(
+                "SELECT id, class, version, title, description, family, platform,
+                    severity, rights, from_field, issued_date, updated_date, os_info_id
+             FROM oval_definitions ORDER BY id",
+                &[],
+            )
+            .await?;
+        todo!();
     }
 
     /// 根据dist字符串查找OS信息
