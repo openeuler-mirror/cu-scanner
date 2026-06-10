@@ -722,7 +722,13 @@ impl ProductTree {
                 }
             }
         }
-        todo!();
+
+        // 从relationships中收集产品ID
+        for rel in &self.relationships {
+            product_ids.push(rel.full_product_name.product_id.clone());
+        }
+
+        product_ids
     }
 
     /// 获取产品数量
