@@ -746,7 +746,15 @@ impl Default for Vulnerabilitie {
 impl Vulnerabilitie {
     /// 创建新的Vulnerabilitie实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            cve: String::new(),
+            notes: Vec::new(),
+            product_status: ProductStatus::new(),
+            remediations: Vec::new(),
+            scores: Vec::new(),
+            threats: Vec::new(),
+            title: String::new(),
+        }
     }
 
     /// 获取CVE ID
