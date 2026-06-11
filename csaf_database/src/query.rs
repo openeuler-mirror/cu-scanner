@@ -400,7 +400,13 @@ impl CsafQuery {
         &self,
         package_name: &str,
     ) -> Result<Vec<PackageSourceMap>, DatabaseError> {
-        todo!()
+        info!("查询包源码映射信息，包名: {}", package_name);
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, package_name, os_version_id, upstream_series, is_inherited, created_at, updated_at FROM package_source_map WHERE package_name = $1",
+            &[&package_name]
+        ).await?;
+        todo!();
     }
 
     /// 获取所有包源码映射信息
