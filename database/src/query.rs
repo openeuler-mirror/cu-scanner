@@ -729,7 +729,27 @@ impl DatabaseManager {
                 &[],
             )
             .await?;
-        todo!();
+
+        let mut definitions = Vec::new();
+        for row in rows {
+            definitions.push(OvalDefinition {
+                id: row.get("id"),
+                class: row.get("class"),
+                version: row.get::<_, i32>("version") as u32,
+                title: row.get("title"),
+                description: row.get("description"),
+                family: row.get("family"),
+                platform: row.get("platform"),
+                severity: row.get("severity"),
+                rights: row.get("rights"),
+                from: row.get("from_field"),
+                issued_date: row.get("issued_date"),
+                updated_date: row.get("updated_date"),
+                os_info_id: row.get("os_info_id"),
+            });
+        }
+
+        Ok(definitions)
     }
 
     /// 根据dist字符串查找OS信息
