@@ -755,7 +755,26 @@ impl DatabaseManager {
     /// 根据dist字符串查找OS信息
     pub async fn find_os_info_by_dist(&self, dist: &str) -> Result<Option<OsInfo>, DatabaseError> {
         debug!("根据dist查找OS信息: {}", dist);
-        todo!();
+        let row = self.client.query_opt(
+            "SELECT id, os_type, os_version, package_name, verify_file, verify_pattern, dist, description
+             FROM os_info WHERE dist = $1",
+            &[&dist]
+        ).await?;
+
+        if let Some(row) = row {
+            Ok(Some(OsInfo {
+                id: Some(row.get("id")),
+                os_type: row.get("os_type"),
+                os_version: row.get("os_version"),
+                package_name: row.get("package_name"),
+                verify_file: row.get("verify_file"),
+                verify_pattern: row.get("verify_pattern"),
+                dist: row.get("dist"),
+                description: row.get("description"),
+            }))
+        } else {
+            Ok(None)
+        }
     }
 
     /// 根据ID查找OS信息
