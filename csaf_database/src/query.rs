@@ -378,7 +378,21 @@ impl CsafQuery {
         &self,
         id: i32,
     ) -> Result<Option<PackageSourceMap>, DatabaseError> {
-        todo!()
+        info!("查询包源码映射信息，ID: {}", id);
+
+        let row = self.db_manager.client.query_opt(
+            "SELECT id, package_name, os_version_id, upstream_series, is_inherited, created_at, updated_at FROM package_source_map WHERE id = $1",
+            &[&id]
+        ).await?;
+
+        if let Some(row) = row {
+            let package_source_map = self.row_to_package_source_map(&row);
+            debug!("成功查询到包源码映射信息，ID: {}", id);
+            Ok(Some(package_source_map))
+        } else {
+            debug!("未找到包源码映射信息，ID: {}", id);
+            Ok(None)
+        }
     }
 
     /// 根据包名获取包源码映射信息
