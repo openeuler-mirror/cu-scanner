@@ -769,7 +769,7 @@ impl Vulnerabilitie {
 
     /// 获取受影响的产品数量
     pub fn get_affected_product_count(&self) -> usize {
-        todo!()
+        self.product_status.fixed.len()
     }
 
     /// 获取CVSS分数（如果有）
