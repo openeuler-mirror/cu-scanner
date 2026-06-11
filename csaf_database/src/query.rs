@@ -366,7 +366,11 @@ impl CsafQuery {
             "SELECT id, cve_id, package_name, os_version_id, status, fixed_version, last_checked FROM cve_affect ORDER BY cve_id, id",
             &[]
         ).await?;
-        todo!();
+
+        let cve_affect_list: Vec<CveAffect> =
+            rows.iter().map(|row| self.row_to_cve_affect(row)).collect();
+        debug!("成功查询到 {} 条 CVE 影响信息", cve_affect_list.len());
+        Ok(cve_affect_list)
     }
 
     /// 根据 ID 获取包源码映射信息
