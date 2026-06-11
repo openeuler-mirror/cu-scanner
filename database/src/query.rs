@@ -754,7 +754,8 @@ impl DatabaseManager {
 
     /// 根据dist字符串查找OS信息
     pub async fn find_os_info_by_dist(&self, dist: &str) -> Result<Option<OsInfo>, DatabaseError> {
-        todo!()
+        debug!("根据dist查找OS信息: {}", dist);
+        todo!();
     }
 
     /// 根据ID查找OS信息
