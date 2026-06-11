@@ -548,7 +548,35 @@ impl AsyncCsafFetcher {
     ///
     /// 返回CSAF文件相对路径列表
     pub async fn fetch_index(&self, index_url: &str) -> Result<Vec<String>> {
-        todo!()
+        info!("异步获取CSAF索引文件: {}", index_url);
+
+        let response = self.client.get(index_url).send().await?;
+
+        let status = response.status();
+        if !status.is_success() {
+            let body = response
+                .text()
+                .await
+                .unwrap_or_else(|_| String::from("无法读取响应体"));
+            return Err(FetchError::StatusError {
+                status: status.as_u16(),
+                body,
+            });
+        }
+
+        let text = response.text().await?;
+        debug!("接收到索引文件，长度: {} 字节", text.len());
+
+        // 解析index.txt文件，每行一个文件路径
+        let paths: Vec<String> = text
+            .lines()
+            .map(|line| line.trim())
+            .filter(|line| !line.is_empty() && line.ends_with(".json"))
+            .map(|line| line.to_string())
+            .collect();
+
+        info!("从索引文件中解析出 {} 个CSAF文件路径", paths.len());
+        Ok(paths)
     }
 
     /// 从index.txt文件异步批量获取所有CSAF文件
