@@ -612,7 +612,16 @@ impl AsyncCsafFetcher {
             let result = self.fetch(&full_url).await;
             results.push((path, result));
         }
-        todo!();
+
+        // 统计结果
+        let success_count = results.iter().filter(|(_, r)| r.is_ok()).count();
+        let fail_count = results.len() - success_count;
+        info!(
+            "异步批量获取完成: 成功 {} 个, 失败 {} 个",
+            success_count, fail_count
+        );
+
+        Ok(results)
     }
 
     /// 从index.txt文件并发批量获取所有CSAF文件
