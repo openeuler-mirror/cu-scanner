@@ -779,7 +779,8 @@ impl DatabaseManager {
 
     /// 根据ID查找OS信息
     pub async fn get_os_info_by_id(&self, id: i64) -> Result<Option<OsInfo>, DatabaseError> {
-        todo!()
+        debug!("根据ID查找OS信息: {}", id);
+        todo!();
     }
 
     /// 从软件包版本字符串中提取dist并匹配OS信息
