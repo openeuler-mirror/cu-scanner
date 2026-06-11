@@ -594,7 +594,13 @@ impl AsyncCsafFetcher {
         index_url: &str,
         base_url: &str,
     ) -> Result<Vec<(String, Result<CSAF>)>> {
-        todo!()
+        info!("从索引文件异步批量获取CSAF文件");
+        info!("  索引URL: {}", index_url);
+        info!("  基础URL: {}", base_url);
+
+        // 获取文件路径列表
+        let paths = self.fetch_index(index_url).await?;
+        todo!();
     }
 
     /// 从index.txt文件并发批量获取所有CSAF文件
