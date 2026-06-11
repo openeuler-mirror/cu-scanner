@@ -759,12 +759,12 @@ impl Vulnerabilitie {
 
     /// 获取CVE ID
     pub fn get_cve_id(&self) -> &str {
-        todo!()
+        &self.cve
     }
 
     /// 获取标题
     pub fn get_title(&self) -> &str {
-        todo!()
+        &self.title
     }
 
     /// 获取受影响的产品数量
