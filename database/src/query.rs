@@ -780,7 +780,26 @@ impl DatabaseManager {
     /// 根据ID查找OS信息
     pub async fn get_os_info_by_id(&self, id: i64) -> Result<Option<OsInfo>, DatabaseError> {
         debug!("根据ID查找OS信息: {}", id);
-        todo!();
+        let row = self.client.query_opt(
+            "SELECT id, os_type, os_version, package_name, verify_file, verify_pattern, dist, description
+             FROM os_info WHERE id = $1",
+            &[&id]
+        ).await?;
+
+        if let Some(row) = row {
+            Ok(Some(OsInfo {
+                id: Some(row.get("id")),
+                os_type: row.get("os_type"),
+                os_version: row.get("os_version"),
+                package_name: row.get("package_name"),
+                verify_file: row.get("verify_file"),
+                verify_pattern: row.get("verify_pattern"),
+                dist: row.get("dist"),
+                description: row.get("description"),
+            }))
+        } else {
+            Ok(None)
+        }
     }
 
     /// 从软件包版本字符串中提取dist并匹配OS信息
