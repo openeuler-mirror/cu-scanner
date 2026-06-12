@@ -878,7 +878,33 @@ impl DatabaseManager {
         &self,
         definition_ids: Vec<String>,
     ) -> Result<oval::OvalDefinitions, DatabaseError> {
-        todo!()
+        info!("正在导出并合并 {} 个OVAL定义", definition_ids.len());
+
+        let mut oval_list = Vec::new();
+
+        for def_id in definition_ids {
+            match self.get_full_oval_definition(&def_id).await? {
+                Some(full_def) => {
+                    let (definition, references, cves, rpminfo_tests, rpminfo_objects, rpminfo_states) =
+                        full_def;
+                    let oval_def = self
+                        .convert_to_oval_definition(
+                            &definition,
+                            &references,
+                            &cves,
+                            &rpminfo_tests,
+                            &rpminfo_objects,
+                            &rpminfo_states,
+                        )
+                        .await?;
+                    oval_list.push(oval_def);
+                }
+                None => {
+                    debug!("跳过未找到的定义: {}", def_id);
+                }
+            }
+        }
+        todo!();
     }
 
     /// 根据多个ID导出合并的OVAL XML字符串
