@@ -445,7 +445,8 @@ impl CsafQuery {
         &self,
         id: i32,
     ) -> Result<Option<SrcRpmInfo>, DatabaseError> {
-        todo!()
+        info!("查询源码包信息，ID: {}", id);
+        todo!();
     }
 
     /// 根据包名获取源码包信息
