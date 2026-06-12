@@ -422,7 +422,13 @@ impl CsafQuery {
     pub async fn get_all_package_source_maps(
         &self,
     ) -> Result<Vec<PackageSourceMap>, DatabaseError> {
-        todo!()
+        info!("查询所有包源码映射信息");
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, package_name, os_version_id, upstream_series, is_inherited, created_at, updated_at FROM package_source_map ORDER BY package_name, id",
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 根据 ID 获取源码包信息
