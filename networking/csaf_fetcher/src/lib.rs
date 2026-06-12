@@ -698,6 +698,16 @@ impl AsyncCsafFetcher {
         info!("  基础URL: {}", base_url);
 
         // 获取文件路径列表
+        let paths = self.fetch_index(index_url).await?;
+        let total_count = paths.len();
+        info!("从索引文件中解析出 {} 个文件路径", total_count);
+
+        // 确保base_url末尾没有斜杠
+        let base_url = base_url.trim_end_matches('/');
+
+        // 遍历每个文件路径，检查是否存在
+        let mut results = Vec::new();
+        let mut skipped_count = 0;
         todo!();
     }
 
