@@ -816,7 +816,27 @@ impl DatabaseManager {
              FROM os_info ORDER BY LENGTH(dist) DESC",  // 按dist长度降序，优先匹配长的
             &[]
         ).await?;
-        todo!();
+
+        // 遍历所有dist，看是否包含在package_version中
+        for row in rows {
+            let dist: String = row.get("dist");
+            if package_version.contains(&dist) {
+                info!("匹配到OS信息: dist={}", dist);
+                return Ok(Some(OsInfo {
+                    id: Some(row.get("id")),
+                    os_type: row.get("os_type"),
+                    os_version: row.get("os_version"),
+                    package_name: row.get("package_name"),
+                    verify_file: row.get("verify_file"),
+                    verify_pattern: row.get("verify_pattern"),
+                    dist: row.get("dist"),
+                    description: row.get("description"),
+                }));
+            }
+        }
+
+        debug!("未找到匹配的OS信息");
+        Ok(None)
     }
 
     /// 列出所有OS信息
