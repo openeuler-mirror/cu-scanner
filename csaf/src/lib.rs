@@ -786,12 +786,16 @@ impl Vulnerabilitie {
 
     /// 检查是否为严重漏洞
     pub fn is_critical(&self) -> bool {
-        todo!()
+        self.get_severity()
+            .map(|s| s.to_lowercase() == "critical")
+            .unwrap_or(false)
     }
 
     /// 检查是否为高危漏洞
     pub fn is_high(&self) -> bool {
-        todo!()
+        self.get_severity()
+            .map(|s| s.to_lowercase() == "high")
+            .unwrap_or(false)
     }
 }
 
