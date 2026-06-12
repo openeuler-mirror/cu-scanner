@@ -808,12 +808,12 @@ impl Default for ProductStatus {
 impl ProductStatus {
     /// 创建新的ProductStatus实例
     pub fn new() -> Self {
-        todo!()
+        Self { fixed: Vec::new() }
     }
 
     /// 获取已修复的产品列表
     pub fn get_fixed_products(&self) -> &[String] {
-        todo!()
+        &self.fixed
     }
 
     /// 检查产品是否已修复
