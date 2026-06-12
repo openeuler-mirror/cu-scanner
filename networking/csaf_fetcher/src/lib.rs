@@ -708,7 +708,39 @@ impl AsyncCsafFetcher {
         // 遍历每个文件路径，检查是否存在
         let mut results = Vec::new();
         let mut skipped_count = 0;
-        todo!();
+        let mut downloaded_count = 0;
+
+        for path in paths {
+            // 调用检查回调函数
+            let exists = check_exists(path.clone()).await;
+
+            if exists {
+                debug!("文件已存在，跳过: {}", path);
+                skipped_count += 1;
+                continue;
+            }
+
+            // 文件不存在，下载
+            debug!("文件不存在，开始下载: {}", path);
+            let full_url = format!("{}/{}", base_url, path);
+            let result = self.fetch(&full_url).await;
+
+            if result.is_ok() {
+                downloaded_count += 1;
+            }
+
+            results.push((path, result));
+        }
+
+        info!(
+            "批量获取完成: 总计 {} 个，跳过 {} 个，下载 {} 个，成功 {} 个",
+            total_count,
+            skipped_count,
+            downloaded_count,
+            results.iter().filter(|(_, r)| r.is_ok()).count()
+        );
+
+        Ok(results)
     }
 
     /// 从index.txt文件异步批量获取并保存所有CSAF文件
