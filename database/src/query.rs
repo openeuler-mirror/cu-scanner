@@ -841,7 +841,13 @@ impl DatabaseManager {
 
     /// 列出所有OS信息
     pub async fn list_all_os_info(&self) -> Result<Vec<OsInfo>, DatabaseError> {
-        todo!()
+        info!("正在查询所有OS信息");
+        let rows = self.client.query(
+            "SELECT id, os_type, os_version, package_name, verify_file, verify_pattern, dist, description
+             FROM os_info ORDER BY os_type, os_version",
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 根据多个ID导出并合并为单个OVAL定义
