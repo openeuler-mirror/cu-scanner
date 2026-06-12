@@ -801,7 +801,7 @@ impl Vulnerabilitie {
 
 impl Default for ProductStatus {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
