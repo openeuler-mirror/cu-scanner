@@ -406,7 +406,16 @@ impl CsafQuery {
             "SELECT id, package_name, os_version_id, upstream_series, is_inherited, created_at, updated_at FROM package_source_map WHERE package_name = $1",
             &[&package_name]
         ).await?;
-        todo!();
+
+        let package_source_map_list: Vec<PackageSourceMap> = rows
+            .iter()
+            .map(|row| self.row_to_package_source_map(row))
+            .collect();
+        debug!(
+            "成功查询到 {} 条包源码映射信息",
+            package_source_map_list.len()
+        );
+        Ok(package_source_map_list)
     }
 
     /// 获取所有包源码映射信息
