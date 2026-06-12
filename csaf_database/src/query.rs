@@ -484,7 +484,13 @@ impl CsafQuery {
 
     /// 获取所有源码包信息
     pub async fn get_all_src_rpm_info(&self) -> Result<Vec<SrcRpmInfo>, DatabaseError> {
-        todo!()
+        info!("查询所有源码包信息");
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, package_name, version, release, dist, sa_id, created_at FROM src_rpm_info ORDER BY package_name, id",
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 根据 ID 获取二进制包信息
