@@ -818,7 +818,7 @@ impl ProductStatus {
 
     /// 检查产品是否已修复
     pub fn is_product_fixed(&self, product_id: &str) -> bool {
-        todo!()
+        self.fixed.iter().any(|p| p == product_id)
     }
 }
 
