@@ -808,7 +808,15 @@ impl DatabaseManager {
         &self,
         package_version: &str,
     ) -> Result<Option<OsInfo>, DatabaseError> {
-        todo!()
+        debug!("从软件包版本提取dist: {}", package_version);
+
+        // 获取所有的dist列表
+        let rows = self.client.query(
+            "SELECT id, os_type, os_version, package_name, verify_file, verify_pattern, dist, description
+             FROM os_info ORDER BY LENGTH(dist) DESC",  // 按dist长度降序，优先匹配长的
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 列出所有OS信息
