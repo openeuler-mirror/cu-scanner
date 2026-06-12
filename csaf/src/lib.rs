@@ -825,12 +825,12 @@ impl ProductStatus {
 impl Score {
     /// 获取CVSS基础分数
     pub fn get_base_score(&self) -> f32 {
-        todo!()
+        self.cvss_v3.base_score
     }
 
     /// 获取严重性级别
     pub fn get_severity(&self) -> &str {
-        todo!()
+        &self.cvss_v3.base_severity
     }
 
     /// 获取向量字符串
