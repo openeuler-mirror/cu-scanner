@@ -847,7 +847,22 @@ impl DatabaseManager {
              FROM os_info ORDER BY os_type, os_version",
             &[]
         ).await?;
-        todo!();
+
+        let mut os_infos = Vec::new();
+        for row in rows {
+            os_infos.push(OsInfo {
+                id: Some(row.get("id")),
+                os_type: row.get("os_type"),
+                os_version: row.get("os_version"),
+                package_name: row.get("package_name"),
+                verify_file: row.get("verify_file"),
+                verify_pattern: row.get("verify_pattern"),
+                dist: row.get("dist"),
+                description: row.get("description"),
+            });
+        }
+
+        Ok(os_infos)
     }
 
     /// 根据多个ID导出并合并为单个OVAL定义
