@@ -473,7 +473,13 @@ impl CsafQuery {
             "SELECT id, package_name, version, release, dist, sa_id, created_at FROM src_rpm_info WHERE package_name = $1",
             &[&package_name]
         ).await?;
-        todo!();
+
+        let src_rpm_info_list: Vec<SrcRpmInfo> = rows
+            .iter()
+            .map(|row| self.row_to_src_rpm_info(row))
+            .collect();
+        debug!("成功查询到 {} 条源码包信息", src_rpm_info_list.len());
+        Ok(src_rpm_info_list)
     }
 
     /// 获取所有源码包信息
