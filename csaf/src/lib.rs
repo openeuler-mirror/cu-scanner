@@ -774,12 +774,14 @@ impl Vulnerabilitie {
 
     /// 获取CVSS分数（如果有）
     pub fn get_cvss_score(&self) -> Option<f32> {
-        todo!()
+        self.scores.first().map(|s| s.cvss_v3.base_score)
     }
 
     /// 获取严重性级别（如果有）
     pub fn get_severity(&self) -> Option<&str> {
-        todo!()
+        self.scores
+            .first()
+            .map(|s| s.cvss_v3.base_severity.as_str())
     }
 
     /// 检查是否为严重漏洞
