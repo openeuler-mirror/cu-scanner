@@ -446,7 +446,20 @@ impl CsafQuery {
         id: i32,
     ) -> Result<Option<SrcRpmInfo>, DatabaseError> {
         info!("查询源码包信息，ID: {}", id);
-        todo!();
+
+        let row = self.db_manager.client.query_opt(
+            "SELECT id, package_name, version, release, dist, sa_id, created_at FROM src_rpm_info WHERE id = $1",
+            &[&id]
+        ).await?;
+
+        if let Some(row) = row {
+            let src_rpm_info = self.row_to_src_rpm_info(&row);
+            debug!("成功查询到源码包信息，ID: {}", id);
+            Ok(Some(src_rpm_info))
+        } else {
+            debug!("未找到源码包信息，ID: {}", id);
+            Ok(None)
+        }
     }
 
     /// 根据包名获取源码包信息
@@ -454,7 +467,13 @@ impl CsafQuery {
         &self,
         package_name: &str,
     ) -> Result<Vec<SrcRpmInfo>, DatabaseError> {
-        todo!()
+        info!("查询源码包信息，包名: {}", package_name);
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, package_name, version, release, dist, sa_id, created_at FROM src_rpm_info WHERE package_name = $1",
+            &[&package_name]
+        ).await?;
+        todo!();
     }
 
     /// 获取所有源码包信息
