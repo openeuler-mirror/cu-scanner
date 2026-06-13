@@ -858,7 +858,7 @@ impl CvssV3 {
 
     /// 检查是否为严重级别
     pub fn is_critical(&self) -> bool {
-        todo!()
+        self.base_severity.to_lowercase() == "critical" || self.base_score >= 9.0
     }
 
     /// 检查是否为高危级别
