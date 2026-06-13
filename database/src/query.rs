@@ -904,7 +904,17 @@ impl DatabaseManager {
                 }
             }
         }
-        todo!();
+
+        if oval_list.is_empty() {
+            info!("未找到任何有效的OVAL定义");
+            return Ok(oval::OvalDefinitions::new());
+        }
+
+        info!("成功导出 {} 个OVAL定义，开始合并", oval_list.len());
+        oval::OvalDefinitions::merge_multiple(oval_list)
+            .map_err(|e| DatabaseError::from(serde_json::Error::io(
+                std::io::Error::other(format!("合并OVAL失败: {}", e)),
+            )))
     }
 
     /// 根据多个ID导出合并的OVAL XML字符串
