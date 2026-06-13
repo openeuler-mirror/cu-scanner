@@ -944,7 +944,11 @@ impl DatabaseManager {
     ///
     /// 返回Result<oval::OvalDefinitions>，成功时包含所有OVAL定义的合并结果
     pub async fn export_all_oval_definitions(&self) -> Result<oval::OvalDefinitions, DatabaseError> {
-        todo!()
+        info!("正在导出所有OVAL定义");
+
+        // 查询所有定义ID
+        let definitions = self.list_all_oval_definitions().await?;
+        todo!();
     }
 
     /// 根据时间范围导出OVAL定义
