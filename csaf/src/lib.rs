@@ -841,14 +841,19 @@ impl Score {
 
 impl Default for CvssV3 {
     fn default() -> Self {
-        todo!()
+        Self::new()
     }
 }
 
 impl CvssV3 {
     /// 创建新的CvssV3实例
     pub fn new() -> Self {
-        todo!()
+        Self {
+            base_severity: String::new(),
+            base_score: 0.0,
+            vector_string: String::new(),
+            version: "3.1".to_string(),
+        }
     }
 
     /// 检查是否为严重级别
