@@ -863,12 +863,14 @@ impl CvssV3 {
 
     /// 检查是否为高危级别
     pub fn is_high(&self) -> bool {
-        todo!()
+        self.base_severity.to_lowercase() == "high"
+            || (self.base_score >= 7.0 && self.base_score < 9.0)
     }
 
     /// 检查是否为中危级别
     pub fn is_medium(&self) -> bool {
-        todo!()
+        self.base_severity.to_lowercase() == "medium"
+            || (self.base_score >= 4.0 && self.base_score < 7.0)
     }
 
     /// 检查是否为低危级别
