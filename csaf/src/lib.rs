@@ -835,7 +835,7 @@ impl Score {
 
     /// 获取向量字符串
     pub fn get_vector_string(&self) -> &str {
-        todo!()
+        &self.cvss_v3.vector_string
     }
 }
 
