@@ -930,7 +930,12 @@ impl DatabaseManager {
         &self,
         definition_ids: Vec<String>,
     ) -> Result<String, DatabaseError> {
-        todo!()
+        info!("正在导出并合并为XML，定义数量: {}", definition_ids.len());
+        let merged = self.export_merged_oval(definition_ids).await?;
+        merged.to_oval_string()
+            .map_err(|e| DatabaseError::from(serde_json::Error::io(
+                std::io::Error::other(format!("转换为XML失败: {}", e)),
+            )))
     }
 
     /// 导出所有OVAL定义到单个合并的定义
