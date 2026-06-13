@@ -523,7 +523,17 @@ impl CsafQuery {
         &self,
         package_name: &str,
     ) -> Result<Vec<RpmInfo>, DatabaseError> {
-        todo!()
+        info!("查询二进制包信息，包名: {}", package_name);
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, package_name, version, release, dist, arch, src_rpm_id, created_at FROM rpm_info WHERE package_name = $1",
+            &[&package_name]
+        ).await?;
+
+        let rpm_info_list: Vec<RpmInfo> =
+            rows.iter().map(|row| self.row_to_rpm_info(row)).collect();
+        debug!("成功查询到 {} 条二进制包信息", rpm_info_list.len());
+        Ok(rpm_info_list)
     }
 
     /// 获取所有二进制包信息
