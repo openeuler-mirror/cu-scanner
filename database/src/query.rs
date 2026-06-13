@@ -948,7 +948,10 @@ impl DatabaseManager {
 
         // 查询所有定义ID
         let definitions = self.list_all_oval_definitions().await?;
-        todo!();
+        let definition_ids: Vec<String> = definitions.iter().map(|d| d.id.clone()).collect();
+
+        info!("找到 {} 个OVAL定义", definition_ids.len());
+        self.export_merged_oval(definition_ids).await
     }
 
     /// 根据时间范围导出OVAL定义
