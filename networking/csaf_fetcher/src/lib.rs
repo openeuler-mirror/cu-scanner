@@ -812,7 +812,11 @@ mod tests {
 
     #[test]
     fn test_fetcher_config_default() {
-        todo!()
+        let config = FetcherConfig::default();
+        assert_eq!(config.timeout_secs, 30);
+        assert_eq!(config.max_retries, 3);
+        assert_eq!(config.retry_delay_ms, 1000);
+        assert_eq!(config.user_agent, "CSAF-Fetcher/0.1.0");
     }
 
     #[test]
