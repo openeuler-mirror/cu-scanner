@@ -760,7 +760,13 @@ impl AsyncCsafFetcher {
         base_url: &str,
         output_dir: &str,
     ) -> Result<Vec<(String, Result<()>)>> {
-        todo!()
+        info!("从索引文件异步批量获取并保存CSAF文件到: {}", output_dir);
+
+        // 确保输出目录存在
+        tokio::fs::create_dir_all(output_dir).await?;
+
+        // 获取所有CSAF文件
+        todo!();
     }
 }
 
