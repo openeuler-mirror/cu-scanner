@@ -501,7 +501,8 @@ impl CsafQuery {
 
     /// 根据 ID 获取二进制包信息
     pub async fn get_rpm_info_by_id(&self, id: i32) -> Result<Option<RpmInfo>, DatabaseError> {
-        todo!()
+        info!("查询二进制包信息，ID: {}", id);
+        todo!();
     }
 
     /// 根据包名获取二进制包信息
