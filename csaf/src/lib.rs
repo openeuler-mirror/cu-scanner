@@ -875,7 +875,8 @@ impl CvssV3 {
 
     /// 检查是否为低危级别
     pub fn is_low(&self) -> bool {
-        todo!()
+        self.base_severity.to_lowercase() == "low"
+            || (self.base_score > 0.0 && self.base_score < 4.0)
     }
 }
 
