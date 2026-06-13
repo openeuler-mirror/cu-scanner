@@ -766,6 +766,33 @@ impl AsyncCsafFetcher {
         tokio::fs::create_dir_all(output_dir).await?;
 
         // 获取所有CSAF文件
+        let results = self.fetch_from_index(index_url, base_url).await?;
+
+        // 保存文件
+        let mut save_results = Vec::new();
+        for (path, csaf_result) in results {
+            let save_result = match csaf_result {
+                Ok(csaf) => {
+                    // 构建输出文件路径
+                    let filename = path.replace('/', "_");
+                    let output_path = format!("{}/{}", output_dir, filename);
+
+                    // 保存文件
+                    match serde_json::to_string_pretty(&csaf) {
+                        Ok(json_str) => match tokio::fs::write(&output_path, json_str).await {
+                            Ok(_) => {
+                                info!("成功异步保存: {} -> {}", path, output_path);
+                                Ok(())
+                            }
+                            Err(e) => Err(FetchError::IoError(e)),
+                        },
+                        Err(e) => Err(FetchError::JsonError(e)),
+                    }
+                }
+                Err(e) => Err(e),
+            };
+            save_results.push((path, save_result));
+        }
         todo!();
     }
 }
