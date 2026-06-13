@@ -502,7 +502,20 @@ impl CsafQuery {
     /// 根据 ID 获取二进制包信息
     pub async fn get_rpm_info_by_id(&self, id: i32) -> Result<Option<RpmInfo>, DatabaseError> {
         info!("查询二进制包信息，ID: {}", id);
-        todo!();
+
+        let row = self.db_manager.client.query_opt(
+            "SELECT id, package_name, version, release, dist, arch, src_rpm_id, created_at FROM rpm_info WHERE id = $1",
+            &[&id]
+        ).await?;
+
+        if let Some(row) = row {
+            let rpm_info = self.row_to_rpm_info(&row);
+            debug!("成功查询到二进制包信息，ID: {}", id);
+            Ok(Some(rpm_info))
+        } else {
+            debug!("未找到二进制包信息，ID: {}", id);
+            Ok(None)
+        }
     }
 
     /// 根据包名获取二进制包信息
