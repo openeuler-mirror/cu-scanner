@@ -582,7 +582,8 @@ impl CsafQuery {
         &self,
         file_name: &str,
     ) -> Result<Option<ProcessedFile>, DatabaseError> {
-        todo!()
+        info!("查询已处理文件记录，文件名: {}", file_name);
+        todo!();
     }
 
     /// 获取所有已处理文件记录
