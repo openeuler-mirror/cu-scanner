@@ -849,7 +849,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_async_fetcher_creation() {
-        todo!()
+        let config = FetcherConfig::default();
+        let fetcher = AsyncCsafFetcher::new(config);
+        assert!(fetcher.is_ok());
     }
 
     #[tokio::test]
