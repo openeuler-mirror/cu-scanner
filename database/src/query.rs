@@ -1057,7 +1057,10 @@ impl DatabaseManager {
         month: u32,
         os_type: Option<&str>,
     ) -> Result<oval::OvalDefinitions, DatabaseError> {
-        todo!()
+        info!("正在导出 {}-{:02} 的OVAL定义，系统类型过滤: {:?}", year, month, os_type);
+
+        // 计算月份的开始和结束日期
+        todo!();
     }
 
     /// 按周导出OVAL定义（支持系统类型过滤）
