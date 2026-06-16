@@ -583,12 +583,31 @@ impl CsafQuery {
         file_name: &str,
     ) -> Result<Option<ProcessedFile>, DatabaseError> {
         info!("查询已处理文件记录，文件名: {}", file_name);
-        todo!();
+
+        let row = self.db_manager.client.query_opt(
+            "SELECT id, file_name, file_type, processed_time FROM processed_file WHERE file_name = $1",
+            &[&file_name]
+        ).await?;
+
+        if let Some(row) = row {
+            let processed_file = self.row_to_processed_file(&row);
+            debug!("成功查询到已处理文件记录，文件名: {}", file_name);
+            Ok(Some(processed_file))
+        } else {
+            debug!("未找到已处理文件记录，文件名: {}", file_name);
+            Ok(None)
+        }
     }
 
     /// 获取所有已处理文件记录
     pub async fn get_all_processed_files(&self) -> Result<Vec<ProcessedFile>, DatabaseError> {
-        todo!()
+        info!("查询所有已处理文件记录");
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, file_name, file_type, processed_time FROM processed_file ORDER BY processed_time DESC",
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 将数据库行转换为 SaInfo 实体
