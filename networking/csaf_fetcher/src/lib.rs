@@ -862,7 +862,23 @@ mod tests {
 
     #[test]
     fn test_parse_index_content() {
-        todo!()
+        // 模拟index.txt文件内容
+        let index_content = r#"2021/csaf-openeuler-sa-2021-1001.json
+2021/csaf-openeuler-sa-2021-1002.json
+2021/csaf-openeuler-sa-2021-1003.json
+
+2022/csaf-openeuler-sa-2022-1001.json
+"#;
+
+        let paths: Vec<String> = index_content
+            .lines()
+            .map(|line| line.trim())
+            .filter(|line| !line.is_empty() && line.ends_with(".json"))
+            .map(|line| line.to_string())
+            .collect();
+
+        assert_eq!(paths.len(), 4);
+        todo!();
     }
 
     #[test]
