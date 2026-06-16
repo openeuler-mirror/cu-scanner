@@ -903,6 +903,20 @@ mod tests {
 
     #[test]
     fn write_test() {
-        todo!()
+        let input_file = get_test_file_path("csaf-openeuler-sa-2025-1004.json");
+        let output_file = get_test_file_path("csaf_test_001.json");
+
+        let csaf = match CSAF::from_file(&input_file) {
+            Ok(csaf) => csaf,
+            Err(e) => {
+                panic!("{:#?}", e);
+            }
+        };
+        match csaf.to_file(&output_file) {
+            Ok(_) => (),
+            Err(e) => {
+                panic!("{:#?}", e);
+            }
+        }
     }
 }
