@@ -878,7 +878,10 @@ mod tests {
             .collect();
 
         assert_eq!(paths.len(), 4);
-        todo!();
+        assert_eq!(paths[0], "2021/csaf-openeuler-sa-2021-1001.json");
+        assert_eq!(paths[1], "2021/csaf-openeuler-sa-2021-1002.json");
+        assert_eq!(paths[2], "2021/csaf-openeuler-sa-2021-1003.json");
+        assert_eq!(paths[3], "2022/csaf-openeuler-sa-2022-1001.json");
     }
 
     #[test]
