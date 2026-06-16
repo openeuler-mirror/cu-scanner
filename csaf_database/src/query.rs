@@ -556,7 +556,8 @@ impl CsafQuery {
         &self,
         id: i32,
     ) -> Result<Option<ProcessedFile>, DatabaseError> {
-        todo!()
+        info!("查询已处理文件记录，ID: {}", id);
+        todo!();
     }
 
     /// 根据文件名获取已处理文件记录
