@@ -821,7 +821,9 @@ mod tests {
 
     #[test]
     fn test_fetcher_creation() {
-        todo!()
+        let config = FetcherConfig::default();
+        let fetcher = CsafFetcher::new(config);
+        assert!(fetcher.is_ok());
     }
 
     #[test]
