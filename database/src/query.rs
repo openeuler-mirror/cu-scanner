@@ -1001,7 +1001,36 @@ impl DatabaseManager {
         end_date: &str,
         os_type: Option<&str>,
     ) -> Result<oval::OvalDefinitions, DatabaseError> {
-        todo!()
+        info!(
+            "正在导出 {} 到 {} 之间的OVAL定义，系统类型过滤: {:?}",
+            start_date, end_date, os_type
+        );
+
+        let rows = if let Some(os_filter) = os_type {
+            // 带系统类型过滤的查询
+            self.client.query(
+                "SELECT od.id
+                 FROM oval_definitions od
+                 LEFT JOIN os_info oi ON od.os_info_id = oi.id
+                 WHERE od.issued_date >= $1
+                   AND od.issued_date < $2
+                   AND (
+                     LOWER(oi.dist) = LOWER($3)
+                     OR LOWER(oi.os_type) LIKE '%' || LOWER($3) || '%'
+                   )
+                 ORDER BY od.issued_date",
+                &[&start_date, &end_date, &os_filter]
+            ).await?
+        } else {
+            // 不过滤系统类型
+            self.client.query(
+                "SELECT id FROM oval_definitions
+                 WHERE issued_date >= $1 AND issued_date < $2
+                 ORDER BY issued_date",
+                &[&start_date, &end_date]
+            ).await?
+        };
+        todo!();
     }
 
     /// 按月导出OVAL定义（支持系统类型过滤）
