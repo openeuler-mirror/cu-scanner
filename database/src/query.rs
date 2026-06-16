@@ -969,7 +969,15 @@ impl DatabaseManager {
         start_date: &str,
         end_date: &str,
     ) -> Result<oval::OvalDefinitions, DatabaseError> {
-        todo!()
+        info!("正在导出 {} 到 {} 之间的OVAL定义", start_date, end_date);
+
+        let rows = self.client.query(
+            "SELECT id FROM oval_definitions
+             WHERE issued_date >= $1 AND issued_date < $2
+             ORDER BY issued_date",
+            &[&start_date, &end_date]
+        ).await?;
+        todo!();
     }
 
     /// 核心通用方法：按时间和系统类型组合查询
