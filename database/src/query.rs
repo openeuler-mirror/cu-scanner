@@ -977,7 +977,11 @@ impl DatabaseManager {
              ORDER BY issued_date",
             &[&start_date, &end_date]
         ).await?;
-        todo!();
+
+        let definition_ids: Vec<String> = rows.iter().map(|row| row.get("id")).collect();
+
+        info!("在指定时间范围内找到 {} 个OVAL定义", definition_ids.len());
+        self.export_merged_oval(definition_ids).await
     }
 
     /// 核心通用方法：按时间和系统类型组合查询
