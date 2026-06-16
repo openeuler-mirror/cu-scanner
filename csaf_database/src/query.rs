@@ -538,7 +538,13 @@ impl CsafQuery {
 
     /// 获取所有二进制包信息
     pub async fn get_all_rpm_info(&self) -> Result<Vec<RpmInfo>, DatabaseError> {
-        todo!()
+        info!("查询所有二进制包信息");
+
+        let rows = self.db_manager.client.query(
+            "SELECT id, package_name, version, release, dist, arch, src_rpm_id, created_at FROM rpm_info ORDER BY package_name, id",
+            &[]
+        ).await?;
+        todo!();
     }
 
     /// 根据 ID 获取已处理文件记录
