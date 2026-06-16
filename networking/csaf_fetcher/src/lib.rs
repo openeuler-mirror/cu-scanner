@@ -834,7 +834,17 @@ mod tests {
 
     #[test]
     fn test_url_validation() {
-        todo!()
+        let fetcher = CsafFetcher::with_defaults().unwrap();
+
+        // 测试无效URL
+        let result = fetcher.fetch("invalid-url");
+        assert!(result.is_err());
+
+        if let Err(FetchError::UrlError(_)) = result {
+            // 预期的错误类型
+        } else {
+            panic!("Expected UrlError");
+        }
     }
 
     #[tokio::test]
