@@ -1060,7 +1060,14 @@ impl DatabaseManager {
         info!("正在导出 {}-{:02} 的OVAL定义，系统类型过滤: {:?}", year, month, os_type);
 
         // 计算月份的开始和结束日期
-        todo!();
+        let start_date = format!("{}-{:02}-01", year, month);
+        let end_date = if month == 12 {
+            format!("{}-01-01", year + 1)
+        } else {
+            format!("{}-{:02}-01", year, month + 1)
+        };
+
+        self.export_oval_by_time_and_os(&start_date, &end_date, os_type).await
     }
 
     /// 按周导出OVAL定义（支持系统类型过滤）
