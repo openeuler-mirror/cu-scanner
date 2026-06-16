@@ -886,12 +886,14 @@ mod tests {
 
     // 从配置文件读取测试文件路径
     fn get_test_file_path(filename: &str) -> String {
-        todo!()
+        // 在测试环境中，直接使用相对路径
+        format!("../test/csaf/{}", filename)
     }
 
     #[test]
     fn conver_test() {
-        todo!()
+        let test_file = get_test_file_path("csaf-openeuler-sa-2025-1004.json");
+        todo!();
     }
 
     #[test]
