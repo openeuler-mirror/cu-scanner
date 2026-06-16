@@ -544,7 +544,11 @@ impl CsafQuery {
             "SELECT id, package_name, version, release, dist, arch, src_rpm_id, created_at FROM rpm_info ORDER BY package_name, id",
             &[]
         ).await?;
-        todo!();
+
+        let rpm_info_list: Vec<RpmInfo> =
+            rows.iter().map(|row| self.row_to_rpm_info(row)).collect();
+        debug!("成功查询到 {} 条二进制包信息", rpm_info_list.len());
+        Ok(rpm_info_list)
     }
 
     /// 根据 ID 获取已处理文件记录
