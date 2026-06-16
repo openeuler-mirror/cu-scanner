@@ -1087,7 +1087,34 @@ impl DatabaseManager {
         week: u32,
         os_type: Option<&str>,
     ) -> Result<oval::OvalDefinitions, DatabaseError> {
-        todo!()
+        info!("正在导出 {}-W{:02} 的OVAL定义，系统类型过滤: {:?}", year, week, os_type);
+
+        let rows = if let Some(os_filter) = os_type {
+            // 带系统类型过滤的查询
+            self.client.query(
+                "SELECT od.id
+                 FROM oval_definitions od
+                 LEFT JOIN os_info oi ON od.os_info_id = oi.id
+                 WHERE EXTRACT(ISOYEAR FROM od.issued_date::date) = $1
+                   AND EXTRACT(WEEK FROM od.issued_date::date) = $2
+                   AND (
+                     LOWER(oi.dist) = LOWER($3)
+                     OR LOWER(oi.os_type) LIKE '%' || LOWER($3) || '%'
+                   )
+                 ORDER BY od.issued_date",
+                &[&year, &(week as i64), &os_filter]
+            ).await?
+        } else {
+            // 不过滤系统类型
+            self.client.query(
+                "SELECT id FROM oval_definitions
+                 WHERE EXTRACT(ISOYEAR FROM issued_date::date) = $1
+                   AND EXTRACT(WEEK FROM issued_date::date) = $2
+                 ORDER BY issued_date",
+                &[&year, &(week as i64)]
+            ).await?
+        };
+        todo!();
     }
 
     /// 按年导出OVAL定义（支持系统类型过滤）
