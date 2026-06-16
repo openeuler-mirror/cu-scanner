@@ -893,7 +893,12 @@ mod tests {
     #[test]
     fn conver_test() {
         let test_file = get_test_file_path("csaf-openeuler-sa-2025-1004.json");
-        todo!();
+        match CSAF::from_file(&test_file) {
+            Ok(csaf) => println!("{:#?}", csaf),
+            Err(e) => {
+                panic!("{:#?}", e);
+            }
+        }
     }
 
     #[test]
