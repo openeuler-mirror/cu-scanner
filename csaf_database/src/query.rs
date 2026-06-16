@@ -607,7 +607,13 @@ impl CsafQuery {
             "SELECT id, file_name, file_type, processed_time FROM processed_file ORDER BY processed_time DESC",
             &[]
         ).await?;
-        todo!();
+
+        let processed_file_list: Vec<ProcessedFile> = rows
+            .iter()
+            .map(|row| self.row_to_processed_file(row))
+            .collect();
+        debug!("成功查询到 {} 条已处理文件记录", processed_file_list.len());
+        Ok(processed_file_list)
     }
 
     /// 将数据库行转换为 SaInfo 实体
