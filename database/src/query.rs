@@ -1030,7 +1030,14 @@ impl DatabaseManager {
                 &[&start_date, &end_date]
             ).await?
         };
-        todo!();
+
+        let definition_ids: Vec<String> = rows.iter().map(|row| row.get("id")).collect();
+
+        info!(
+            "在指定时间范围内找到 {} 个OVAL定义（系统过滤: {:?}）",
+            definition_ids.len(), os_type
+        );
+        self.export_merged_oval(definition_ids).await
     }
 
     /// 按月导出OVAL定义（支持系统类型过滤）
