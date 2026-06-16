@@ -828,7 +828,8 @@ mod tests {
 
     #[test]
     fn test_fetcher_with_defaults() {
-        todo!()
+        let fetcher = CsafFetcher::with_defaults();
+        assert!(fetcher.is_ok());
     }
 
     #[test]
