@@ -557,7 +557,24 @@ impl CsafQuery {
         id: i32,
     ) -> Result<Option<ProcessedFile>, DatabaseError> {
         info!("查询已处理文件记录，ID: {}", id);
-        todo!();
+
+        let row = self
+            .db_manager
+            .client
+            .query_opt(
+                "SELECT id, file_name, file_type, processed_time FROM processed_file WHERE id = $1",
+                &[&id],
+            )
+            .await?;
+
+        if let Some(row) = row {
+            let processed_file = self.row_to_processed_file(&row);
+            debug!("成功查询到已处理文件记录，ID: {}", id);
+            Ok(Some(processed_file))
+        } else {
+            debug!("未找到已处理文件记录，ID: {}", id);
+            Ok(None)
+        }
     }
 
     /// 根据文件名获取已处理文件记录
