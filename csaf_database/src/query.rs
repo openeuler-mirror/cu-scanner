@@ -714,7 +714,16 @@ impl CsafQuery {
 
     /// 将数据库行转换为 RpmInfo 实体
     fn row_to_rpm_info(&self, row: &Row) -> RpmInfo {
-        todo!()
+        RpmInfo {
+            id: row.get("id"),
+            package_name: row.get("package_name"),
+            version: row.get("version"),
+            release: row.get("release"),
+            dist: row.get("dist"),
+            arch: row.get("arch"),
+            src_rpm_id: row.get("src_rpm_id"),
+            created_at: row.get("created_at"),
+        }
     }
 
     /// 将数据库行转换为 ProcessedFile 实体
