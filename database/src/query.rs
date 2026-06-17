@@ -1142,7 +1142,10 @@ impl DatabaseManager {
         info!("正在导出 {} 年的OVAL定义，系统类型过滤: {:?}", year, os_type);
 
         // 计算年份的开始和结束日期
-        todo!();
+        let start_date = format!("{}-01-01", year);
+        let end_date = format!("{}-01-01", year + 1);
+
+        self.export_oval_by_time_and_os(&start_date, &end_date, os_type).await
     }
 
     /// 按操作系统类型导出所有OVAL定义
