@@ -11,7 +11,9 @@ use std::error::Error;
 
 /// 从SA ID中提取最后两段数字并去掉减号作为OVAL定义ID
 fn extract_oval_id_from_sa_id(sa_id: &str) -> String {
-    todo!()
+    // 使用正则表达式提取最后两段数字
+    let re = Regex::new(r"(\d+)-(\d+)$").unwrap();
+    todo!();
 }
 
 /// 从CSAF数据库中提取数据并填充到OVAL结构体中
