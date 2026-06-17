@@ -701,7 +701,15 @@ impl CsafQuery {
 
     /// 将数据库行转换为 SrcRpmInfo 实体
     fn row_to_src_rpm_info(&self, row: &Row) -> SrcRpmInfo {
-        todo!()
+        SrcRpmInfo {
+            id: row.get("id"),
+            package_name: row.get("package_name"),
+            version: row.get("version"),
+            release: row.get("release"),
+            dist: row.get("dist"),
+            sa_id: row.get("sa_id"),
+            created_at: row.get("created_at"),
+        }
     }
 
     /// 将数据库行转换为 RpmInfo 实体
