@@ -1161,6 +1161,17 @@ impl DatabaseManager {
         &self,
         os_type: &str,
     ) -> Result<oval::OvalDefinitions, DatabaseError> {
-        todo!()
+        info!("正在导出操作系统类型 {} 的所有OVAL定义", os_type);
+
+        let rows = self.client.query(
+            "SELECT od.id
+             FROM oval_definitions od
+             JOIN os_info oi ON od.os_info_id = oi.id
+             WHERE LOWER(oi.dist) = LOWER($1)
+                OR LOWER(oi.os_type) LIKE '%' || LOWER($1) || '%'
+             ORDER BY od.issued_date",
+            &[&os_type]
+        ).await?;
+        todo!();
     }
 }
