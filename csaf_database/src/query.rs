@@ -618,7 +618,20 @@ impl CsafQuery {
 
     /// 将数据库行转换为 SaInfo 实体
     fn row_to_sa_info(&self, row: &Row) -> SaInfo {
-        todo!()
+        SaInfo {
+            id: row.get("id"),
+            sa_id: row.get("sa_id"),
+            synopsis: row.get("synopsis"),
+            summary: row.get("summary"),
+            topic: row.get("topic"),
+            description: row.get("description"),
+            severity: row.get("severity"),
+            affected_product: row.get("affected_product"),
+            affected_component: row.get("affected_component"),
+            status: row.get("status"),
+            created_time: row.get("created_time"),
+            updated_time: row.get("updated_time"),
+        }
     }
 
     /// 将数据库行转换为 CveInfo 实体
