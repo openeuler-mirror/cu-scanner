@@ -728,6 +728,11 @@ impl CsafQuery {
 
     /// 将数据库行转换为 ProcessedFile 实体
     fn row_to_processed_file(&self, row: &Row) -> ProcessedFile {
-        todo!()
+        ProcessedFile {
+            id: row.get("id"),
+            file_name: row.get("file_name"),
+            file_type: row.get("file_type"),
+            processed_time: row.get("processed_time"),
+        }
     }
 }
