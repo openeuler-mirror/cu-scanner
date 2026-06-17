@@ -1139,7 +1139,10 @@ impl DatabaseManager {
         year: i32,
         os_type: Option<&str>,
     ) -> Result<oval::OvalDefinitions, DatabaseError> {
-        todo!()
+        info!("正在导出 {} 年的OVAL定义，系统类型过滤: {:?}", year, os_type);
+
+        // 计算年份的开始和结束日期
+        todo!();
     }
 
     /// 按操作系统类型导出所有OVAL定义
