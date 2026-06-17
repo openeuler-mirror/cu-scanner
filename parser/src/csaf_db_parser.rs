@@ -34,6 +34,12 @@ pub async fn parse_csaf_database_to_oval(
     // 连接数据库
     let db_manager = DatabaseManager::new(db_config).await?;
     let csaf_query = CsafQuery::new(db_manager).await?;
+
+    // 创建OVAL定义
+    let mut oval_definitions = OvalDefinitions::new();
+
+    // 获取所有安全公告信息
+    let sa_infos = csaf_query.get_all_sa_info().await?;
     todo!();
 }
 
