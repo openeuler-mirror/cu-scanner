@@ -925,7 +925,16 @@ mod tests {
 
     #[test]
     fn test_parse_index_with_empty_lines() {
-        todo!()
+        // 测试包含空行的index.txt
+        let index_content = r#"
+2021/csaf-openeuler-sa-2021-1001.json
+
+2021/csaf-openeuler-sa-2021-1002.json
+
+2021/csaf-openeuler-sa-2021-1003.json
+
+"#;
+        todo!();
     }
 
     #[test]
