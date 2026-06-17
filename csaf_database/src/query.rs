@@ -667,7 +667,10 @@ impl CsafQuery {
 
     /// 将数据库行转换为 SaCve 实体
     fn row_to_sa_cve(&self, row: &Row) -> SaCve {
-        todo!()
+        SaCve {
+            sa_id: row.get("sa_id"),
+            cve_id: row.get("cve_id"),
+        }
     }
 
     /// 将数据库行转换为 CveAffect 实体
