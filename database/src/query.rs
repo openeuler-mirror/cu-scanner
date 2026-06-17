@@ -1114,7 +1114,14 @@ impl DatabaseManager {
                 &[&year, &(week as i64)]
             ).await?
         };
-        todo!();
+
+        let definition_ids: Vec<String> = rows.iter().map(|row| row.get("id")).collect();
+
+        info!(
+            "在指定周范围内找到 {} 个OVAL定义（系统过滤: {:?}）",
+            definition_ids.len(), os_type
+        );
+        self.export_merged_oval(definition_ids).await
     }
 
     /// 按年导出OVAL定义（支持系统类型过滤）
