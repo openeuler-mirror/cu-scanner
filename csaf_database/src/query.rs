@@ -636,7 +636,20 @@ impl CsafQuery {
 
     /// 将数据库行转换为 CveInfo 实体
     fn row_to_cve_info(&self, row: &Row) -> CveInfo {
-        todo!()
+        CveInfo {
+            id: row.get("id"),
+            cve_id: row.get("cve_id"),
+            description: row.get("description"),
+            base_severity: row.get("base_severity"),
+            base_score: row.get("base_score"),
+            vector_string: row.get("vector_string"),
+            cvss_version: row.get("cvss_version"),
+            published_date: row.get("published_date"),
+            updated_date: row.get("updated_date"),
+            status: row.get("status"),
+            created_at: row.get("created_at"),
+            updated_at: row.get("updated_at"),
+        }
     }
 
     /// 将数据库行转换为 OsVersionMap 实体
