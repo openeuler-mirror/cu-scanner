@@ -33,7 +33,15 @@ pub async fn csaf_to_oval_with_db_counter(
     counter_id: String,
     initial_counter: u64,
 ) -> Result<OvalDefinitions> {
-    todo!()
+    info!(
+        "开始将CSAF转换为OVAL格式，使用数据库计数器: {}, 初始计数器: {}",
+        counter_id, initial_counter
+    );
+
+    let mut oval = OvalDefinitions::new();
+    let now = Utc::now();
+    // 使用RFC3339格式（符合xs:dateTime要求）
+    todo!();
 }
 
 /// 将CSAF格式转换为OVAL格式（使用默认数据库计数器）
