@@ -41,6 +41,10 @@ pub async fn csaf_to_oval_with_db_counter(
     let mut oval = OvalDefinitions::new();
     let now = Utc::now();
     // 使用RFC3339格式（符合xs:dateTime要求）
+    let formatted_time = now.to_rfc3339();
+    oval.generator.time_stamp = formatted_time.clone();
+    // TODO: Set the content_version rule
+    // oval.generator.content_version = 0;
     todo!();
 }
 
