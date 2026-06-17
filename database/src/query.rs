@@ -1172,6 +1172,10 @@ impl DatabaseManager {
              ORDER BY od.issued_date",
             &[&os_type]
         ).await?;
-        todo!();
+
+        let definition_ids: Vec<String> = rows.iter().map(|row| row.get("id")).collect();
+
+        info!("找到 {} 个操作系统类型为 {} 的OVAL定义", definition_ids.len(), os_type);
+        self.export_merged_oval(definition_ids).await
     }
 }
