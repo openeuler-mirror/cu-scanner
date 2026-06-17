@@ -947,7 +947,14 @@ mod tests {
 
     #[test]
     fn test_parse_index_filters_non_json() {
-        todo!()
+        // 测试过滤非.json文件
+        let index_content = r#"2021/csaf-openeuler-sa-2021-1001.json
+README.md
+2021/csaf-openeuler-sa-2021-1002.json
+index.txt
+2021/csaf-openeuler-sa-2021-1003.json
+"#;
+        todo!();
     }
 
     // 注意：以下测试需要实际的网络连接和有效的CSAF URL
