@@ -8,5 +8,8 @@ use std::error::Error;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    todo!()
+    println!("开始从CSAF数据库解析数据到OVAL格式...");
+
+    // 配置数据库连接
+    todo!();
 }
