@@ -128,13 +128,76 @@ fn generate_os_check_ids(os_info_id: i64) -> (String, String, String, String, St
 
 /// 获取预定义的操作系统信息列表
 fn get_predefined_os_info() -> Vec<OsInfo> {
-    todo!()
+    vec![
+        OsInfo {
+            os_type: "openEuler".to_string(),
+            os_version: "20.03".to_string(),
+            package_name: "openeuler-release".to_string(),
+            verify_file: "/etc/os-release".to_string(),
+            verify_pattern: "^openEuler".to_string(),
+            dist: "oe1".to_string(),
+            description: "openEuler 20.03 LTS".to_string(),
+        },
+        OsInfo {
+            os_type: "openEuler".to_string(),
+            os_version: "22.03".to_string(),
+            package_name: "openeuler-release".to_string(),
+            verify_file: "/etc/os-release".to_string(),
+            verify_pattern: "^openEuler".to_string(),
+            dist: "oe2203".to_string(),
+            description: "openEuler 22.03 LTS".to_string(),
+        },
+        OsInfo {
+            os_type: "openEuler".to_string(),
+            os_version: "24.03".to_string(),
+            package_name: "openeuler-release".to_string(),
+            verify_file: "/etc/os-release".to_string(),
+            verify_pattern: "^openEuler".to_string(),
+            dist: "oe2403".to_string(),
+            description: "openEuler 24.03 LTS".to_string(),
+        },
+        OsInfo {
+            os_type: "Red Hat Enterprise Linux".to_string(),
+            os_version: "7".to_string(),
+            package_name: "redhat-release".to_string(),
+            verify_file: "/etc/redhat-release".to_string(),
+            verify_pattern: "^Red Hat Enterprise Linux".to_string(),
+            dist: "el7".to_string(),
+            description: "Red Hat Enterprise Linux 7".to_string(),
+        },
+        OsInfo {
+            os_type: "Red Hat Enterprise Linux".to_string(),
+            os_version: "8".to_string(),
+            package_name: "redhat-release".to_string(),
+            verify_file: "/etc/redhat-release".to_string(),
+            verify_pattern: "^Red Hat Enterprise Linux".to_string(),
+            dist: "el8".to_string(),
+            description: "Red Hat Enterprise Linux 8".to_string(),
+        },
+        OsInfo {
+            os_type: "China Unicom Linux".to_string(),
+            os_version: "4".to_string(),
+            package_name: "culinux-release".to_string(),
+            verify_file: "/etc/os-release".to_string(),
+            verify_pattern: "^CULinux Enterprise Edition".to_string(),
+            dist: "ule4".to_string(),
+            description: "China Unicom Linux 4.0".to_string(),
+        },
+    ]
 }
 /// 从软件包版本中提取dist标识
 /// 例如: "ansible-2.9-1.oe1" -> Some("oe1")
 ///      "package-1.0-1.el7" -> Some("el7")
 fn extract_dist_from_package(package_version: &str) -> Option<String> {
-    todo!()
+    // 从预定义的OS信息中获取所有dist标识
+    let all_dists: Vec<String> = get_predefined_os_info()
+        .iter()
+        .map(|os| os.dist.clone())
+        .collect();
+    // 按长度降序排序，优先匹配更长的dist（如oe2403优先于oe1）
+    let mut sorted_dists = all_dists.clone();
+    sorted_dists.sort_by_key(|b| std::cmp::Reverse(b.len()));
+    todo!();
 }
 /// 根据dist标识匹配操作系统信息
 /// 如果无法匹配，返回"Unknown OS"
