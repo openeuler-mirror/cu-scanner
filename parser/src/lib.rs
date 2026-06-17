@@ -109,7 +109,21 @@ fn get_os_info_id_by_dist(dist: &str) -> i64 {
 /// - test (must be installed): base_id + 3
 /// - test (is installed): base_id + 4
 fn generate_os_check_ids(os_info_id: i64) -> (String, String, String, String, String) {
-    todo!()
+    let base_id = os_info_id * 10;
+
+    let os_object_id = format!("{}{}", oval::CU_LINUX_SA_OBJ_PREFIX, base_id);
+    let os_state_full_id = format!("{}{}", oval::CU_LINUX_SA_STE_PREFIX, base_id + 1);
+    let os_state_name_only_id = format!("{}{}", oval::CU_LINUX_SA_STE_PREFIX, base_id + 2);
+    let os_test_must_id = format!("{}{}", oval::CU_LINUX_SA_TST_PREFIX, base_id + 3);
+    let os_test_is_id = format!("{}{}", oval::CU_LINUX_SA_TST_PREFIX, base_id + 4);
+
+    (
+        os_object_id,
+        os_state_full_id,
+        os_state_name_only_id,
+        os_test_must_id,
+        os_test_is_id,
+    )
 }
 
 /// 获取预定义的操作系统信息列表
