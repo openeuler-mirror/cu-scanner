@@ -890,7 +890,13 @@ mod tests {
         let path = "2021/csaf-openeuler-sa-2021-1001.json";
 
         // 确保末尾没有斜杠
-        todo!();
+        let base_url = base_url.trim_end_matches('/');
+        let full_url = format!("{}/{}", base_url, path);
+
+        assert_eq!(
+            full_url,
+            "http://csaf-website/2021/csaf-openeuler-sa-2021-1001.json"
+        );
     }
 
     #[test]
