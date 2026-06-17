@@ -13,14 +13,28 @@ use std::error::Error;
 fn extract_oval_id_from_sa_id(sa_id: &str) -> String {
     // 使用正则表达式提取最后两段数字
     let re = Regex::new(r"(\d+)-(\d+)$").unwrap();
-    todo!();
+    if let Some(captures) = re.captures(sa_id) {
+        if captures.len() >= 3 {
+            // 提取两段数字并去掉减号
+            let first_part = &captures[1];
+            let second_part = &captures[2];
+            return format!("{}{}", first_part, second_part);
+        }
+    }
+    // 如果无法匹配，则返回原始ID
+    sa_id.to_string()
 }
 
 /// 从CSAF数据库中提取数据并填充到OVAL结构体中
 pub async fn parse_csaf_database_to_oval(
     db_config: &DatabaseConfig,
 ) -> Result<OvalDefinitions, Box<dyn Error>> {
-    todo!()
+    info!("开始从CSAF数据库解析数据到OVAL格式");
+
+    // 连接数据库
+    let db_manager = DatabaseManager::new(db_config).await?;
+    let csaf_query = CsafQuery::new(db_manager).await?;
+    todo!();
 }
 
 /// 根据 SA ID 从数据库查询信息并创建 OVAL 定义
