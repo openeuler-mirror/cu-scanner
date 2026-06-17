@@ -654,7 +654,15 @@ impl CsafQuery {
 
     /// 将数据库行转换为 OsVersionMap 实体
     fn row_to_os_version_map(&self, row: &Row) -> OsVersionMap {
-        todo!()
+        OsVersionMap {
+            id: row.get("id"),
+            os_version: row.get("os_version"),
+            upstream_series: row.get("upstream_series"),
+            dist: row.get("dist"),
+            release_date: row.get("release_date"),
+            end_of_life: row.get("end_of_life"),
+            description: row.get("description"),
+        }
     }
 
     /// 将数据库行转换为 SaCve 实体
