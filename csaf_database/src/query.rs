@@ -675,12 +675,28 @@ impl CsafQuery {
 
     /// 将数据库行转换为 CveAffect 实体
     fn row_to_cve_affect(&self, row: &Row) -> CveAffect {
-        todo!()
+        CveAffect {
+            id: row.get("id"),
+            cve_id: row.get("cve_id"),
+            package_name: row.get("package_name"),
+            os_version_id: row.get("os_version_id"),
+            status: row.get("status"),
+            fixed_version: row.get("fixed_version"),
+            last_checked: row.get("last_checked"),
+        }
     }
 
     /// 将数据库行转换为 PackageSourceMap 实体
     fn row_to_package_source_map(&self, row: &Row) -> PackageSourceMap {
-        todo!()
+        PackageSourceMap {
+            id: row.get("id"),
+            package_name: row.get("package_name"),
+            os_version_id: row.get("os_version_id"),
+            upstream_series: row.get("upstream_series"),
+            is_inherited: row.get("is_inherited"),
+            created_at: row.get("created_at"),
+            updated_at: row.get("updated_at"),
+        }
     }
 
     /// 将数据库行转换为 SrcRpmInfo 实体
