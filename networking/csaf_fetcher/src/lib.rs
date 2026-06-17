@@ -954,7 +954,16 @@ README.md
 index.txt
 2021/csaf-openeuler-sa-2021-1003.json
 "#;
-        todo!();
+
+        let paths: Vec<String> = index_content
+            .lines()
+            .map(|line| line.trim())
+            .filter(|line| !line.is_empty() && line.ends_with(".json"))
+            .map(|line| line.to_string())
+            .collect();
+
+        assert_eq!(paths.len(), 3);
+        assert!(paths.iter().all(|p| p.ends_with(".json")));
     }
 
     // 注意：以下测试需要实际的网络连接和有效的CSAF URL
