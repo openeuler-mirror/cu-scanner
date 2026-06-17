@@ -20,5 +20,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
 
     // 创建数据库管理器
+    let db_manager = Arc::new(Mutex::new(DatabaseManager::new(&db_config).await?));
+
+    // 初始化数据库表
+    {
+        let mut db = db_manager.lock().await;
+        db.init_tables().await?;
+    }
+
+    // 创建基于数据库的ID生成器
+    let mut id_generator =
+        DatabaseIdGenerator::new(db_manager.clone(), "demo_generator".to_string(), 10000);
     todo!();
 }
