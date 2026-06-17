@@ -84,7 +84,16 @@ pub struct OsInfo {
 /// 根据 dist 获取对应的 os_info_id
 /// 这个映射必须与 database/src/schema.rs 中的 init_os_info_data 保持一致
 fn get_os_info_id_by_dist(dist: &str) -> i64 {
-    todo!()
+    match dist {
+        "oe1" => 1,    // openEuler 20.03
+        "oe2203" => 2, // openEuler 22.03
+        "oe2403" => 3, // openEuler 24.03
+        "el7" => 4,    // Red Hat Enterprise Linux 7
+        "el9" => 5,    // Red Hat Enterprise Linux 9
+        "el8" => 6,    // Red Hat Enterprise Linux 8
+        "ule4" => 7,   // China Unicom Linux 4
+        _ => 0,        // Unknown
+    }
 }
 
 /// 根据 os_info_id 生成操作系统检查相关的固定 ID
