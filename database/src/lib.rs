@@ -57,5 +57,9 @@ pub use id_generator::DatabaseIdGenerator;
 /// // tst_is_id = "oval:cn.chinaunicom.culinux.cusa:tst:14"
 /// ```
 pub fn generate_os_check_ids(os_info_id: i64) -> (String, String, String, String, String) {
-    todo!()
+    let base_id = os_info_id * 10;
+
+    let os_object_id = format!("{}{}", oval::CU_LINUX_SA_OBJ_PREFIX, base_id);
+    let os_state_full_id = format!("{}{}", oval::CU_LINUX_SA_STE_PREFIX, base_id + 1);
+    todo!();
 }
