@@ -45,6 +45,13 @@ pub async fn csaf_to_oval_with_db_counter(
     oval.generator.time_stamp = formatted_time.clone();
     // TODO: Set the content_version rule
     // oval.generator.content_version = 0;
+
+    let mut id_generator = DatabaseIdGenerator::new(db_manager, counter_id, initial_counter);
+
+    let mut definations = oval::Definitions::new();
+    let mut defination = Definition::new();
+
+    // 为定义生成唯一ID
     todo!();
 }
 
