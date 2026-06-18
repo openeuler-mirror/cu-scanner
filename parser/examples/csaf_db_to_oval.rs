@@ -20,5 +20,45 @@ async fn main() -> Result<(), Box<dyn Error>> {
     );
 
     // 从CSAF数据库解析数据到OVAL格式
-    todo!();
+    match parse_csaf_database_to_oval(&db_config).await {
+        Ok(oval_definitions) => {
+            println!(
+                "成功解析数据，共 {} 个OVAL定义",
+                oval_definitions.definitions.items.len()
+            );
+
+            // 显示前几个定义的ID
+            for (i, definition) in oval_definitions
+                .definitions
+                .items
+                .iter()
+                .take(3)
+                .enumerate()
+            {
+                println!("  {}. {}", i + 1, definition.id);
+            }
+
+            // 将OVAL定义转换为XML字符串
+            match oval_definitions.to_oval_string() {
+                Ok(xml_string) => {
+                    println!("\nOVAL XML输出 (前500个字符):");
+                    println!("{}", &xml_string[..std::cmp::min(500, xml_string.len())]);
+
+                    // 保存到文件
+                    std::fs::write("output_oval.xml", xml_string)?;
+                    println!("\nOVAL XML已保存到 output_oval.xml");
+                }
+                Err(e) => {
+                    eprintln!("转换OVAL定义为XML字符串失败: {}", e);
+                }
+            }
+        }
+        Err(e) => {
+            eprintln!("从CSAF数据库解析数据到OVAL格式失败: {}", e);
+            return Err(e);
+        }
+    }
+
+    println!("\n示例程序执行完成!");
+    Ok(())
 }
