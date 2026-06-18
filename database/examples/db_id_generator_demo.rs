@@ -31,5 +31,23 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 创建基于数据库的ID生成器
     let mut id_generator =
         DatabaseIdGenerator::new(db_manager.clone(), "demo_generator".to_string(), 10000);
+
+    // 获取当前计数器值
+    let current_counter = id_generator.get_current_counter().await?;
+    println!("当前计数器值: {}", current_counter);
+
+    // 为软件包生成对象ID
+    println!("为软件包生成对象ID:");
+    let obj_id1 = id_generator
+        .generate_object_id_for_package("test-package-1")
+        .await?;
+    println!("  test-package-1: {}", obj_id1);
+
+    let obj_id2 = id_generator
+        .generate_object_id_for_package("test-package-2")
+        .await?;
+    println!("  test-package-2: {}", obj_id2);
+
+    // 再次为相同软件包生成ID，应该返回相同的ID
     todo!();
 }
