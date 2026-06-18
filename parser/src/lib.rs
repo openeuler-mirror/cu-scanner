@@ -197,6 +197,25 @@ fn extract_dist_from_package(package_version: &str) -> Option<String> {
     // 按长度降序排序，优先匹配更长的dist（如oe2403优先于oe1）
     let mut sorted_dists = all_dists.clone();
     sorted_dists.sort_by_key(|b| std::cmp::Reverse(b.len()));
+    // 精确匹配
+    for dist in &sorted_dists {
+        if package_version.contains(dist) {
+            debug!(
+                "从软件包版本 {} 中精确匹配到dist: {}",
+                package_version, dist
+            );
+            return Some(dist.clone());
+        }
+    }
+    // 模糊匹配：oe2003sp4 -> oe1 (openEuler 20.03系列)
+    if package_version.contains("oe2003") || package_version.contains("oe20.03") {
+        debug!(
+            "从软件包版本 {} 中模糊匹配到dist: oe1 (openEuler 20.03)",
+            package_version
+        );
+        return Some("oe1".to_string());
+    }
+    // 模糊匹配：oe2203sp* -> oe2203
     todo!();
 }
 /// 根据dist标识匹配操作系统信息
