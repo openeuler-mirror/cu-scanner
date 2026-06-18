@@ -40,6 +40,15 @@ pub async fn parse_csaf_database_to_oval(
 
     // 获取所有安全公告信息
     let sa_infos = csaf_query.get_all_sa_info().await?;
+    info!("获取到 {} 条安全公告信息", sa_infos.len());
+
+    // 为每个安全公告创建OVAL定义
+    for sa_info in sa_infos {
+        let definition = create_definition_from_sa_id(db_config, &sa_info.sa_id).await?;
+        oval_definitions.definitions.items.push(definition);
+    }
+
+    // 获取所有CVE信息
     todo!();
 }
 
