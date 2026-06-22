@@ -378,7 +378,10 @@ impl IdGenerator {
 
     /// 为测试生成ID
     pub fn generate_test_id(&mut self, package_name: &str, evr: &str) -> String {
-        todo!()
+        let key = format!("{}:{}", package_name, evr);
+        let id = self.get_or_create_test_id(&key, oval::CU_LINUX_SA_TST_PREFIX);
+        debug!("为测试生成ID: {}:{} -> {}", package_name, evr, id);
+        id
     }
 
     /// 为基本测试生成ID（用于OS检查等）
