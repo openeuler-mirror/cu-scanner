@@ -136,6 +136,11 @@ fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
     // 设置definition的ID，使用CSAF文档的ID并进行处理
     // 仅保留最后的数字-数字部分，并将减号去掉，然后添加前缀
     let original_id = &sa.document.tracking.id;
+    let processed_id = process_csaf_id(original_id);
+    // 使用OVAL中定义的前缀格式
+    definition.id = format!("{}{}", oval::CU_LINUX_SA_DEF_PREFIX, processed_id);
+
+    // 设置definition的class为"patch"
     todo!();
 }
 
