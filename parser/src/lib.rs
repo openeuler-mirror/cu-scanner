@@ -298,12 +298,20 @@ impl IdGenerator {
 
     /// 设置当前计数器值
     pub fn set_current_counter(&mut self, counter: u64) {
-        todo!()
+        self.id_counter.set_current_counter(counter);
     }
 
     /// 获取或创建对象ID，确保相同对象名使用相同ID
     pub fn get_or_create_object_id(&mut self, object_name: &str, prefix: &str) -> String {
-        todo!()
+        if let Some(id) = self.object_ids.get(object_name) {
+            debug!("使用现有对象ID: {} -> {}", object_name, id);
+            id.clone()
+        } else {
+            let id = self.generate_unique_id(prefix);
+            self.object_ids.insert(object_name.to_string(), id.clone());
+            debug!("创建新对象ID: {} -> {}", object_name, id);
+            id
+        }
     }
 
     /// 获取或创建状态ID，确保相同EVR使用相同ID
