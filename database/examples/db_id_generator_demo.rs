@@ -64,5 +64,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("  2.0-1: {}", state_id2);
 
     // 再次为相同EVR生成ID，应该返回相同的ID
+    let state_id3 = id_generator.generate_state_id_for_evr("1.0-1").await?;
+    println!("  1.0-1 (重复): {}", state_id3);
+    assert_eq!(state_id1, state_id3);
+
+    // 为测试生成ID
+    println!("为测试生成ID:");
+    let test_id1 = id_generator
+        .generate_test_id("test-package-1", "1.0-1")
+        .await?;
+    println!("  test-package-1:1.0-1: {}", test_id1);
+
+    let test_id2 = id_generator
+        .generate_test_id("test-package-2", "2.0-1")
+        .await?;
+    println!("  test-package-2:2.0-1: {}", test_id2);
+
+    // 再次为相同测试生成ID，应该返回相同的ID
     todo!();
 }
