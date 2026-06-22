@@ -216,12 +216,37 @@ fn extract_dist_from_package(package_version: &str) -> Option<String> {
         return Some("oe1".to_string());
     }
     // 模糊匹配：oe2203sp* -> oe2203
-    todo!();
+    if package_version.contains("oe2203") || package_version.contains("oe22.03") {
+        debug!(
+            "从软件包版本 {} 中模糊匹配到dist: oe2203 (openEuler 22.03)",
+            package_version
+        );
+        return Some("oe2203".to_string());
+    }
+    // 模糊匹配：oe2403sp* -> oe2403
+    if package_version.contains("oe2403") || package_version.contains("oe24.03") {
+        debug!(
+            "从软件包版本 {} 中模糊匹配到dist: oe2403 (openEuler 24.03)",
+            package_version
+        );
+        return Some("oe2403".to_string());
+    }
+    warn!("无法从软件包版本 {} 中提取dist标识", package_version);
+    None
 }
 /// 根据dist标识匹配操作系统信息
 /// 如果无法匹配，返回"Unknown OS"
 fn match_os_info_by_dist(dist: Option<&str>) -> OsInfo {
-    todo!()
+    let predefined = get_predefined_os_info();
+    if let Some(dist_val) = dist {
+        for os_info in predefined {
+            if os_info.dist == dist_val {
+                debug!("匹配到OS信息: {} {}", os_info.os_type, os_info.os_version);
+                return os_info;
+            }
+        }
+    }
+    todo!();
 }
 #[derive(Debug)]
 pub struct IdGenerator {
