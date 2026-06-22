@@ -1108,6 +1108,16 @@ mod tests {
         // 测试对象ID生成
         let obj_id1 = id_gen.generate_object_id_for_package("test-package");
         let obj_id2 = id_gen.generate_object_id_for_package("test-package");
+        assert_eq!(obj_id1, obj_id2, "相同对象名应生成相同ID");
+
+        // 测试不同对象名生成不同ID
+        let obj_id3 = id_gen.generate_object_id_for_package("another-package");
+        assert_ne!(obj_id1, obj_id3, "不同对象名应生成不同ID");
+
+        // 测试状态ID生成
+        let state_id1 = id_gen.generate_state_id_for_evr("1.0.0-1");
+        let state_id2 = id_gen.generate_state_id_for_evr("1.0.0-1");
+        assert_eq!(state_id1, state_id2, "相同EVR应生成相同ID");
         todo!();
     }
 
