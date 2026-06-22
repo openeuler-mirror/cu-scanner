@@ -89,5 +89,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 生成基本测试ID
     println!("生成基本测试ID:");
-    todo!();
+    let base_test_id1 = id_generator.generate_base_test_id("os_installed").await?;
+    println!("  os_installed: {}", base_test_id1);
+
+    let base_test_id2 = id_generator.generate_base_test_id("os_required").await?;
+    println!("  os_required: {}", base_test_id2);
+
+    // 最终计数器值
+    let current_counter = id_generator.get_current_counter().await?;
+    println!("最终计数器值: {}", current_counter);
+
+    println!("基于数据库的ID生成器演示完成");
+    Ok(())
 }
