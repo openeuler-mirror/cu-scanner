@@ -939,6 +939,37 @@ pub fn build_oval_criteria(
 
     // 创建两个 RpmVerifyFileState
     // State 1: 完整检查 (name + version) - 用于 "must be installed"
+    // version 字段使用 os_version 进行匹配
+    // 转义特殊字符（如 . 转为 \\.)
+    let version_match_pattern = format!("^{}", os_info.os_version);
+    let os_state_full = oval::RpmVerifyFileState {
+        id: os_state_full_id.clone(),
+        version: "1".to_string(),
+        name: oval::StateData {
+            operation: "pattern match".to_string(),
+            content: name_pattern.to_string(),
+        },
+        os_version: Some(oval::StateData {
+            operation: "pattern match".to_string(),
+            content: version_match_pattern, // 使用 os_version
+        }),
+    };
+    os_states.push(os_state_full);
+
+    // State 2: 仅检查名称 (name only) - 用于 "is installed"
+    let os_state_name_only = oval::RpmVerifyFileState {
+        id: os_state_name_only_id.clone(),
+        version: "1".to_string(),
+        name: oval::StateData {
+            operation: "pattern match".to_string(),
+            content: name_pattern.to_string(),
+        },
+        os_version: None, // 不检查版本
+    };
+    os_states.push(os_state_name_only);
+
+    // 创建两个 RpmVerifyFileTest
+    // Test 1: "must be installed" - check="none satisfy" - 使用仅检查名称 state
     todo!();
 }
 
