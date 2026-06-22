@@ -209,7 +209,19 @@ fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
     advisory.cve = cve_list.clone();
 
     // 根据CVE的impact计算最高严重性级别并填充到advisory.severity
-    todo!();
+    let max_severity = oval::calculate_max_severity(&cve_list);
+    if !max_severity.is_empty() {
+        advisory.severity = max_severity;
+        info!("根据CVE计算得到的最高严重性级别: {}", advisory.severity);
+    } else {
+        info!("未找到CVE impact信息，保持severity为空");
+    }
+
+    // 将advisory赋值给definition.metadata
+    metadata.advisory = advisory;
+    definition.metadata = metadata.clone();
+    info!("OVAL定义填充完成");
+    Ok(())
 }
 
 /// 处理CSAF ID，仅保留最后的数字-数字部分，并将减号去掉
