@@ -1538,6 +1538,33 @@ mod tests {
             "对象ID应以正确前缀开头: {}",
             obj_id
         );
-        todo!();
+
+        let state_id = id_gen.generate_state_id_for_evr("1.0-1");
+        assert!(
+            state_id.starts_with(oval::CU_LINUX_SA_STE_PREFIX),
+            "状态ID应以正确前缀开头: {}",
+            state_id
+        );
+
+        let test_id = id_gen.generate_test_id("pkg", "1.0-1");
+        assert!(
+            test_id.starts_with(oval::CU_LINUX_SA_TST_PREFIX),
+            "测试ID应以正确前缀开头: {}",
+            test_id
+        );
+
+        let def_id = id_gen.generate_definition_id_for_cve("CVE-2024-1234");
+        assert!(
+            def_id.starts_with(oval::CU_LINUX_SA_DEF_PREFIX),
+            "定义ID应以正确前缀开头: {}",
+            def_id
+        );
+
+        let base_test_id = id_gen.generate_base_test_id("os_check");
+        assert!(
+            base_test_id.starts_with(oval::CU_LINUX_BA_TST_PREFIX),
+            "基础测试ID应以正确前缀开头: {}",
+            base_test_id
+        );
     }
 }
