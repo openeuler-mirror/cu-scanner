@@ -119,7 +119,26 @@ pub async fn create_definition_from_sa_id(
     if let Some(ref severity) = sa_info.severity {
         advisory.severity = severity.clone();
     }
-    todo!();
+
+    // 设置发布和更新日期
+    let mut issued = Issued::new();
+    if let Some(ref created_time) = sa_info.created_time {
+        issued.date = created_time.clone();
+    }
+    advisory.issued = issued;
+
+    let mut updated = Updated::new();
+    if let Some(ref updated_time) = sa_info.updated_time {
+        updated.date = updated_time.clone();
+    }
+    advisory.updated = updated;
+
+    metadata.advisory = advisory;
+
+    definition.metadata = metadata;
+
+    debug!("成功为安全公告 {} 创建 OVAL 定义", sa_info.sa_id);
+    Ok(definition)
 }
 
 /// 根据CVE信息创建CVE条目
