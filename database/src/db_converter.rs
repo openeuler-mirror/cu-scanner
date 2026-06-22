@@ -141,6 +141,12 @@ fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
     definition.id = format!("{}{}", oval::CU_LINUX_SA_DEF_PREFIX, processed_id);
 
     // 设置definition的class为"patch"
+    definition.class = "patch".to_string();
+
+    // 设置definition的version为CSAF文档的版本号
+    definition.version = sa.document.tracking.version.parse().unwrap_or(1);
+
+    let mut references = Vec::<oval::Reference>::new();
     todo!();
 }
 
