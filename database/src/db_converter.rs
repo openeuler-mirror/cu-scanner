@@ -179,6 +179,12 @@ fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
             return Err(e.into());
         }
     };
+
+    advisory.issued.date = issued_time.to_string();
+    advisory.updated.date = issued_time.to_string();
+
+    // 创建CVE列表
+    let mut cve_list = Vec::new();
     todo!();
 }
 
