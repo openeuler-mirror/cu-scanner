@@ -89,6 +89,11 @@ pub async fn create_definition_from_sa_id(
     };
 
     // 从 SA ID 中提取 OVAL 定义 ID
+    let oval_id = extract_oval_id_from_sa_id(&sa_info.sa_id);
+
+    let mut oval_definitions = OvalDefinitions::new();
+    let now = Utc::now();
+    // 使用RFC3339格式（符合xs:dateTime要求）
     todo!();
 }
 
