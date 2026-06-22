@@ -107,6 +107,26 @@ fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
     // 填充definition结构体
     let mut metadata = Metadata::new();
     let mut affect = Affected::new();
+    let mut has_note = false;
+
+    // 从csaf的notes中获取软件包的说明
+    // 填充metadata结构体
+    for note in &sa.document.notes {
+        if note.title == "Synopsis" {
+            // TODO: Add SA ID
+            metadata.title = note.text.clone();
+            has_note = true;
+        }
+
+        if note.title == "Summary" {
+            affect.platform = note.text.clone();
+            metadata.affected = affect.clone();
+        }
+
+        if note.title == "Description" {
+            metadata.description = note.text.clone();
+        }
+    }
     todo!();
 }
 
