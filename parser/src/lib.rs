@@ -1361,12 +1361,51 @@ mod tests {
         assert!(!os_objects.is_empty(), "OS对象列表不应为空");
         assert_eq!(os_objects.len(), 1, "应包含1个OS对象");
         assert!(!os_states.is_empty(), "OS状态列表不应为空");
-        todo!();
+        assert_eq!(os_states.len(), 2, "应包含2个OS状态（full和name_only）");
+
+        // 验证测试引用的对象和状态存在
+        for test in &tests {
+            assert!(!test.id.is_empty(), "测试ID不应为空");
+            assert!(!test.object.object_ref.is_empty(), "对象引用不应为空");
+            assert!(!test.state.state_ref.is_empty(), "状态引用不应为空");
+            assert_eq!(test.check, "at least one", "检查方式应为'at least one'");
+        }
+
+        // 验证对象
+        for object in &objects {
+            assert!(!object.id.is_empty(), "对象ID不应为空");
+            assert!(!object.rpm_name.is_empty(), "RPM名称不应为空");
+            assert!(
+                object.id.starts_with(oval::CU_LINUX_SA_OBJ_PREFIX),
+                "对象ID应以正确前缀开头"
+            );
+        }
+
+        // 验证状态
+        for state in &states {
+            assert!(!state.id.is_empty(), "状态ID不应为空");
+            assert!(state.evr.is_some(), "应包含EVR信息");
+            assert!(
+                state.id.starts_with(oval::CU_LINUX_SA_STE_PREFIX),
+                "状态ID应以正确前缀开头"
+            );
+
+            if let Some(evr) = &state.evr {
+                assert_eq!(evr.datatype, "evr_string", "EVR数据类型应为evr_string");
+                assert_eq!(evr.operation, "less than", "EVR操作应为less than");
+                assert!(!evr.evr.is_empty(), "EVR值不应为空");
+            }
+        }
     }
 
     #[test]
     fn test_build_oval_criteria_deduplication() {
-        todo!()
+        // 测试去重逻辑
+        let test_file = get_test_file_path("csaf", "csaf-openeuler-sa-2025-1004.json");
+        let csaf = CSAF::from_file(&test_file).expect("Failed to load CSAF test file");
+
+        let mut id_generator = IdGenerator::new(10000);
+        todo!();
     }
 
     #[test]
