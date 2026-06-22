@@ -200,6 +200,9 @@ mod tests {
         // 测试正常情况
         assert_eq!(extract_oval_id_from_sa_id("SA-2025-1004"), "20251004");
         assert_eq!(extract_oval_id_from_sa_id("CSAF-ID-2025-1004"), "20251004");
-        todo!();
+
+        // 测试不匹配的情况
+        assert_eq!(extract_oval_id_from_sa_id("invalid-id"), "invalid-id");
+        assert_eq!(extract_oval_id_from_sa_id("SA-2025"), "SA-2025");
     }
 }
