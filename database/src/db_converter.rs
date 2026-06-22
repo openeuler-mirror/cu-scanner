@@ -282,6 +282,8 @@ async fn build_oval_criteria(
 
     // 存储用于去重和引用
     let mut object_map: HashMap<String, String> = HashMap::new();
+    let mut state_map: HashMap<String, String> = HashMap::new();
+    let mut test_map: HashMap<String, String> = HashMap::new();
     todo!();
 }
 
