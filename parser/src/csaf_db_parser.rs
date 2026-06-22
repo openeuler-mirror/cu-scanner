@@ -144,7 +144,15 @@ pub async fn create_definition_from_sa_id(
 /// 根据CVE信息创建CVE条目
 #[allow(dead_code)]
 fn create_cve_from_cve_info(cve_info: &CveInfo) -> CVE {
-    todo!()
+    debug!("为CVE {} 创建CVE条目", cve_info.cve_id);
+
+    let mut cve = CVE::new();
+    cve.content = cve_info.cve_id.clone();
+    cve.href = format!(
+        "https://cve.mitre.org/cgi-bin/cvename.cgi?name={}",
+        cve_info.cve_id
+    );
+    todo!();
 }
 
 /// 从数据库中获取某个更新时间之后的所有SA ID
