@@ -530,7 +530,74 @@ pub fn parse_package_string(pkg_string: &str) -> Option<(String, String, String,
     } else {
         del_arch_pkg_name = pkg_version_tag;
     }
-    todo!();
+
+    // 使用类似Perl命令的策略解析包名
+    // 将包名按"-"分割成数组，然后取前(n-2)个元素作为包名（n是数组长度）
+    // 剩余的元素组合作为EVR
+    let parts_split: Vec<&str> = del_arch_pkg_name.split('-').collect();
+    if parts_split.len() >= 3 {
+        // 计算包名部分的长度（总长度-2）
+        let name_parts_count = parts_split.len() - 2;
+        if name_parts_count > 0 && name_parts_count < parts_split.len() {
+            // 包名是前name_parts_count个元素
+            let name = parts_split[..name_parts_count].join("-");
+            // EVR是剩余的元素
+            let evr = parts_split[name_parts_count..].join("-");
+
+            debug!(
+                "解析结果 - OS完整名: {}, 包名: {}, EVR: {}, OS名: {}",
+                parts[0], name, evr, os_name
+            );
+            Some((
+                parts[0].to_string(),   // 操作系统完整名称
+                name,                   // 软件包名称
+                evr,                    // EVR (Version-Release)
+                (*os_name).to_string(), // 操作系统名称
+            ))
+        } else {
+            // 如果计算出的包名长度不合理，回退到原来的解析方法
+            let pkg_parts: Vec<&str> = pkg_version_tag.rsplitn(3, '-').collect();
+            if pkg_parts.len() < 3 {
+                warn!("软件包字符串解析失败，部分数量不足");
+                return None;
+            }
+
+            let version = pkg_parts[0];
+            let release = pkg_parts[1];
+            let evr = format!("{}-{}", version, release);
+            debug!(
+                "回退解析结果 - OS完整名: {}, 包名: {}, EVR: {}, OS名: {}",
+                parts[0], pkg_parts[2], evr, os_name
+            );
+            Some((
+                parts[0].to_string(), // 直接使用parts[0]而不是os_full变量
+                pkg_parts[2].to_string(),
+                evr,
+                (*os_name).to_string(),
+            ))
+        }
+    } else {
+        // 如果分割后的部分少于3个，回退到原来的解析方法
+        let pkg_parts: Vec<&str> = pkg_version_tag.rsplitn(3, '-').collect();
+        if pkg_parts.len() < 3 {
+            warn!("软件包字符串解析失败，部分数量不足");
+            return None;
+        }
+
+        let version = pkg_parts[0];
+        let release = pkg_parts[1];
+        let evr = format!("{}-{}", version, release);
+        debug!(
+            "回退解析结果 - OS完整名: {}, 包名: {}, EVR: {}, OS名: {}",
+            parts[0], pkg_parts[2], evr, os_name
+        );
+        Some((
+            parts[0].to_string(), // 直接使用parts[0]而不是os_full变量
+            pkg_parts[2].to_string(),
+            evr,
+            (*os_name).to_string(),
+        ))
+    }
 }
 
 /// 填充definition
@@ -544,7 +611,11 @@ pub fn parse_package_string(pkg_string: &str) -> Option<(String, String, String,
 ///
 /// 返回操作的结果，如果解析失败，则返回Error
 pub fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
-    todo!()
+    info!("填充OVAL定义");
+    // 填充definition结构体
+    let mut metadata = Metadata::new();
+    let mut affect = Affected::new();
+    todo!();
 }
 
 /// 处理CSAF ID，仅保留最后的数字-数字部分，并将减号去掉
