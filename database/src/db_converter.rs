@@ -277,6 +277,8 @@ async fn build_oval_criteria(
 )> {
     info!("构建OVAL检查条件");
     let mut rpminfo_test: Vec<RpmInfoTest> = Vec::new();
+    let mut rpminfo_object: Vec<RpmInfoObject> = Vec::new();
+    let mut rpminfo_states: Vec<RpmInfoState> = Vec::new();
     todo!();
 }
 
