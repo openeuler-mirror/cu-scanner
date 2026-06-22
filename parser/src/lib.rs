@@ -1340,6 +1340,18 @@ mod tests {
 
         let mut id_generator = IdGenerator::new(10000);
         let vulnerability = &csaf.vulnerabilities[0];
+
+        let result = build_oval_criteria(vulnerability, &mut id_generator);
+        assert!(result.is_ok(), "构建条件应成功");
+
+        let (criteria, tests, objects, states, os_tests, os_objects, os_states) = result.unwrap();
+
+        // 验证条件结构
+        assert_eq!(criteria.operator, "OR", "顶层操作符应为OR");
+        assert!(!criteria.criterion.is_empty(), "应包含条件");
+
+        // 验证测试、对象、状态列表
+        assert!(!tests.is_empty(), "测试列表不应为空");
         todo!();
     }
 
