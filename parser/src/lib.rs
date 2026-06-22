@@ -421,6 +421,20 @@ pub fn csaf_to_oval_with_shared_generator(
     oval.generator.time_stamp = formatted_time.clone();
     let mut definations = oval::Definitions::new();
     let mut defination = Definition::new();
+    // 为定义生成唯一ID
+    if !csaf.vulnerabilities.is_empty() {
+        let definition_id =
+            id_generator.generate_definition_id_for_cve(&csaf.vulnerabilities[0].cve);
+        defination.id = definition_id.clone();
+        info!("为定义生成ID: {}", definition_id);
+    }
+    fill_definition(csaf, &mut defination)?;
+    let (criteria, info_tests, info_objects, info_states, os_tests, os_objects, os_states) =
+        build_oval_criteria(&csaf.vulnerabilities[0], id_generator)?;
+    defination.criteria = criteria;
+    definations.items.push(defination);
+    oval.definitions = definations;
+    oval.tests.rpminfo_tests = info_tests;
     todo!();
 }
 /// 将CSAF格式转换为OVAL格式
