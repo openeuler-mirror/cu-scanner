@@ -275,7 +275,9 @@ async fn build_oval_criteria(
     Vec<RpmInfoObject>,
     Vec<RpmInfoState>,
 )> {
-    todo!()
+    info!("构建OVAL检查条件");
+    let mut rpminfo_test: Vec<RpmInfoTest> = Vec::new();
+    todo!();
 }
 
 /// 解析软件包字符串
