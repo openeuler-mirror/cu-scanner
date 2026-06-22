@@ -386,13 +386,16 @@ impl IdGenerator {
 
     /// 为基本测试生成ID（用于OS检查等）
     pub fn generate_base_test_id(&mut self, test_type: &str) -> String {
-        todo!()
+        let key = format!("base:{}", test_type);
+        let id = self.get_or_create_test_id(&key, oval::CU_LINUX_BA_TST_PREFIX);
+        debug!("为基本测试生成ID: {} -> {}", test_type, id);
+        id
     }
 }
 
 impl Default for IdGenerator {
     fn default() -> Self {
-        todo!()
+        Self::new(10000)
     }
 }
 
