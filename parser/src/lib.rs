@@ -778,7 +778,18 @@ pub fn build_oval_criteria(
     sa: &Vulnerabilitie,
     id_generator: &mut IdGenerator,
 ) -> Result<OvalCriteriaResult> {
-    todo!()
+    info!("构建OVAL检查条件");
+    let mut rpminfo_test: Vec<RpmInfoTest> = Vec::new();
+    let mut rpminfo_object: Vec<RpmInfoObject> = Vec::new();
+    let mut rpminfo_states: Vec<RpmInfoState> = Vec::new();
+
+    // 存储用于去重和引用
+    let mut object_map: HashMap<String, String> = HashMap::new();
+    let mut state_map: HashMap<String, String> = HashMap::new();
+    let mut test_map: HashMap<String, String> = HashMap::new(); // 添加测试去重映射
+
+    // 存储所有的<criteria operator="AND">(即软件包的检查逻辑)
+    todo!();
 }
 
 #[cfg(test)]
