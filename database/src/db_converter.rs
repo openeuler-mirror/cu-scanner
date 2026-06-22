@@ -286,6 +286,9 @@ async fn build_oval_criteria(
     let mut test_map: HashMap<String, String> = HashMap::new(); // 添加测试去重映射
 
     // 存储所有的<criteria operator="AND">(即软件包的检查逻辑)
+    let mut pkg_and_criterions: Vec<Criteria> = Vec::new();
+
+    // 存储最终生成的criteria
     todo!();
 }
 
