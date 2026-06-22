@@ -49,5 +49,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("  test-package-2: {}", obj_id2);
 
     // 再次为相同软件包生成ID，应该返回相同的ID
+    let obj_id3 = id_generator
+        .generate_object_id_for_package("test-package-1")
+        .await?;
+    println!("  test-package-1 (重复): {}", obj_id3);
+    assert_eq!(obj_id1, obj_id3);
+
+    // 为EVR生成状态ID
+    println!("为EVR生成状态ID:");
     todo!();
 }
