@@ -342,12 +342,24 @@ impl IdGenerator {
 
     /// 获取或创建定义ID，确保相同定义使用相同ID
     pub fn get_or_create_definition_id(&mut self, definition_key: &str, prefix: &str) -> String {
-        todo!()
+        if let Some(id) = self.definition_ids.get(definition_key) {
+            debug!("使用现有定义ID: {} -> {}", definition_key, id);
+            id.clone()
+        } else {
+            let id = self.generate_unique_id(prefix);
+            self.definition_ids
+                .insert(definition_key.to_string(), id.clone());
+            debug!("创建新定义ID: {} -> {}", definition_key, id);
+            id
+        }
     }
 
     /// 为CSAF漏洞生成定义ID
     pub fn generate_definition_id_for_cve(&mut self, cve_id: &str) -> String {
-        todo!()
+        let key = format!("cve:{}", cve_id);
+        let id = self.get_or_create_definition_id(&key, oval::CU_LINUX_SA_DEF_PREFIX);
+        debug!("为CVE生成定义ID: {} -> {}", cve_id, id);
+        id
     }
 
     /// 为软件包生成对象ID
