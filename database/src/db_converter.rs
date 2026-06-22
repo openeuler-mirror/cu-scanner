@@ -279,6 +279,9 @@ async fn build_oval_criteria(
     let mut rpminfo_test: Vec<RpmInfoTest> = Vec::new();
     let mut rpminfo_object: Vec<RpmInfoObject> = Vec::new();
     let mut rpminfo_states: Vec<RpmInfoState> = Vec::new();
+
+    // 存储用于去重和引用
+    let mut object_map: HashMap<String, String> = HashMap::new();
     todo!();
 }
 
