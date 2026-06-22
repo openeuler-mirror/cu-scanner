@@ -152,7 +152,12 @@ fn create_cve_from_cve_info(cve_info: &CveInfo) -> CVE {
         "https://cve.mitre.org/cgi-bin/cvename.cgi?name={}",
         cve_info.cve_id
     );
-    todo!();
+    // 设置默认值
+    cve.cvss3 = "".to_string();
+    cve.impact = "".to_string();
+
+    debug!("成功为CVE {} 创建CVE条目", cve_info.cve_id);
+    cve
 }
 
 /// 从数据库中获取某个更新时间之后的所有SA ID
