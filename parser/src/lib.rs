@@ -1485,6 +1485,11 @@ mod tests {
         );
         assert!(xml_content.contains("generator"), "XML应包含generator");
         assert!(xml_content.contains("definitions"), "XML应包含definitions");
+        assert!(xml_content.contains("tests"), "XML应包含tests");
+        assert!(xml_content.contains("objects"), "XML应包含objects");
+        assert!(xml_content.contains("states"), "XML应包含states");
+
+        // 保存到parser库的test目录下
         todo!();
     }
 
