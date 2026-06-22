@@ -52,6 +52,18 @@ pub async fn csaf_to_oval_with_db_counter(
     let mut defination = Definition::new();
 
     // 为定义生成唯一ID
+    if !csaf.vulnerabilities.is_empty() {
+        let definition_id = id_generator
+            .generate_definition_id_for_cve(&csaf.vulnerabilities[0].cve)
+            .await?;
+        defination.id = definition_id.clone();
+        info!("为定义生成ID: {}", definition_id);
+    }
+
+    fill_definition(csaf, &mut defination)?;
+    let (criteria, info_tests, info_objects, info_states) =
+        build_oval_criteria(&csaf.vulnerabilities[0], &mut id_generator).await?;
+    defination.criteria = criteria;
     todo!();
 }
 
