@@ -174,7 +174,12 @@ pub async fn get_sa_ids_after_updated_time(
     db_config: &DatabaseConfig,
     timestamp: &str,
 ) -> Result<Vec<String>, Box<dyn Error>> {
-    todo!()
+    info!("开始从 CSAF 数据库查询 {} 之后更新的 SA ID 列表", timestamp);
+
+    // 连接数据库
+    let db_manager = DatabaseManager::new(db_config).await?;
+    let csaf_query = CsafQuery::new(db_manager).await?;
+    todo!();
 }
 
 #[cfg(test)]
