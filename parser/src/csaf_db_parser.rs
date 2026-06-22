@@ -72,7 +72,24 @@ pub async fn create_definition_from_sa_id(
     db_config: &DatabaseConfig,
     sa_id: &str,
 ) -> Result<Definition, Box<dyn Error>> {
-    todo!()
+    debug!("根据 SA ID {} 从数据库查询信息并创建 OVAL 定义", sa_id);
+
+    // 连接数据库
+    let db_manager = DatabaseManager::new(db_config).await?;
+    let csaf_query = CsafQuery::new(db_manager).await?;
+
+    // 从数据库查询 SA 信息
+    let sa_info = csaf_query.get_sa_info_by_sa_id(sa_id).await?;
+
+    let sa_info = match sa_info {
+        Some(info) => info,
+        None => {
+            return Err(format!("未找到 SA ID: {}", sa_id).into());
+        }
+    };
+
+    // 从 SA ID 中提取 OVAL 定义 ID
+    todo!();
 }
 
 /// 根据CVE信息创建CVE条目
