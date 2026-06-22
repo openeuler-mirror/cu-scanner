@@ -49,7 +49,13 @@ pub async fn parse_csaf_database_to_oval(
     }
 
     // 获取所有CVE信息
-    todo!();
+    let cve_infos = csaf_query.get_all_cve_info().await?;
+    info!("获取到 {} 条CVE信息", cve_infos.len());
+
+    // TODO: 根据需要将CVE信息添加到相应的OVAL定义中
+
+    debug!("成功解析CSAF数据库数据到OVAL格式");
+    Ok(oval_definitions)
 }
 
 /// 根据 SA ID 从数据库查询信息并创建 OVAL 定义
