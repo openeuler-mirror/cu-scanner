@@ -64,6 +64,9 @@ pub async fn csaf_to_oval_with_db_counter(
     let (criteria, info_tests, info_objects, info_states) =
         build_oval_criteria(&csaf.vulnerabilities[0], &mut id_generator).await?;
     defination.criteria = criteria;
+    definations.items.push(defination);
+    oval.definitions = definations; // 修复：将定义列表赋值给OVAL对象
+    oval.tests.rpminfo_tests = info_tests;
     todo!();
 }
 
