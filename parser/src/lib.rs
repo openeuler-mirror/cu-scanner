@@ -1083,12 +1083,19 @@ mod tests {
 
     #[test]
     fn test_parse_package_string_invalid_format() {
-        todo!()
+        // 测试格式错误的字符串（缺少冒号）
+        let pkg_string = "openEuler-20.03-LTS-SP4-python-jinja2-2.11.2-9.oe2003sp4.noarch";
+        let result = parse_package_string(pkg_string);
+        assert!(result.is_none(), "无效格式应返回None");
     }
 
     #[test]
     fn test_parse_package_string_no_arch() {
-        todo!()
+        // 测试不带架构后缀的包
+        let pkg_string = "openEuler-20.03-LTS-SP4:nginx-1.20.1-1";
+        let result = parse_package_string(pkg_string);
+        assert!(result.is_some());
+        todo!();
     }
 
     #[test]
