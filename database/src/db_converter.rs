@@ -67,7 +67,11 @@ pub async fn csaf_to_oval_with_db_counter(
     definations.items.push(defination);
     oval.definitions = definations; // 修复：将定义列表赋值给OVAL对象
     oval.tests.rpminfo_tests = info_tests;
-    todo!();
+    oval.objects.rpm_info_objects = info_objects;
+    oval.states.rpminfo_states = Some(info_states);
+
+    info!("CSAF到OVAL转换完成");
+    Ok(oval)
 }
 
 /// 将CSAF格式转换为OVAL格式（使用默认数据库计数器）
