@@ -286,12 +286,14 @@ impl IdGenerator {
 
     /// 生成唯一ID
     fn generate_unique_id(&mut self, prefix: &str) -> String {
-        todo!()
+        let id = self.id_counter.generate_unique_id(prefix);
+        debug!("生成唯一ID: {}{}", prefix, id);
+        id
     }
 
     /// 获取当前计数器值
     pub fn get_current_counter(&self) -> u64 {
-        todo!()
+        self.id_counter.get_current_counter()
     }
 
     /// 设置当前计数器值
