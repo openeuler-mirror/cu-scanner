@@ -789,6 +789,109 @@ pub fn build_oval_criteria(
     let mut test_map: HashMap<String, String> = HashMap::new(); // 添加测试去重映射
 
     // 存储所有的<criteria operator="AND">(即软件包的检查逻辑)
+    let mut pkg_and_criterions: Vec<Criteria> = Vec::new();
+
+    // 存储最终生成的criteria
+    let mut criteria = Criteria::new();
+    // 提取第一个软件包的dist标识并匹配OS信息
+    let os_info = if let Some(first_pkg) = sa.product_status.fixed.first() {
+        if let Some((_, _, evr_full, _)) = parse_package_string(first_pkg) {
+            let dist = extract_dist_from_package(&evr_full);
+            let matched_os = match_os_info_by_dist(dist.as_deref());
+            info!(
+                "匹配到OS信息: {} {}, dist: {}",
+                matched_os.os_type, matched_os.os_version, matched_os.dist
+            );
+            matched_os
+        } else {
+            warn!("无法解析第一个软件包，使用Unknown OS");
+            match_os_info_by_dist(None)
+        }
+    } else {
+        warn!("没有软件包信息，使用Unknown OS");
+        match_os_info_by_dist(None)
+    };
+
+    for pkg_string in sa.product_status.fixed.clone() {
+        if let Some((_os_full, pkg_name, evr_full, _os_name)) = parse_package_string(&pkg_string) {
+            debug!("处理软件包: {}, EVR: {}", pkg_name, evr_full);
+            // 保存evr_full的克隆用于后续使用
+            let evr_full_clone = evr_full.clone();
+
+            //1. 生成Object和State，并将其添加到定义的列表中
+            if !object_map.contains_key(&pkg_name) {
+                // ID生成器已经返回了带有前缀的ID，无需再次添加前缀
+                let id = id_generator.generate_object_id_for_package(&pkg_name);
+                let rpm_info_object = RpmInfoObject::new()
+                    .with_id(id.clone())
+                    .with_ver(1)
+                    .with_rpm_name(pkg_name.clone());
+                rpminfo_object.push(rpm_info_object);
+                object_map.insert(pkg_name.clone(), id.clone());
+                debug!("创建新的RPM对象: {} -> {}", pkg_name, id);
+            }
+
+            if !state_map.contains_key(&evr_full) {
+                // ID生成器已经返回了带有前缀的ID，无需再次添加前缀
+                let id = id_generator.generate_state_id_for_evr(&evr_full);
+                let evr = oval::Evr {
+                    datatype: "evr_string".to_string(),
+                    operation: "less than".to_string(),
+                    evr: utils::add_epoch_prefix(&pkg_name, &evr_full),
+                };
+                let rpm_info_state = RpmInfoState::new()
+                    .with_id(id.clone())
+                    .with_version("1".to_string())
+                    .with_evr(Some(evr));
+                rpminfo_states.push(rpm_info_state);
+                state_map.insert(evr_full.clone(), id.clone());
+                debug!("创建新的RPM状态: {} -> {}", evr_full, id);
+            }
+
+            // 2. 生成test（添加去重逻辑）
+            let test_key = format!("{}:{}", pkg_name, evr_full_clone);
+            let test_ref = if !test_map.contains_key(&test_key) {
+                let new_test_ref = id_generator.generate_test_id(&pkg_name, &evr_full_clone);
+                let evr_with_epoch = utils::add_epoch_prefix(&pkg_name, &evr_full_clone);
+                rpminfo_test.push(RpmInfoTest {
+                    check: "at least one".to_string(),
+                    comment: format!("{} is earlier than {}", pkg_name, evr_with_epoch),
+                    id: new_test_ref.clone(),
+                    version: 1,
+                    object: ObjectReference {
+                        object_ref: object_map[&pkg_name].clone(),
+                    },
+                    state: StateReference {
+                        state_ref: state_map[&evr_full_clone].clone(),
+                    },
+                });
+                test_map.insert(test_key.clone(), new_test_ref.clone());
+                debug!("创建新的RPM测试: {} -> {}", test_key, new_test_ref);
+                new_test_ref
+            } else {
+                let existing_ref = test_map.get(&test_key).unwrap().clone();
+                debug!("使用现有RPM测试: {} -> {}", test_key, existing_ref);
+                existing_ref
+            };
+
+            // 3. 构建<criteria operator="AND"> (用于主逻辑)
+            let evr_with_epoch = utils::add_epoch_prefix(&pkg_name, &evr_full_clone);
+            let pkg_criteria = Criteria {
+                operator: "AND".to_string(),
+                criterion: vec![Criterion {
+                    comment: format!("{} is earlier than {}", pkg_name, evr_with_epoch),
+                    test_ref,
+                }],
+                sub_criteria: None,
+            };
+            pkg_and_criterions.push(pkg_criteria);
+        }
+    }
+
+    // 4. 创建 OS 检查的 tests, objects, states
+    let mut os_tests = Vec::new();
+    let mut os_objects = Vec::new();
+    let mut os_states = Vec::new();
     todo!();
 }
 
