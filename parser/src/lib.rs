@@ -246,7 +246,16 @@ fn match_os_info_by_dist(dist: Option<&str>) -> OsInfo {
             }
         }
     }
-    todo!();
+    warn!("无法匹配OS信息，使用Unknown OS");
+    OsInfo {
+        os_type: "Unknown OS".to_string(),
+        os_version: "Unknown".to_string(),
+        package_name: "unknown-release".to_string(),
+        verify_file: "/etc/unknown-release".to_string(),
+        verify_pattern: "^Unknown".to_string(),
+        dist: dist.unwrap_or("unknown").to_string(),
+        description: "Unknown Operating System".to_string(),
+    }
 }
 #[derive(Debug)]
 pub struct IdGenerator {
