@@ -81,5 +81,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("  test-package-2:2.0-1: {}", test_id2);
 
     // 再次为相同测试生成ID，应该返回相同的ID
+    let test_id3 = id_generator
+        .generate_test_id("test-package-1", "1.0-1")
+        .await?;
+    println!("  test-package-1:1.0-1 (重复): {}", test_id3);
+    assert_eq!(test_id1, test_id3);
+
+    // 生成基本测试ID
+    println!("生成基本测试ID:");
     todo!();
 }
