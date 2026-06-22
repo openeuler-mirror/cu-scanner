@@ -103,7 +103,11 @@ pub async fn csaf_to_oval_with_default_db_counter(
 ///
 /// 返回操作的结果，如果解析失败，则返回Error
 fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
-    todo!()
+    info!("填充OVAL定义");
+    // 填充definition结构体
+    let mut metadata = Metadata::new();
+    let mut affect = Affected::new();
+    todo!();
 }
 
 /// 处理CSAF ID，仅保留最后的数字-数字部分，并将减号去掉
