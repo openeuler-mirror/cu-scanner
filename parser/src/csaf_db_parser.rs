@@ -98,6 +98,15 @@ pub async fn create_definition_from_sa_id(
     oval_definitions.generator.time_stamp = formatted_time.clone();
     // 创建 OVAL 定义
     let mut definition = Definition::new();
+    definition.id = format!("oval:cn.chinaunicom.culinux.cusa:def:{}", oval_id);
+    definition.version = 1; // 默认版本
+
+    // 设置定义类别
+    definition.class = "patch".to_string();
+
+    // 创建元数据
+    let mut metadata = Metadata::new();
+    metadata.title = sa_info.synopsis.clone().unwrap_or_default();
     todo!();
 }
 
