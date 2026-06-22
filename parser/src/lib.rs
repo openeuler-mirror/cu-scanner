@@ -1070,7 +1070,15 @@ mod tests {
 
     #[test]
     fn test_parse_package_string_with_complex_name() {
-        todo!()
+        // 测试包含多个连字符的包名
+        let pkg_string = "openEuler-20.03-LTS-SP4:python-setuptools-scm-6.0.1-1.oe2003sp4.noarch";
+        let result = parse_package_string(pkg_string);
+        assert!(result.is_some());
+        let (os_full, pkg_name, evr, os_name) = result.unwrap();
+        assert_eq!(os_full, "openEuler-20.03-LTS-SP4");
+        assert_eq!(pkg_name, "python-setuptools-scm");
+        assert_eq!(evr, "6.0.1-1.oe2003sp4");
+        assert_eq!(os_name, "openEuler");
     }
 
     #[test]
