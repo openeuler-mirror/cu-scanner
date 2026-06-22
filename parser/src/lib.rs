@@ -1312,12 +1312,35 @@ mod tests {
             !definition.metadata.advisory.cve.is_empty(),
             "CVE列表不应为空"
         );
-        todo!();
+
+        // 验证severity字段已正确填充（根据CVE的impact计算）
+        assert!(
+            !definition.metadata.advisory.severity.is_empty(),
+            "Severity字段不应为空"
+        );
+        let valid_severities = ["None", "Low", "Medium", "Moderate", "Important", "High", "Critical"];
+        assert!(
+            valid_severities.contains(&definition.metadata.advisory.severity.as_str()),
+            "Severity '{}' 应为有效值: {:?}",
+            definition.metadata.advisory.severity,
+            valid_severities
+        );
+
+        // 验证引用
+        assert!(definition.metadata.references.is_some(), "应包含引用");
+        if let Some(refs) = &definition.metadata.references {
+            assert!(!refs.is_empty(), "引用列表不应为空");
+        }
     }
 
     #[test]
     fn test_build_oval_criteria() {
-        todo!()
+        let test_file = get_test_file_path("csaf", "csaf-openeuler-sa-2025-1004.json");
+        let csaf = CSAF::from_file(&test_file).expect("Failed to load CSAF test file");
+
+        let mut id_generator = IdGenerator::new(10000);
+        let vulnerability = &csaf.vulnerabilities[0];
+        todo!();
     }
 
     #[test]
