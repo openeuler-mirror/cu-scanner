@@ -987,7 +987,60 @@ pub fn build_oval_criteria(
 
     // Test 2: "is installed" - check="at least one" - 使用完整检查 state
     // 正向检查：检查是否安装了特定版本
-    todo!();
+    let os_test_is = oval::RpmVerifyFileTest {
+        check: "at least one".to_string(),
+        comment: format!("{} {} is installed", os_info.os_type, os_info.os_version),
+        id: os_test_is_id.clone(),
+        version: 1,
+        object: oval::ObjectReference {
+            object_ref: os_object_id.clone(),
+        },
+        state: oval::StateReference {
+            state_ref: os_state_full_id.clone(),
+        },
+    };
+    os_tests.push(os_test_is);
+
+    // 5. 组装最终<criteria> 结构
+    if !sa.product_status.fixed.is_empty() {
+        if let Some((_os_full, _, _, _)) = parse_package_string(&sa.product_status.fixed[0]) {
+            let pkg_or_criteria = Criteria {
+                operator: "OR".to_string(),
+                criterion: Vec::new(),
+                sub_criteria: Some(pkg_and_criterions),
+            };
+
+            let os_and_criteria = Criteria {
+                operator: "AND".to_string(),
+                criterion: vec![Criterion {
+                    comment: format!("{} {} is installed", os_info.os_type, os_info.os_version),
+                    test_ref: os_test_is_id,
+                }],
+                sub_criteria: Some(vec![pkg_or_criteria]),
+            };
+            criteria = Criteria {
+                operator: "OR".to_string(),
+                criterion: vec![Criterion {
+                    comment: format!("{} must be installed", os_info.os_type),
+                    test_ref: os_test_must_id,
+                }],
+                sub_criteria: Some(vec![os_and_criteria]),
+            };
+            info!(
+                "OVAL检查条件构建完成，目标OS: {} {}",
+                os_info.os_type, os_info.os_version
+            );
+        }
+    }
+    Ok((
+        criteria,
+        rpminfo_test,
+        rpminfo_object,
+        rpminfo_states,
+        os_tests,
+        os_objects,
+        os_states,
+    ))
 }
 
 #[cfg(test)]
@@ -998,7 +1051,8 @@ mod tests {
 
     // 从配置文件读取测试文件路径
     fn get_test_file_path(module: &str, filename: &str) -> String {
-        todo!()
+        // 在测试环境中，直接使用相对路径
+        format!("../test/{}/{}", module, filename)
     }
 
     #[test]
