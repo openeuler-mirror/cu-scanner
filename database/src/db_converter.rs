@@ -127,6 +127,15 @@ fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
             metadata.description = note.text.clone();
         }
     }
+
+    if !has_note {
+        error!("CSAF文档缺少note部分");
+        return Err("CSAF document has no note section".into());
+    }
+
+    // 设置definition的ID，使用CSAF文档的ID并进行处理
+    // 仅保留最后的数字-数字部分，并将减号去掉，然后添加前缀
+    let original_id = &sa.document.tracking.id;
     todo!();
 }
 
