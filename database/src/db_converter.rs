@@ -88,7 +88,8 @@ pub async fn csaf_to_oval_with_default_db_counter(
     csaf: &CSAF,
     db_manager: Arc<Mutex<DatabaseManager>>,
 ) -> Result<OvalDefinitions> {
-    todo!()
+    info!("使用默认数据库计数器将CSAF转换为OVAL格式");
+    csaf_to_oval_with_db_counter(csaf, db_manager, "default_counter".to_string(), 10000).await
 }
 
 /// 填充definition
