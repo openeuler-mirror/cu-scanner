@@ -316,12 +316,28 @@ impl IdGenerator {
 
     /// 获取或创建状态ID，确保相同EVR使用相同ID
     pub fn get_or_create_state_id(&mut self, evr: &str, prefix: &str) -> String {
-        todo!()
+        if let Some(id) = self.state_ids.get(evr) {
+            debug!("使用现有状态ID: {} -> {}", evr, id);
+            id.clone()
+        } else {
+            let id = self.generate_unique_id(prefix);
+            self.state_ids.insert(evr.to_string(), id.clone());
+            debug!("创建新状态ID: {} -> {}", evr, id);
+            id
+        }
     }
 
     /// 获取或创建测试ID，确保相同测试使用相同ID
     pub fn get_or_create_test_id(&mut self, test_key: &str, prefix: &str) -> String {
-        todo!()
+        if let Some(id) = self.test_ids.get(test_key) {
+            debug!("使用现有测试ID: {} -> {}", test_key, id);
+            id.clone()
+        } else {
+            let id = self.generate_unique_id(prefix);
+            self.test_ids.insert(test_key.to_string(), id.clone());
+            debug!("创建新测试ID: {} -> {}", test_key, id);
+            id
+        }
     }
 
     /// 获取或创建定义ID，确保相同定义使用相同ID
