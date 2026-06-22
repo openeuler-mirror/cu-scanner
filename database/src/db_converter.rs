@@ -238,7 +238,21 @@ fn process_csaf_id(id: &str) -> String {
     let parts: Vec<&str> = id.split('-').collect();
 
     // 如果至少有两个部分，检查最后两个部分是否都是数字
-    todo!();
+    if parts.len() >= 2 {
+        let last_part = parts[parts.len() - 1];
+        let second_last_part = parts[parts.len() - 2];
+
+        // 检查最后两个部分是否都是数字
+        if last_part.chars().all(|c| c.is_ascii_digit())
+            && second_last_part.chars().all(|c| c.is_ascii_digit())
+        {
+            // 合并最后两个数字部分，去掉减号
+            return format!("{}{}", second_last_part, last_part);
+        }
+    }
+
+    // 如果不符合模式，返回原始ID
+    id.to_string()
 }
 
 /// 构建OVAL检查条件
