@@ -1352,6 +1352,15 @@ mod tests {
 
         // 验证测试、对象、状态列表
         assert!(!tests.is_empty(), "测试列表不应为空");
+        assert!(!objects.is_empty(), "对象列表不应为空");
+        assert!(!states.is_empty(), "状态列表不应为空");
+
+        // 验证操作系统检测相关元素
+        assert!(!os_tests.is_empty(), "OS测试列表不应为空");
+        assert_eq!(os_tests.len(), 2, "应包含2个OS测试（must和is）");
+        assert!(!os_objects.is_empty(), "OS对象列表不应为空");
+        assert_eq!(os_objects.len(), 1, "应包含1个OS对象");
+        assert!(!os_states.is_empty(), "OS状态列表不应为空");
         todo!();
     }
 
