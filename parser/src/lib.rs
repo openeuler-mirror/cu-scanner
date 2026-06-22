@@ -469,7 +469,8 @@ pub fn csaf_to_oval_with_counter(csaf: &CSAF, initial_counter: u64) -> Result<Ov
 ///
 /// 返回Result<OvalDefinitions>，成功时包含转换后的OVAL定义，失败时包含错误信息
 pub fn csaf_to_oval(csaf: &CSAF) -> Result<OvalDefinitions> {
-    todo!()
+    info!("使用默认计数器将CSAF转换为OVAL格式");
+    csaf_to_oval_with_counter(csaf, 10000)
 }
 /// 批量将CSAF格式转换为OVAL格式（共享IdGenerator确保批次内ID唯一）
 ///
@@ -485,7 +486,10 @@ pub fn batch_csaf_to_oval(
     csaf_list: &[&CSAF],
     initial_counter: u64,
 ) -> Result<Vec<OvalDefinitions>> {
-    todo!()
+    info!("批量将 {} 个CSAF转换为OVAL格式", csaf_list.len());
+    let mut shared_id_generator = IdGenerator::new(initial_counter);
+    let mut results = Vec::new();
+    todo!();
 }
 
 /// 解析软件包字符串
