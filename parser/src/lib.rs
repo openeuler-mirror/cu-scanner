@@ -1490,7 +1490,20 @@ mod tests {
         assert!(xml_content.contains("states"), "XML应包含states");
 
         // 保存到parser库的test目录下
-        todo!();
+        let output_path = "tests/csaf_openeuler_sa_2025_1004.xml";
+        let write_result = fs::write(output_path, xml_content);
+        assert!(
+            write_result.is_ok(),
+            "Failed to write OVAL XML to file: {:?}",
+            write_result.err()
+        );
+
+        // 验证文件确实被创建
+        let metadata = fs::metadata(output_path);
+        assert!(metadata.is_ok(), "Output file should exist");
+
+        // 注意：我们不清理测试文件，以便可以检查生成的OVAL XML文件
+        // 在实际项目中，您可能需要根据需要决定是否清理
     }
 
     #[test]
