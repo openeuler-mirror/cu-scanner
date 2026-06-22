@@ -1243,7 +1243,33 @@ mod tests {
         );
 
         // 验证至少有一个定义
-        todo!();
+        let definition = &oval.definitions.items[0];
+        assert!(
+            !definition.metadata.title.is_empty(),
+            "Definition title should not be empty"
+        );
+        assert!(
+            !definition.metadata.description.is_empty(),
+            "Definition description should not be empty"
+        );
+        assert!(
+            !definition.id.is_empty(),
+            "Definition ID should not be empty"
+        );
+
+        // 验证severity字段已正确填充
+        assert!(
+            !definition.metadata.advisory.severity.is_empty(),
+            "Advisory severity should not be empty"
+        );
+        // 验证severity是否为有效值
+        let valid_severities = ["None", "Low", "Medium", "Moderate", "Important", "High", "Critical"];
+        assert!(
+            valid_severities.contains(&definition.metadata.advisory.severity.as_str()),
+            "Severity '{}' should be one of: {:?}",
+            definition.metadata.advisory.severity,
+            valid_severities
+        );
     }
 
     #[test]
