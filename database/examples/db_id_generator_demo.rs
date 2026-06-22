@@ -57,5 +57,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 为EVR生成状态ID
     println!("为EVR生成状态ID:");
+    let state_id1 = id_generator.generate_state_id_for_evr("1.0-1").await?;
+    println!("  1.0-1: {}", state_id1);
+
+    let state_id2 = id_generator.generate_state_id_for_evr("2.0-1").await?;
+    println!("  2.0-1: {}", state_id2);
+
+    // 再次为相同EVR生成ID，应该返回相同的ID
     todo!();
 }
