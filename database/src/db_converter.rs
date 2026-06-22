@@ -234,7 +234,11 @@ fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
 ///
 /// 返回处理后的ID字符串
 fn process_csaf_id(id: &str) -> String {
-    todo!()
+    // 从右向左查找，找到最后两个由数字组成的部分
+    let parts: Vec<&str> = id.split('-').collect();
+
+    // 如果至少有两个部分，检查最后两个部分是否都是数字
+    todo!();
 }
 
 /// 构建OVAL检查条件
