@@ -435,7 +435,13 @@ pub fn csaf_to_oval_with_shared_generator(
     definations.items.push(defination);
     oval.definitions = definations;
     oval.tests.rpminfo_tests = info_tests;
-    todo!();
+    oval.tests.rpmverifyfile_tests = os_tests;
+    oval.objects.rpm_info_objects = info_objects;
+    oval.objects.rpmverifyfile_objects = os_objects;
+    oval.states.rpminfo_states = Some(info_states);
+    oval.states.rpmverifyfile_states = Some(os_states);
+    info!("CSAF到OVAL转换完成");
+    Ok(oval)
 }
 /// 将CSAF格式转换为OVAL格式
 ///
@@ -448,7 +454,9 @@ pub fn csaf_to_oval_with_shared_generator(
 ///
 /// 返回Result<OvalDefinitions>，成功时包含转换后的OVAL定义，失败时包含错误信息
 pub fn csaf_to_oval_with_counter(csaf: &CSAF, initial_counter: u64) -> Result<OvalDefinitions> {
-    todo!()
+    info!("开始将CSAF转换为OVAL格式，初始计数器: {}", initial_counter);
+    let mut id_generator = IdGenerator::new(initial_counter);
+    csaf_to_oval_with_shared_generator(csaf, &mut id_generator)
 }
 
 /// 将CSAF格式转换为OVAL格式（使用默认计数器）
