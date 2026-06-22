@@ -107,6 +107,11 @@ pub async fn create_definition_from_sa_id(
     // 创建元数据
     let mut metadata = Metadata::new();
     metadata.title = sa_info.synopsis.clone().unwrap_or_default();
+    metadata.description = sa_info.description.clone().unwrap_or_default();
+
+    // 设置影响范围
+    let mut affected = Affected::new();
+    affected.platform = sa_info.summary.clone().unwrap_or_default();
     todo!();
 }
 
