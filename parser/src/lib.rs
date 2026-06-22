@@ -1274,7 +1274,19 @@ mod tests {
 
     #[test]
     fn test_csaf_to_oval_with_custom_counter() {
-        todo!()
+        let test_file = get_test_file_path("csaf", "csaf-openeuler-sa-2025-1004.json");
+        let csaf = CSAF::from_file(&test_file).expect("Failed to load CSAF test file");
+
+        // 使用自定义计数器
+        let oval_result = csaf_to_oval_with_counter(&csaf, 50000);
+        assert!(oval_result.is_ok());
+
+        let oval = oval_result.unwrap();
+
+        // 验证ID包含自定义计数器生成的数字
+        if let Some(test) = oval.tests.rpminfo_tests.first() {
+            assert!(test.id.contains("50"), "ID应包含自定义计数器范围的数字");
+        }
     }
 
     #[test]
