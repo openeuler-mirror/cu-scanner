@@ -489,7 +489,12 @@ pub fn batch_csaf_to_oval(
     info!("批量将 {} 个CSAF转换为OVAL格式", csaf_list.len());
     let mut shared_id_generator = IdGenerator::new(initial_counter);
     let mut results = Vec::new();
-    todo!();
+    for csaf in csaf_list {
+        let oval = csaf_to_oval_with_shared_generator(csaf, &mut shared_id_generator)?;
+        results.push(oval);
+    }
+    info!("批量转换完成，共生成 {} 个OVAL定义", results.len());
+    Ok(results)
 }
 
 /// 解析软件包字符串
@@ -508,7 +513,13 @@ pub fn batch_csaf_to_oval(
 ///
 /// 如果解析失败则返回None
 pub fn parse_package_string(pkg_string: &str) -> Option<(String, String, String, String)> {
-    todo!()
+    debug!("解析软件包字符串: {}", pkg_string);
+    let parts: Vec<&str> = pkg_string.split(':').collect();
+    if parts.len() != 2 {
+        warn!("软件包字符串格式不正确，期望2个部分，实际: {}", parts.len());
+        return None;
+    }
+    todo!();
 }
 
 /// 填充definition
