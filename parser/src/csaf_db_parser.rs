@@ -112,6 +112,13 @@ pub async fn create_definition_from_sa_id(
     // 设置影响范围
     let mut affected = Affected::new();
     affected.platform = sa_info.summary.clone().unwrap_or_default();
+    metadata.affected = affected;
+
+    // 创建建议信息
+    let mut advisory = Advisory::new();
+    if let Some(ref severity) = sa_info.severity {
+        advisory.severity = severity.clone();
+    }
     todo!();
 }
 
