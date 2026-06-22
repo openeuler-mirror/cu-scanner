@@ -364,12 +364,16 @@ impl IdGenerator {
 
     /// 为软件包生成对象ID
     pub fn generate_object_id_for_package(&mut self, package_name: &str) -> String {
-        todo!()
+        let id = self.get_or_create_object_id(package_name, oval::CU_LINUX_SA_OBJ_PREFIX);
+        debug!("为软件包生成对象ID: {} -> {}", package_name, id);
+        id
     }
 
     /// 为EVR生成状态ID
     pub fn generate_state_id_for_evr(&mut self, evr: &str) -> String {
-        todo!()
+        let id = self.get_or_create_state_id(evr, oval::CU_LINUX_SA_STE_PREFIX);
+        debug!("为EVR生成状态ID: {} -> {}", evr, id);
+        id
     }
 
     /// 为测试生成ID
