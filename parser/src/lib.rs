@@ -1405,6 +1405,17 @@ mod tests {
         let csaf = CSAF::from_file(&test_file).expect("Failed to load CSAF test file");
 
         let mut id_generator = IdGenerator::new(10000);
+        let vulnerability = &csaf.vulnerabilities[0];
+
+        let result = build_oval_criteria(vulnerability, &mut id_generator);
+        assert!(result.is_ok());
+
+        let (_, tests, objects, states, os_tests, os_objects, os_states) = result.unwrap();
+
+        // 验证OS检测元素
+        assert_eq!(os_tests.len(), 2, "应包含2个OS测试");
+        assert_eq!(os_objects.len(), 1, "应包含1个OS对象");
+        assert_eq!(os_states.len(), 2, "应包含2个OS状态");
         todo!();
     }
 
