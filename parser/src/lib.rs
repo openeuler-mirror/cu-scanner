@@ -413,7 +413,15 @@ pub fn csaf_to_oval_with_shared_generator(
     csaf: &CSAF,
     id_generator: &mut IdGenerator,
 ) -> Result<OvalDefinitions> {
-    todo!()
+    info!("使用共享IdGenerator将CSAF转换为OVAL格式");
+    let mut oval = OvalDefinitions::new();
+    let now = Utc::now();
+    // 使用RFC3339格式（符合xs:dateTime要求）
+    let formatted_time = now.to_rfc3339();
+    oval.generator.time_stamp = formatted_time.clone();
+    let mut definations = oval::Definitions::new();
+    let mut defination = Definition::new();
+    todo!();
 }
 /// 将CSAF格式转换为OVAL格式
 ///
