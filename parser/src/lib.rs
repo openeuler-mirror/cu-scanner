@@ -970,6 +970,23 @@ pub fn build_oval_criteria(
 
     // 创建两个 RpmVerifyFileTest
     // Test 1: "must be installed" - check="none satisfy" - 使用仅检查名称 state
+    // 反向检查：如果没有找到包名，说明系统不匹配（只检查OS类型，不含版本）
+    let os_test_must = oval::RpmVerifyFileTest {
+        check: "none satisfy".to_string(),
+        comment: format!("{} must be installed", os_info.os_type),
+        id: os_test_must_id.clone(),
+        version: 1,
+        object: oval::ObjectReference {
+            object_ref: os_object_id.clone(),
+        },
+        state: oval::StateReference {
+            state_ref: os_state_name_only_id.clone(),
+        },
+    };
+    os_tests.push(os_test_must);
+
+    // Test 2: "is installed" - check="at least one" - 使用完整检查 state
+    // 正向检查：检查是否安装了特定版本
     todo!();
 }
 
