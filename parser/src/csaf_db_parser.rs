@@ -179,7 +179,16 @@ pub async fn get_sa_ids_after_updated_time(
     // 连接数据库
     let db_manager = DatabaseManager::new(db_config).await?;
     let csaf_query = CsafQuery::new(db_manager).await?;
-    todo!();
+
+    // 查询更新时间之后的 SA ID
+    let sa_ids = csaf_query.get_sa_ids_after_updated_time(timestamp).await?;
+
+    info!(
+        "成功查询到 {} 个更新时间在 {} 之后的 SA ID",
+        sa_ids.len(),
+        timestamp
+    );
+    Ok(sa_ids)
 }
 
 #[cfg(test)]
@@ -188,6 +197,9 @@ mod tests {
 
     #[test]
     fn test_extract_oval_id_from_sa_id() {
-        todo!()
+        // 测试正常情况
+        assert_eq!(extract_oval_id_from_sa_id("SA-2025-1004"), "20251004");
+        assert_eq!(extract_oval_id_from_sa_id("CSAF-ID-2025-1004"), "20251004");
+        todo!();
     }
 }
