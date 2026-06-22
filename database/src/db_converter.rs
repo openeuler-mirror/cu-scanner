@@ -147,6 +147,27 @@ fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
     definition.version = sa.document.tracking.version.parse().unwrap_or(1);
 
     let mut references = Vec::<oval::Reference>::new();
+    let mut map_cve_url = HashMap::new();
+    for reference in &sa.document.references {
+        let mut oval_ref = oval::Reference::new();
+        if reference.summary.starts_with("CVE") {
+            oval_ref.ref_id = reference.summary.clone();
+            oval_ref.ref_url = reference.url.clone();
+            oval_ref.source = reference.summary.clone();
+            references.push(oval_ref.clone());
+        }
+
+        if reference.category == "external" {
+            let cveurl = reference.url.clone();
+            if let Some(pos) = cveurl.rfind('/') {
+                let cve_id = &cveurl[pos + 1..].to_string();
+                map_cve_url.insert(cve_id.clone(), cveurl.clone());
+            }
+        }
+    }
+
+    // 将references列表赋值给metadata
+    metadata.references = Some(references);
     todo!();
 }
 
