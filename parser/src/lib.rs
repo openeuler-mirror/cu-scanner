@@ -1416,7 +1416,39 @@ mod tests {
         assert_eq!(os_tests.len(), 2, "应包含2个OS测试");
         assert_eq!(os_objects.len(), 1, "应包含1个OS对象");
         assert_eq!(os_states.len(), 2, "应包含2个OS状态");
-        todo!();
+
+        // 检查对象去重：相同包名应该只有一个对象
+        let mut object_names = std::collections::HashSet::new();
+        for object in &objects {
+            assert!(
+                object_names.insert(object.rpm_name.clone()),
+                "包名 {} 重复，去重失败",
+                object.rpm_name
+            );
+        }
+
+        // 检查状态去重：相同EVR应该只有一个状态
+        let mut evr_values = std::collections::HashSet::new();
+        for state in &states {
+            if let Some(evr) = &state.evr {
+                assert!(
+                    evr_values.insert(evr.evr.clone()),
+                    "EVR {} 重复，去重失败",
+                    evr.evr
+                );
+            }
+        }
+
+        // 检查测试去重：相同的包名+EVR组合应该只有一个测试
+        let mut test_keys = std::collections::HashSet::new();
+        for test in &tests {
+            let key = format!("{}:{}", test.object.object_ref, test.state.state_ref);
+            assert!(
+                test_keys.insert(key.clone()),
+                "测试组合 {} 重复，去重失败",
+                key
+            );
+        }
     }
 
     #[test]
