@@ -1118,7 +1118,20 @@ mod tests {
         let state_id1 = id_gen.generate_state_id_for_evr("1.0.0-1");
         let state_id2 = id_gen.generate_state_id_for_evr("1.0.0-1");
         assert_eq!(state_id1, state_id2, "相同EVR应生成相同ID");
-        todo!();
+
+        // 测试测试ID生成
+        let test_id1 = id_gen.generate_test_id("package", "1.0.0-1");
+        let test_id2 = id_gen.generate_test_id("package", "1.0.0-1");
+        assert_eq!(test_id1, test_id2, "相同测试应生成相同ID");
+
+        // 测试计数器递增
+        let initial_counter = id_gen.get_current_counter();
+        let _new_id = id_gen.generate_unique_id("test:");
+        assert_eq!(
+            id_gen.get_current_counter(),
+            initial_counter + 1,
+            "计数器应正确递增"
+        );
     }
 
     #[test]
