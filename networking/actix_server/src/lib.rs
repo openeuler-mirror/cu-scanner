@@ -36,7 +36,18 @@ pub struct ServerConfig {
 pub async fn start_server(ip: &str, port: u16, server_config: ServerConfig) -> std::io::Result<()> {
     let address = format!("{}:{}", ip, port);
     info!("正在启动Actix Web服务器，监听地址: {}", address);
-    todo!();
+
+    let api_group_name = server_config.api_group_name.clone();
+    let db_config = server_config.database_config.clone();
+
+    HttpServer::new(move || {
+        App::new()
+            .app_data(web::Data::new(db_config.clone()))
+            .service(api::get_api_scope(api_group_name.clone()))
+    })
+    .bind(address)?
+    .run()
+    .await
 }
 
 /// 创建默认的HTTP服务器
