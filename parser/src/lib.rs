@@ -1218,6 +1218,31 @@ mod tests {
         let oval = oval_result.unwrap();
 
         // 验证基本结构
+        assert!(
+            !oval.definitions.items.is_empty(),
+            "OVAL definitions should not be empty"
+        );
+        assert!(
+            !oval.tests.rpminfo_tests.is_empty(),
+            "RPM info tests should not be empty"
+        );
+        assert!(
+            !oval.objects.rpm_info_objects.is_empty(),
+            "RPM info objects should not be empty"
+        );
+        assert!(
+            oval.states.rpminfo_states.is_some(),
+            "RPM info states should be present"
+        );
+
+        // 验证生成器信息
+        assert_eq!(oval.generator.product_name, "China Unicom Linux");
+        assert!(
+            !oval.generator.time_stamp.is_empty(),
+            "Timestamp should be set"
+        );
+
+        // 验证至少有一个定义
         todo!();
     }
 
