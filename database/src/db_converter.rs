@@ -427,5 +427,12 @@ fn parse_package_string(pkg_string: &str) -> Option<(String, String, String, Str
     let os_name = os_parts.first()?;
 
     let pkg_version_tag = parts[1];
+    // 处理架构部分，获取不带架构的包名
+    let del_arch_pkg_name;
+    if let Some(pos) = pkg_version_tag.rfind('.') {
+        del_arch_pkg_name = &pkg_version_tag[..pos];
+    } else {
+        del_arch_pkg_name = pkg_version_tag;
+    }
     todo!();
 }
