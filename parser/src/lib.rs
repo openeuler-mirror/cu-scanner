@@ -1518,11 +1518,26 @@ mod tests {
         // 验证命名空间
         assert!(xml.contains("xmlns=\""), "应包含默认命名空间");
         assert!(xml.contains("xmlns:oval"), "应包含oval命名空间");
-        todo!();
+        assert!(xml.contains("xmlns:red-def"), "应包含red-def命名空间");
+
+        // 验证生成器信息
+        assert!(xml.contains("China Unicom Linux"), "应包含产品名称");
+
+        // 验证定义ID格式
+        assert!(xml.contains(oval::CU_LINUX_SA_DEF_PREFIX), "应包含定义前缀");
     }
 
     #[test]
     fn test_id_generator_prefix_consistency() {
-        todo!()
+        // 测试ID生成器生成的ID包含正确的前缀
+        let mut id_gen = IdGenerator::new(10000);
+
+        let obj_id = id_gen.generate_object_id_for_package("test-pkg");
+        assert!(
+            obj_id.starts_with(oval::CU_LINUX_SA_OBJ_PREFIX),
+            "对象ID应以正确前缀开头: {}",
+            obj_id
+        );
+        todo!();
     }
 }
