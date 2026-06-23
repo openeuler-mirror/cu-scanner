@@ -1508,7 +1508,17 @@ mod tests {
 
     #[test]
     fn test_oval_xml_structure() {
-        todo!()
+        // 测试生成的OVAL XML结构的完整性
+        let test_file = get_test_file_path("csaf", "csaf-openeuler-sa-2025-1004.json");
+        let csaf = CSAF::from_file(&test_file).expect("Failed to load CSAF test file");
+
+        let oval = csaf_to_oval(&csaf).expect("转换应成功");
+        let xml = oval.to_oval_string().expect("XML生成应成功");
+
+        // 验证命名空间
+        assert!(xml.contains("xmlns=\""), "应包含默认命名空间");
+        assert!(xml.contains("xmlns:oval"), "应包含oval命名空间");
+        todo!();
     }
 
     #[test]
