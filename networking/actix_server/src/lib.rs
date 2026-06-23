@@ -62,5 +62,7 @@ pub async fn start_server(ip: &str, port: u16, server_config: ServerConfig) -> s
 ///
 /// 返回std::io::Result<()>，表示服务器创建是否成功
 pub async fn create_default_server(server_config: ServerConfig) -> std::io::Result<()> {
-    todo!()
+    let address = server_config.address.clone();
+    let port = server_config.port;
+    start_server(&address, port, server_config).await
 }
