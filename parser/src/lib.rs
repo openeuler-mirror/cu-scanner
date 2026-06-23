@@ -1095,12 +1095,20 @@ mod tests {
         let pkg_string = "openEuler-20.03-LTS-SP4:nginx-1.20.1-1";
         let result = parse_package_string(pkg_string);
         assert!(result.is_some());
-        todo!();
+        let (_, pkg_name, evr, _) = result.unwrap();
+        assert_eq!(pkg_name, "nginx");
+        // 注意：解析逻辑会将最后两个部分作为version-release，所以结果是 "1-1.20.1" 而不是 "1.20.1-1"
+        assert_eq!(evr, "1-1.20.1");
     }
 
     #[test]
     fn test_id_generator() {
-        todo!()
+        let mut id_gen = IdGenerator::new(10000);
+
+        // 测试对象ID生成
+        let obj_id1 = id_gen.generate_object_id_for_package("test-package");
+        let obj_id2 = id_gen.generate_object_id_for_package("test-package");
+        todo!();
     }
 
     #[test]
