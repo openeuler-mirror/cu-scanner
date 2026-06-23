@@ -16,5 +16,9 @@ use actix_web::web;
 ///
 /// 返回一个配置闭包，可用于App的configure方法
 pub fn get_api_scope(api_group_name: String) -> actix_web::Scope {
-    todo!()
+    web::scope(&format!("/{}", api_group_name))
+        .service(web::scope("/oval")
+            .configure(oval_handler::config)
+            .service(web::scope("/export").configure(export_handler::config)))
+        .configure(file_handler::config)
 }
