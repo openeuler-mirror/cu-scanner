@@ -1168,7 +1168,14 @@ mod tests {
 
     #[test]
     fn test_id_generator_base_test_id() {
-        todo!()
+        let mut id_gen = IdGenerator::new(10000);
+
+        let test_id1 = id_gen.generate_base_test_id("os_installed");
+        let test_id2 = id_gen.generate_base_test_id("os_installed");
+        assert_eq!(test_id1, test_id2, "相同测试类型应生成相同ID");
+
+        let test_id3 = id_gen.generate_base_test_id("os_required");
+        assert_ne!(test_id1, test_id3, "不同测试类型应生成不同ID");
     }
 
     #[test]
