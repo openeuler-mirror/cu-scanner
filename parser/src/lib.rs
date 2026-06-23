@@ -1147,7 +1147,11 @@ mod tests {
 
         // 设置计数器
         id_gen.set_current_counter(8000);
-        todo!();
+        assert_eq!(id_gen.get_current_counter(), 8000);
+
+        // 生成ID后计数器递增
+        let _id = id_gen.generate_unique_id("test:");
+        assert_eq!(id_gen.get_current_counter(), 8001);
     }
 
     #[test]
