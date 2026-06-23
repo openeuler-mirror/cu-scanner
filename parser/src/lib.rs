@@ -1468,6 +1468,23 @@ mod tests {
         let oval = oval_result.unwrap();
 
         // 将OVAL转换为XML字符串
+        let xml_result = oval.to_oval_string();
+        assert!(
+            xml_result.is_ok(),
+            "Failed to convert OVAL to XML string: {:?}",
+            xml_result.err()
+        );
+
+        let xml_content = xml_result.unwrap();
+        assert!(!xml_content.is_empty(), "XML content should not be empty");
+
+        // 验证XML内容包含关键元素
+        assert!(
+            xml_content.contains("oval_definitions"),
+            "XML应包含oval_definitions"
+        );
+        assert!(xml_content.contains("generator"), "XML应包含generator");
+        assert!(xml_content.contains("definitions"), "XML应包含definitions");
         todo!();
     }
 
