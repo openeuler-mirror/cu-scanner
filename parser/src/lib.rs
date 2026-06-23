@@ -892,6 +892,53 @@ pub fn build_oval_criteria(
     let mut os_tests = Vec::new();
     let mut os_objects = Vec::new();
     let mut os_states = Vec::new();
+
+    // 根据 dist 获取 OS 信息
+    let (filepath, name_pattern, _version_pattern) = match os_info.dist.as_str() {
+        "oe1" => ("/etc/openeuler-release", "^openeuler-release", "^20.03"),
+        "oe2203" => ("/etc/openeuler-release", "^openeuler-release", "^22.03"),
+        "oe2403" => ("/etc/openeuler-release", "^openeuler-release", "^24.03"),
+        "el7" => ("/etc/redhat-release", "^redhat-release", "^7[^\\d]"),
+        "el8" => ("/etc/redhat-release", "^redhat-release", "^8[^\\d]"),
+        "el9" => ("/etc/redhat-release", "^redhat-release", "^9[^\\d]"),
+        "ule4" => ("/etc/culinux-release", "^culinux-release", "^4"),
+        _ => {
+            warn!("未知的 dist: {}, 使用默认配置", os_info.dist);
+            ("/etc/os-release", "^unknown", ".*")
+        }
+    };
+
+    // 使用 dist 获取对应的 os_info_id，再生成固定 ID（避免不同 OS 之间的 ID 冲突）
+    let os_info_id = get_os_info_id_by_dist(&os_info.dist);
+    let (os_object_id, os_state_full_id, os_state_name_only_id, os_test_must_id, os_test_is_id) =
+        generate_os_check_ids(os_info_id);
+
+    // 创建 RpmVerifyFileObject
+    let os_object = oval::RpmVerifyFileObject {
+        id: os_object_id.clone(),
+        ver: 1,
+        behaviors: oval::Behaviors::new(),
+        name: oval::Data {
+            operation: "pattern match".to_string(),
+        },
+        epoch: oval::Data {
+            operation: "pattern match".to_string(),
+        },
+        version: oval::Data {
+            operation: "pattern match".to_string(),
+        },
+        release: oval::Data {
+            operation: "pattern match".to_string(),
+        },
+        arch: oval::Data {
+            operation: "pattern match".to_string(),
+        },
+        filepath: filepath.to_string(),
+    };
+    os_objects.push(os_object);
+
+    // 创建两个 RpmVerifyFileState
+    // State 1: 完整检查 (name + version) - 用于 "must be installed"
     todo!();
 }
 
