@@ -1156,7 +1156,14 @@ mod tests {
 
     #[test]
     fn test_id_generator_definition_id() {
-        todo!()
+        let mut id_gen = IdGenerator::new(10000);
+
+        let def_id1 = id_gen.generate_definition_id_for_cve("CVE-2024-1234");
+        let def_id2 = id_gen.generate_definition_id_for_cve("CVE-2024-1234");
+        assert_eq!(def_id1, def_id2, "相同CVE应生成相同定义ID");
+
+        let def_id3 = id_gen.generate_definition_id_for_cve("CVE-2024-5678");
+        assert_ne!(def_id1, def_id3, "不同CVE应生成不同定义ID");
     }
 
     #[test]
