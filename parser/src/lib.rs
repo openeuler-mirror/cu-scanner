@@ -1189,7 +1189,16 @@ mod tests {
         let id2 = "RHSA-2024-0123";
         let processed2 = process_csaf_id(id2);
         assert_eq!(processed2, "20240123");
-        todo!();
+
+        // 测试不符合模式的ID（应返回原始ID）
+        let id3 = "CUSTOM-ID-ABC";
+        let processed3 = process_csaf_id(id3);
+        assert_eq!(processed3, "CUSTOM-ID-ABC", "不符合模式应返回原始ID");
+
+        // 测试只有一个数字部分
+        let id4 = "SA-2025";
+        let processed4 = process_csaf_id(id4);
+        assert_eq!(processed4, "SA-2025", "只有一个数字部分应返回原始ID");
     }
 
     #[test]
