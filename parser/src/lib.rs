@@ -1057,7 +1057,15 @@ mod tests {
 
     #[test]
     fn test_parse_package_string() {
-        todo!()
+        // 测试正常的包字符串解析: python-jinja2-2.11.2-9.oe2003sp4.noarch
+        let pkg_string = "openEuler-20.03-LTS-SP4:python-jinja2-2.11.2-9.oe2003sp4.noarch";
+        let result = parse_package_string(pkg_string);
+        assert!(result.is_some());
+        let (os_full, pkg_name, evr, os_name) = result.unwrap();
+        assert_eq!(os_full, "openEuler-20.03-LTS-SP4");
+        assert_eq!(pkg_name, "python-jinja2");
+        assert_eq!(evr, "2.11.2-9.oe2003sp4");
+        assert_eq!(os_name, "openEuler");
     }
 
     #[test]
