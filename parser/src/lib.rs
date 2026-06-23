@@ -676,6 +676,23 @@ pub fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
 
     // 将references列表赋值给metadata
     metadata.references = Some(references);
+
+    let mut advisory = oval::Advisory::new();
+    let csaf_date = sa.document.tracking.current_release_date.clone();
+    let parsed_res = DateTime::parse_from_rfc3339(&csaf_date);
+    let issued_time = match parsed_res {
+        Ok(parsed_time) => parsed_time.format("%Y-%m-%d"),
+        Err(e) => {
+            error!("解析CSAF日期失败: {}", e);
+            return Err(e.into());
+        }
+    };
+
+    advisory.issued.date = issued_time.to_string();
+    advisory.updated.date = issued_time.to_string();
+
+    // 创建CVE列表
+    let mut cve_list = Vec::new();
     todo!();
 }
 
