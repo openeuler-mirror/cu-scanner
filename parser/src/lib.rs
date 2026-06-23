@@ -1301,6 +1301,17 @@ mod tests {
         assert!(!definition.metadata.title.is_empty(), "标题不应为空");
         assert!(!definition.metadata.description.is_empty(), "描述不应为空");
         assert_eq!(definition.class, "patch", "类别应为patch");
+        assert!(!definition.id.is_empty(), "ID不应为空");
+        assert!(
+            definition.id.starts_with(oval::CU_LINUX_SA_DEF_PREFIX),
+            "ID应以正确前缀开头"
+        );
+
+        // 验证CVE列表
+        assert!(
+            !definition.metadata.advisory.cve.is_empty(),
+            "CVE列表不应为空"
+        );
         todo!();
     }
 
