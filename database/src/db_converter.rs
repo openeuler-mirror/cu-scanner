@@ -289,7 +289,116 @@ async fn build_oval_criteria(
     let mut pkg_and_criterions: Vec<Criteria> = Vec::new();
 
     // 存储最终生成的criteria
-    todo!();
+    let mut criteria = Criteria::new();
+
+    for pkg_string in sa.product_status.fixed.clone() {
+        if let Some((_os_full, pkg_name, evr_full, _os_name)) = parse_package_string(&pkg_string) {
+            debug!("处理软件包: {}, EVR: {}", pkg_name, evr_full);
+            // 保存evr_full的克隆用于后续使用
+            let evr_full_clone = evr_full.clone();
+
+            //1. 生成Object和State，并将其添加到定义的列表中
+            if !object_map.contains_key(&pkg_name) {
+                // ID生成器已经返回了带有前缀的ID，无需再次添加前缀
+                let id = id_generator
+                    .generate_object_id_for_package(&pkg_name)
+                    .await?;
+                let rpm_info_object = RpmInfoObject::new()
+                    .with_id(id.clone())
+                    .with_ver(1)
+                    .with_rpm_name(pkg_name.clone());
+                rpminfo_object.push(rpm_info_object);
+                object_map.insert(pkg_name.clone(), id.clone());
+                debug!("创建新的RPM对象: {} -> {}", pkg_name, id);
+            }
+
+            if !state_map.contains_key(&evr_full) {
+                // ID生成器已经返回了带有前缀的ID，无需再次添加前缀
+                let id = id_generator.generate_state_id_for_evr(&evr_full).await?;
+                let evr = oval::Evr {
+                    datatype: "evr_string".to_string(),
+                    operation: "less than".to_string(),
+                    evr: utils::add_epoch_prefix(&pkg_name, &evr_full),
+                };
+                let rpm_info_state = RpmInfoState::new()
+                    .with_id(id.clone())
+                    .with_version("1".to_string())
+                    .with_evr(Some(evr));
+                rpminfo_states.push(rpm_info_state);
+                state_map.insert(evr_full.clone(), id.clone());
+                debug!("创建新的RPM状态: {} -> {}", evr_full, id);
+            }
+
+            // 2. 生成test（添加去重逻辑）
+            let test_key = format!("{}:{}", pkg_name, evr_full_clone);
+            let test_ref = if !test_map.contains_key(&test_key) {
+                let new_test_ref = id_generator
+                    .generate_test_id(&pkg_name, &evr_full_clone)
+                    .await?;
+                rpminfo_test.push(RpmInfoTest {
+                    check: "at least one".to_string(),
+                    comment: format!("{} is earlier than {}", pkg_name, evr_full_clone),
+                    id: new_test_ref.clone(),
+                    version: 1,
+                    object: ObjectReference {
+                        object_ref: object_map[&pkg_name].clone(),
+                    },
+                    state: StateReference {
+                        state_ref: state_map[&evr_full_clone].clone(),
+                    },
+                });
+                test_map.insert(test_key.clone(), new_test_ref.clone());
+                debug!("创建新的RPM测试: {} -> {}", test_key, new_test_ref);
+                new_test_ref
+            } else {
+                let existing_ref = test_map.get(&test_key).unwrap().clone();
+                debug!("使用现有RPM测试: {} -> {}", test_key, existing_ref);
+                existing_ref
+            };
+
+            // 3. 构建<criteria operator="AND"> (用于主逻辑)
+            let pkg_criteria = Criteria {
+                operator: "AND".to_string(),
+                criterion: vec![Criterion {
+                    comment: format!("{} is earlier than {}", pkg_name, evr_full_clone),
+                    test_ref,
+                }],
+                sub_criteria: None,
+            };
+            pkg_and_criterions.push(pkg_criteria);
+        }
+    }
+
+    // 4. 组装最终<criteria> 结构
+    if !sa.product_status.fixed.is_empty() {
+        if let Some((os_full, _, _, _)) = parse_package_string(&sa.product_status.fixed[0]) {
+            let pkg_or_criteria = Criteria {
+                operator: "OR".to_string(),
+                criterion: Vec::new(),
+                sub_criteria: Some(pkg_and_criterions),
+            };
+
+            let os_and_criteria = Criteria {
+                operator: "AND".to_string(),
+                criterion: vec![Criterion {
+                    comment: format!("{} is installed", os_full),
+                    test_ref: id_generator.generate_base_test_id("os_installed").await?,
+                }],
+                sub_criteria: Some(vec![pkg_or_criteria]),
+            };
+
+            criteria = Criteria {
+                operator: "OR".to_string(),
+                criterion: vec![Criterion {
+                    comment: format!("{} must be installed", os_full),
+                    test_ref: id_generator.generate_base_test_id("os_required").await?,
+                }],
+                sub_criteria: Some(vec![os_and_criteria]),
+            };
+            info!("OVAL检查条件构建完成");
+        }
+    }
+    Ok((criteria, rpminfo_test, rpminfo_object, rpminfo_states))
 }
 
 /// 解析软件包字符串
