@@ -1180,7 +1180,16 @@ mod tests {
 
     #[test]
     fn test_process_csaf_id() {
-        todo!()
+        // 测试标准格式的CSAF ID
+        let id1 = "openEuler-SA-2025-1004";
+        let processed1 = process_csaf_id(id1);
+        assert_eq!(processed1, "20251004", "应提取并组合最后两个数字部分");
+
+        // 测试另一个格式
+        let id2 = "RHSA-2024-0123";
+        let processed2 = process_csaf_id(id2);
+        assert_eq!(processed2, "20240123");
+        todo!();
     }
 
     #[test]
