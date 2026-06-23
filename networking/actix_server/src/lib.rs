@@ -34,7 +34,9 @@ pub struct ServerConfig {
 ///
 /// 返回std::io::Result<()>，表示服务器启动是否成功
 pub async fn start_server(ip: &str, port: u16, server_config: ServerConfig) -> std::io::Result<()> {
-    todo!()
+    let address = format!("{}:{}", ip, port);
+    info!("正在启动Actix Web服务器，监听地址: {}", address);
+    todo!();
 }
 
 /// 创建默认的HTTP服务器
