@@ -1453,7 +1453,22 @@ mod tests {
 
     #[test]
     fn test_csaf_to_oval_file_conversion() {
-        todo!()
+        // 使用CSAF测试文件进行转换测试
+        let test_file = get_test_file_path("csaf", "csaf-openeuler-sa-2025-1004.json");
+        let csaf = CSAF::from_file(&test_file).expect("Failed to load CSAF test file");
+
+        // 执行转换
+        let oval_result = csaf_to_oval(&csaf);
+        assert!(
+            oval_result.is_ok(),
+            "CSAF to OVAL conversion failed: {:?}",
+            oval_result.err()
+        );
+
+        let oval = oval_result.unwrap();
+
+        // 将OVAL转换为XML字符串
+        todo!();
     }
 
     #[test]
