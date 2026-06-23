@@ -1291,7 +1291,17 @@ mod tests {
 
     #[test]
     fn test_fill_definition() {
-        todo!()
+        let test_file = get_test_file_path("csaf", "csaf-openeuler-sa-2025-1004.json");
+        let csaf = CSAF::from_file(&test_file).expect("Failed to load CSAF test file");
+
+        let mut definition = Definition::new();
+        let result = fill_definition(&csaf, &mut definition);
+
+        assert!(result.is_ok(), "填充定义应成功");
+        assert!(!definition.metadata.title.is_empty(), "标题不应为空");
+        assert!(!definition.metadata.description.is_empty(), "描述不应为空");
+        assert_eq!(definition.class, "patch", "类别应为patch");
+        todo!();
     }
 
     #[test]
