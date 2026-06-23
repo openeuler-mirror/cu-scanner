@@ -417,5 +417,11 @@ async fn build_oval_criteria(
 ///
 /// 如果解析失败则返回None
 fn parse_package_string(pkg_string: &str) -> Option<(String, String, String, String)> {
-    todo!()
+    debug!("解析软件包字符串: {}", pkg_string);
+    let parts: Vec<&str> = pkg_string.split(':').collect();
+    if parts.len() != 2 {
+        warn!("软件包字符串格式不正确，期望2个部分，实际: {}", parts.len());
+        return None;
+    }
+    todo!();
 }
