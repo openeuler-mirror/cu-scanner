@@ -1136,12 +1136,18 @@ mod tests {
 
     #[test]
     fn test_id_generator_default() {
-        todo!()
+        let id_gen = IdGenerator::default();
+        assert_eq!(id_gen.get_current_counter(), 10000, "默认计数器应为10000");
     }
 
     #[test]
     fn test_id_generator_counter_operations() {
-        todo!()
+        let mut id_gen = IdGenerator::new(5000);
+        assert_eq!(id_gen.get_current_counter(), 5000);
+
+        // 设置计数器
+        id_gen.set_current_counter(8000);
+        todo!();
     }
 
     #[test]
