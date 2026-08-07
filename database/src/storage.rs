@@ -12,7 +12,7 @@ impl DatabaseManager {
     /// 从软件包版本中提取dist标识
     /// 例如: "ansible-2.9-1.oe1" -> Some("oe1")
     fn extract_dist_from_package(package_version: &str) -> Option<String> {
-        let exact_patterns = vec!["oe2403", "oe2203", "oe1", "el9", "el8", "el7", "ule4"];
+        let exact_patterns = ["oe2403", "oe2203", "oe1", "el9", "el8", "el7", "ule4"];
         for pattern in exact_patterns {
             if package_version.contains(pattern) {
                 debug!(
