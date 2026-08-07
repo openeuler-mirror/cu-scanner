@@ -703,16 +703,16 @@ impl DatabaseManager {
             )
             .await?;
 
-        let mut rpminfo_states = Vec::new();
-        for row in rows {
-            rpminfo_states.push(RpmInfoState {
+        let rpminfo_states: Vec<RpmInfoState> = rows
+            .iter()
+            .map(|row| RpmInfoState {
                 state_id: row.get("state_id"),
                 version: row.get("version"),
                 evr_datatype: row.get("evr_datatype"),
                 evr_operation: row.get("evr_operation"),
                 evr_value: row.get("evr_value"),
-            });
-        }
+            })
+            .collect();
 
         Ok(rpminfo_states)
     }
