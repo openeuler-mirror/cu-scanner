@@ -352,7 +352,7 @@ impl OvalDefinitions {
               self.definitions.items.len(),
               self.tests.rpminfo_tests.len(),
               self.objects.rpm_info_objects.len(),
-              self.states.rpminfo_states.as_ref().map(|s| s.len()).unwrap_or(0));
+              self.states.rpminfo_states.as_ref().map_or(0, |s| s.len()));
 
         Ok(())
     }
@@ -618,7 +618,7 @@ impl Metadata {
 
     /// 获取引用数量
     pub fn get_reference_count(&self) -> usize {
-        self.references.as_ref().map(|r| r.len()).unwrap_or(0)
+        self.references.as_ref().map_or(0, |r| r.len())
     }
 }
 
@@ -1049,7 +1049,7 @@ impl Criteria {
 
     /// 获取子条件数量
     pub fn get_sub_criteria_count(&self) -> usize {
-        self.sub_criteria.as_ref().map(|s| s.len()).unwrap_or(0)
+        self.sub_criteria.as_ref().map_or(0, |s| s.len())
     }
 
     /// 设置操作符
@@ -1728,7 +1728,7 @@ impl States {
 
     /// 获取状态数量
     pub fn len(&self) -> usize {
-        self.rpminfo_states.as_ref().map(|s| s.len()).unwrap_or(0)
+        self.rpminfo_states.as_ref().map_or(0, |s| s.len())
     }
 
     /// 检查是否为空
