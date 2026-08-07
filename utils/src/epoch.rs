@@ -90,55 +90,17 @@ impl PackageEpochs {
     ///
     /// # 返回值
     /// 返回 Option<u32>，成功时包含 epoch 值，失败时返回 None
-    fn get_epoch_from_yum(package_name: &str) -> Option<u32> {
-        debug!("尝试从 YUM 查询包 {} 的 epoch", package_name);
+    fn get_epoch_from_yum(package_name: &str, enable_all_repos: bool) -> Option<u32> {
+        let source = if enable_all_repos { "Extra YUM" } else { "YUM" };
+        debug!("尝试从 {} 查询包 {} 的 epoch", source, package_name);
 
-        let output = Command::new("yum")
-            .args(["info", package_name])
-            .output();
-
-        match output {
-            Ok(output) if output.status.success() => {
-                let stdout = String::from_utf8_lossy(&output.stdout);
-                // 解析 YUM 输出，查找 Epoch 字段
-                for line in stdout.lines() {
-                    if line.trim().starts_with("Epoch") {
-                        if let Some(epoch_str) = line.split(':').nth(1) {
-                            if let Ok(epoch) = epoch_str.trim().parse::<u32>() {
-                                debug!("从 YUM 查询到包 {} 的 epoch: {}", package_name, epoch);
-                                return Some(epoch);
-                            }
-                        }
-                    }
-                }
-                debug!("YUM 未返回包 {} 的 epoch 信息", package_name);
-                None
-            }
-            Ok(_) => {
-                warn!("YUM 查询包 {} 失败", package_name);
-                None
-            }
-            Err(e) => {
-                warn!("执行 YUM 命令失败: {}", e);
-                None
-            }
+        let mut cmd = Command::new("yum");
+        cmd.arg("info");
+        if enable_all_repos {
+            cmd.arg("--enablerepo=*");
         }
-    }
-
-    /// 从 Extra YUM 源查询包的 epoch 值
-    ///
-    /// # 参数
-    /// * `package_name` - RPM 包名
-    ///
-    /// # 返回值
-    /// 返回 Option<u32>，成功时包含 epoch 值，失败时返回 None
-    fn get_epoch_from_extra_yum(package_name: &str) -> Option<u32> {
-        debug!("尝试从 Extra YUM 查询包 {} 的 epoch", package_name);
-
-        // 使用 --enablerepo 参数启用额外的仓库
-        let output = Command::new("yum")
-            .args(["info", "--enablerepo=*", package_name])
-            .output();
+        cmd.arg(package_name);
+        let output = cmd.output();
 
         match output {
             Ok(output) if output.status.success() => {
@@ -148,21 +110,21 @@ impl PackageEpochs {
                     if line.trim().starts_with("Epoch") {
                         if let Some(epoch_str) = line.split(':').nth(1) {
                             if let Ok(epoch) = epoch_str.trim().parse::<u32>() {
-                                debug!("从 Extra YUM 查询到包 {} 的 epoch: {}", package_name, epoch);
+                                debug!("从 {} 查询到包 {} 的 epoch: {}", source, package_name, epoch);
                                 return Some(epoch);
                             }
                         }
                     }
                 }
-                debug!("Extra YUM 未返回包 {} 的 epoch 信息", package_name);
+                debug!("{} 未返回包 {} 的 epoch 信息", source, package_name);
                 None
             }
             Ok(_) => {
-                warn!("Extra YUM 查询包 {} 失败", package_name);
+                warn!("{} 查询包 {} 失败", source, package_name);
                 None
             }
             Err(e) => {
-                warn!("执行 Extra YUM 命令失败: {}", e);
+                warn!("执行 {} 命令失败: {}", source, e);
                 None
             }
         }
@@ -185,7 +147,7 @@ impl PackageEpochs {
     pub fn get_epoch_with_priority(&self, package_name: &str, config: &AppConfig) -> u32 {
         // 优先级 1: Extra YUM
         if config.package.use_extra_yum {
-            if let Some(epoch) = Self::get_epoch_from_extra_yum(package_name) {
+            if let Some(epoch) = Self::get_epoch_from_yum(package_name, true) {
                 debug!("从 Extra YUM 获取到包 {} 的 epoch: {}", package_name, epoch);
                 return epoch;
             }
@@ -193,7 +155,7 @@ impl PackageEpochs {
 
         // 优先级 2: YUM
         if config.package.use_yum {
-            if let Some(epoch) = Self::get_epoch_from_yum(package_name) {
+            if let Some(epoch) = Self::get_epoch_from_yum(package_name, false) {
                 debug!("从 YUM 获取到包 {} 的 epoch: {}", package_name, epoch);
                 return epoch;
             }
