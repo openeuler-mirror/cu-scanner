@@ -701,15 +701,8 @@ pub fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
             cve.impact = score.cvss_v3.base_severity.clone();
         }
         cve.content = csaf_cve.cve.clone(); // 使用cve字段而不是title
-        match map_cve_url.get(&csaf_cve.cve) {
-            // 使用cve字段而不是title
-            Some(url) => {
-                cve.href = url.clone();
-            }
-            None => {
-                cve.href = "".to_string();
-            }
-        };
+        // 使用cve字段而不是title
+        cve.href = map_cve_url.get(&csaf_cve.cve).cloned().unwrap_or_default();
         cve_list.push(cve); // 将CVE添加到列表中
     }
 
