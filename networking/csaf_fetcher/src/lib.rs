@@ -250,7 +250,7 @@ impl CsafFetcher {
             .lines()
             .map(|line| line.trim())
             .filter(|line| !line.is_empty() && line.ends_with(".json"))
-            .map(|line| line.to_string())
+            .map(str::to_string)
             .collect();
 
         info!("从索引文件中解析出 {} 个CSAF文件路径", paths.len());
@@ -576,7 +576,7 @@ impl AsyncCsafFetcher {
             .lines()
             .map(|line| line.trim())
             .filter(|line| !line.is_empty() && line.ends_with(".json"))
-            .map(|line| line.to_string())
+            .map(str::to_string)
             .collect();
 
         info!("从索引文件中解析出 {} 个CSAF文件路径", paths.len());
@@ -878,7 +878,7 @@ mod tests {
             .lines()
             .map(|line| line.trim())
             .filter(|line| !line.is_empty() && line.ends_with(".json"))
-            .map(|line| line.to_string())
+            .map(str::to_string)
             .collect();
 
         assert_eq!(paths.len(), 4);
@@ -943,7 +943,7 @@ mod tests {
             .lines()
             .map(|line| line.trim())
             .filter(|line| !line.is_empty() && line.ends_with(".json"))
-            .map(|line| line.to_string())
+            .map(str::to_string)
             .collect();
 
         assert_eq!(paths.len(), 3);
@@ -963,7 +963,7 @@ index.txt
             .lines()
             .map(|line| line.trim())
             .filter(|line| !line.is_empty() && line.ends_with(".json"))
-            .map(|line| line.to_string())
+            .map(str::to_string)
             .collect();
 
         assert_eq!(paths.len(), 3);
