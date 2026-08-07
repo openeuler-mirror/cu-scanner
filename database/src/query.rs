@@ -542,14 +542,14 @@ impl DatabaseManager {
             )
             .await?;
 
-        let mut references = Vec::new();
-        for row in rows {
-            references.push(Reference {
+        let references: Vec<Reference> = rows
+            .iter()
+            .map(|row| Reference {
                 ref_id: row.get("ref_id"),
                 ref_url: row.get("ref_url"),
                 source: row.get("source"),
-            });
-        }
+            })
+            .collect();
 
         Ok(references)
     }
