@@ -712,23 +712,19 @@ impl ProductTree {
 
     /// 获取所有产品ID列表
     pub fn get_all_product_ids(&self) -> Vec<String> {
-        let mut product_ids = Vec::new();
-
         // 从branches中收集产品ID
-        for branch in &self.branches {
-            for sub_branch in &branch.branches {
-                for leaf in &sub_branch.branches {
-                    product_ids.push(leaf.product.product_id.clone());
-                }
-            }
-        }
-
-        // 从relationships中收集产品ID
-        for rel in &self.relationships {
-            product_ids.push(rel.full_product_name.product_id.clone());
-        }
-
-        product_ids
+        self.branches
+            .iter()
+            .flat_map(|branch| branch.branches.iter())
+            .flat_map(|sub_branch| sub_branch.branches.iter())
+            .map(|leaf| leaf.product.product_id.clone())
+            // 从relationships中收集产品ID
+            .chain(
+                self.relationships
+                    .iter()
+                    .map(|rel| rel.full_product_name.product_id.clone()),
+            )
+            .collect()
     }
 
     /// 获取产品数量
