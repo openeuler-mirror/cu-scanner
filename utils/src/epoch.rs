@@ -224,11 +224,10 @@ impl PackageEpochs {
 
     /// 转换为 HashMap 便于快速查找
     pub fn to_hashmap(&self) -> HashMap<String, u32> {
-        let mut map = HashMap::new();
-        for pkg in &self.packages {
-            map.insert(pkg.name.clone(), pkg.epoch);
-        }
-        map
+        self.packages
+            .iter()
+            .map(|pkg| (pkg.name.clone(), pkg.epoch))
+            .collect()
     }
 }
 
