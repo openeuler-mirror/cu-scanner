@@ -304,7 +304,7 @@ async fn build_oval_criteria(
                     .generate_object_id_for_package(&pkg_name)
                     .await?;
                 let rpm_info_object = RpmInfoObject::new()
-                    .with_id(id.clone())
+                    .with_id(&id)
                     .with_ver(1)
                     .with_rpm_name(pkg_name.clone());
                 rpminfo_object.push(rpm_info_object);
@@ -321,7 +321,7 @@ async fn build_oval_criteria(
                     evr: utils::add_epoch_prefix(&pkg_name, &evr_full),
                 };
                 let rpm_info_state = RpmInfoState::new()
-                    .with_id(id.clone())
+                    .with_id(&id)
                     .with_version("1".to_string())
                     .with_evr(Some(evr));
                 rpminfo_states.push(rpm_info_state);

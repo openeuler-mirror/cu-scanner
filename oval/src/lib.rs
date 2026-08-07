@@ -1486,7 +1486,7 @@ impl RpmInfoObject {
     /// # 返回值
     ///
     /// 返回修改后的RpmInfoObject实例
-    pub fn with_id(mut self, id: String) -> Self {
+    pub fn with_id(mut self, id: &str) -> Self {
         debug!("设置RpmInfoObject ID: {}", id);
         self.id = id.to_string();
         self
@@ -1789,9 +1789,9 @@ impl RpmInfoState {
     /// # 返回值
     ///
     /// 返回修改后的RpmInfoState实例
-    pub fn with_id(mut self, id: String) -> Self {
+    pub fn with_id(mut self, id: &str) -> Self {
         debug!("设置RpmInfoState ID: {}", id);
-        self.id = id;
+        self.id = id.to_string();
         self
     }
 
