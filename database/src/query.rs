@@ -641,17 +641,17 @@ impl DatabaseManager {
             )
             .await?;
 
-        let mut rpminfo_tests = Vec::new();
-        for row in rows {
-            rpminfo_tests.push(RpmInfoTest {
+        let rpminfo_tests: Vec<RpmInfoTest> = rows
+            .iter()
+            .map(|row| RpmInfoTest {
                 check: row.get("check_field"),
                 comment: row.get("comment"),
                 test_id: row.get("test_id"),
                 version: row.get::<_, i32>("version") as u32,
                 object_ref: row.get("object_ref"),
                 state_ref: row.get("state_ref"),
-            });
-        }
+            })
+            .collect();
 
         Ok(rpminfo_tests)
     }
