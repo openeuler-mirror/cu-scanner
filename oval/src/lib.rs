@@ -1753,10 +1753,6 @@ pub struct RpmInfoState {
     /// EVR信息（可选）
     #[serde(rename = "red-def:evr")]
     pub evr: Option<Evr>,
-    /*
-    #[serde(rename = "red-def:signature_keyid")]
-    signature_keyid: Option<SignatureKeyId>,
-    */
 }
 
 impl Default for RpmInfoState {
