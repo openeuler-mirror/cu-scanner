@@ -1872,11 +1872,13 @@ impl Evr {
         self
     }
 
+    /// 设置操作方式
     pub fn with_operation(mut self, operation: String) -> Self {
         self.operation = operation;
         self
     }
 
+    /// 设置EVR值
     pub fn with_evr(mut self, evr: String) -> Self {
         self.evr = evr;
         self
