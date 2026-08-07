@@ -910,23 +910,7 @@ pub enum SeverityLevel {
     Critical,
 }
 
-impl SeverityLevel {
-    /// 从字符串解析严重性级别（注意：不是 std::str::FromStr trait 的实现）
-    #[allow(clippy::should_implement_trait)]
-    pub fn from_str(s: &str) -> Self {
-        match s.to_lowercase().as_str() {
-            "critical" => SeverityLevel::Critical,
-            "high" => SeverityLevel::High,
-            "important" => SeverityLevel::Important,
-            "moderate" => SeverityLevel::Moderate,
-            "medium" => SeverityLevel::Medium,
-            "low" => SeverityLevel::Low,
-            "none" => SeverityLevel::None,
-            _ => SeverityLevel::None,
-        }
-    }
-
-}
+impl SeverityLevel {}
 
 impl std::fmt::Display for SeverityLevel {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -940,6 +924,24 @@ impl std::fmt::Display for SeverityLevel {
             SeverityLevel::None => "None",
         };
         f.write_str(s)
+    }
+}
+
+impl std::str::FromStr for SeverityLevel {
+    type Err = std::convert::Infallible;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let level = match s.to_ascii_lowercase().as_str() {
+            "critical" => SeverityLevel::Critical,
+            "high" => SeverityLevel::High,
+            "important" => SeverityLevel::Important,
+            "moderate" => SeverityLevel::Moderate,
+            "medium" => SeverityLevel::Medium,
+            "low" => SeverityLevel::Low,
+            "none" => SeverityLevel::None,
+            _ => SeverityLevel::None,
+        };
+        Ok(level)
     }
 }
 
@@ -960,7 +962,7 @@ pub fn calculate_max_severity(cves: &[CVE]) -> String {
 
     let max_level = cves
         .iter()
-        .map(|cve| SeverityLevel::from_str(&cve.impact))
+        .filter_map(|cve| cve.impact.parse::<SeverityLevel>().ok())
         .max()
         .unwrap_or(SeverityLevel::None);
 
