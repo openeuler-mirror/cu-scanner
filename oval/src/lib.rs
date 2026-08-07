@@ -1516,9 +1516,9 @@ impl RpmInfoObject {
     /// # 返回值
     ///
     /// 返回修改后的RpmInfoObject实例
-    pub fn with_rpm_name(mut self, rpm_name: String) -> Self {
+    pub fn with_rpm_name(mut self, rpm_name: &str) -> Self {
         debug!("设置RpmInfoObject RPM名称: {}", rpm_name);
-        self.rpm_name = rpm_name;
+        self.rpm_name = rpm_name.to_string();
         self
     }
 }
