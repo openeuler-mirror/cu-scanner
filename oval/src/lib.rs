@@ -879,16 +879,19 @@ impl CVE {
         self
     }
 
+    /// 设置CVSS v3向量字符串
     pub fn with_cvss3(mut self, cvss3: String) -> Self {
         self.cvss3 = cvss3;
         self
     }
 
+    /// 设置CVE详情链接
     pub fn with_href(mut self, href: String) -> Self {
         self.href = href;
         self
     }
 
+    /// 设置严重性级别
     pub fn with_impact(mut self, impact: String) -> Self {
         self.impact = impact;
         self
