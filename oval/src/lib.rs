@@ -200,8 +200,7 @@ impl OvalDefinitions {
                 Err(error.into())
             }
         }
-        //TODO:
-        // oval xml string format and beatify the string
+        // TODO: format and beautify the OVAL XML string
     }
 
     /// 保存到文件
