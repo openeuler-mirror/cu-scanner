@@ -726,9 +726,9 @@ impl DatabaseManager {
             )
             .await?;
 
-        let mut definitions = Vec::new();
-        for row in rows {
-            definitions.push(OvalDefinition {
+        let definitions: Vec<OvalDefinition> = rows
+            .iter()
+            .map(|row| OvalDefinition {
                 id: row.get("id"),
                 class: row.get("class"),
                 version: row.get::<_, i32>("version") as u32,
@@ -742,8 +742,8 @@ impl DatabaseManager {
                 issued_date: row.get("issued_date"),
                 updated_date: row.get("updated_date"),
                 os_info_id: row.get("os_info_id"),
-            });
-        }
+            })
+            .collect();
 
         Ok(definitions)
     }
