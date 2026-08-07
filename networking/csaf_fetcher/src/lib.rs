@@ -973,21 +973,4 @@ index.txt
     // 注意：以下测试需要实际的网络连接和有效的CSAF URL
     // 在实际使用时，应该使用mock服务器或测试数据
 
-    /*
-    #[test]
-    fn test_fetch_real_csaf() {
-        let fetcher = CsafFetcher::with_defaults().unwrap();
-        let url = "https://example.com/csaf/example.json";
-        let result = fetcher.fetch(url);
-        // 根据实际情况验证结果
-    }
-
-    #[tokio::test]
-    async fn test_async_fetch_real_csaf() {
-        let fetcher = AsyncCsafFetcher::with_defaults().unwrap();
-        let url = "https://example.com/csaf/example.json";
-        let result = fetcher.fetch(url).await;
-        // 根据实际情况验证结果
-    }
-    */
 }
