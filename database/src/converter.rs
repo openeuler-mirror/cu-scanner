@@ -88,17 +88,16 @@ pub fn convert_full_oval_definition(
 ///
 /// 返回转换后的数据库Reference列表
 pub fn convert_references(references: &Option<Vec<oval::Reference>>) -> Vec<Reference> {
-    match references {
-        Some(refs) => refs
-            .iter()
-            .map(|r| Reference {
-                ref_id: r.ref_id.clone(),
-                ref_url: r.ref_url.clone(),
-                source: r.source.clone(),
-            })
-            .collect(),
-        None => Vec::new(),
-    }
+    references
+        .as_deref()
+        .unwrap_or(&[])
+        .iter()
+        .map(|r| Reference {
+            ref_id: r.ref_id.clone(),
+            ref_url: r.ref_url.clone(),
+            source: r.source.clone(),
+        })
+        .collect()
 }
 
 /// 转换CVE信息
@@ -243,10 +242,13 @@ fn convert_rpminfo_object(object: &oval::RpmInfoObject) -> RpmInfoObject {
 ///
 /// 返回转换后的数据库RpmInfoState列表
 pub fn convert_rpminfo_states(states: &oval::States) -> Vec<RpmInfoState> {
-    match &states.rpminfo_states {
-        Some(s) => s.iter().map(convert_rpminfo_state).collect(),
-        None => Vec::new(),
-    }
+    states
+        .rpminfo_states
+        .as_deref()
+        .unwrap_or(&[])
+        .iter()
+        .map(convert_rpminfo_state)
+        .collect()
 }
 
 /// 转换RPM信息状态
