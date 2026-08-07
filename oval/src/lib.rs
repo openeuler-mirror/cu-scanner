@@ -522,14 +522,14 @@ impl Definition {
     }
 
     /// 设置ID
-    pub fn with_id(mut self, id: String) -> Self {
-        self.id = id;
+    pub fn with_id(mut self, id: impl Into<String>) -> Self {
+        self.id = id.into();
         self
     }
 
     /// 设置类别
-    pub fn with_class(mut self, class: String) -> Self {
-        self.class = class;
+    pub fn with_class(mut self, class: impl Into<String>) -> Self {
+        self.class = class.into();
         self
     }
 
@@ -873,26 +873,26 @@ impl CVE {
     }
 
     /// 使用构建器模式设置属性
-    pub fn with_content(mut self, content: String) -> Self {
-        self.content = content;
+    pub fn with_content(mut self, content: impl Into<String>) -> Self {
+        self.content = content.into();
         self
     }
 
     /// 设置CVSS v3向量字符串
-    pub fn with_cvss3(mut self, cvss3: String) -> Self {
-        self.cvss3 = cvss3;
+    pub fn with_cvss3(mut self, cvss3: impl Into<String>) -> Self {
+        self.cvss3 = cvss3.into();
         self
     }
 
     /// 设置CVE详情链接
-    pub fn with_href(mut self, href: String) -> Self {
-        self.href = href;
+    pub fn with_href(mut self, href: impl Into<String>) -> Self {
+        self.href = href.into();
         self
     }
 
     /// 设置严重性级别
-    pub fn with_impact(mut self, impact: String) -> Self {
-        self.impact = impact;
+    pub fn with_impact(mut self, impact: impl Into<String>) -> Self {
+        self.impact = impact.into();
         self
     }
 
@@ -1034,8 +1034,8 @@ impl Criteria {
     }
 
     /// 设置操作符
-    pub fn with_operator(mut self, operator: String) -> Self {
-        self.operator = operator;
+    pub fn with_operator(mut self, operator: impl Into<String>) -> Self {
+        self.operator = operator.into();
         self
     }
 }
@@ -1178,20 +1178,20 @@ impl RpmInfoTest {
     }
 
     /// 使用构建器模式设置属性
-    pub fn with_id(mut self, id: String) -> Self {
-        self.id = id;
+    pub fn with_id(mut self, id: impl Into<String>) -> Self {
+        self.id = id.into();
         self
     }
 
     /// 设置检查方式
-    pub fn with_check(mut self, check: String) -> Self {
-        self.check = check;
+    pub fn with_check(mut self, check: impl Into<String>) -> Self {
+        self.check = check.into();
         self
     }
 
     /// 设置注释说明
-    pub fn with_comment(mut self, comment: String) -> Self {
-        self.comment = comment;
+    pub fn with_comment(mut self, comment: impl Into<String>) -> Self {
+        self.comment = comment.into();
         self
     }
 
@@ -1202,14 +1202,14 @@ impl RpmInfoTest {
     }
 
     /// 设置对象引用ID
-    pub fn with_object_ref(mut self, object_ref: String) -> Self {
-        self.object.object_ref = object_ref;
+    pub fn with_object_ref(mut self, object_ref: impl Into<String>) -> Self {
+        self.object.object_ref = object_ref.into();
         self
     }
 
     /// 设置状态引用ID
-    pub fn with_state_ref(mut self, state_ref: String) -> Self {
-        self.state.state_ref = state_ref;
+    pub fn with_state_ref(mut self, state_ref: impl Into<String>) -> Self {
+        self.state.state_ref = state_ref.into();
         self
     }
 }
@@ -1848,20 +1848,20 @@ impl Evr {
     }
 
     /// 使用构建器模式设置属性
-    pub fn with_datatype(mut self, datatype: String) -> Self {
-        self.datatype = datatype;
+    pub fn with_datatype(mut self, datatype: impl Into<String>) -> Self {
+        self.datatype = datatype.into();
         self
     }
 
     /// 设置操作方式
-    pub fn with_operation(mut self, operation: String) -> Self {
-        self.operation = operation;
+    pub fn with_operation(mut self, operation: impl Into<String>) -> Self {
+        self.operation = operation.into();
         self
     }
 
     /// 设置EVR值
-    pub fn with_evr(mut self, evr: String) -> Self {
-        self.evr = evr;
+    pub fn with_evr(mut self, evr: impl Into<String>) -> Self {
+        self.evr = evr.into();
         self
     }
 }
