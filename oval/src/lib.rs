@@ -930,18 +930,20 @@ impl SeverityLevel {
         }
     }
 
-    /// 转换为字符串表示
-    #[allow(clippy::inherent_to_string)]
-    pub fn to_string(&self) -> String {
-        match self {
-            SeverityLevel::Critical => "Critical".to_string(),
-            SeverityLevel::High => "High".to_string(),
-            SeverityLevel::Important => "Important".to_string(),
-            SeverityLevel::Moderate => "Moderate".to_string(),
-            SeverityLevel::Medium => "Medium".to_string(),
-            SeverityLevel::Low => "Low".to_string(),
-            SeverityLevel::None => "None".to_string(),
-        }
+}
+
+impl std::fmt::Display for SeverityLevel {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
+            SeverityLevel::Critical => "Critical",
+            SeverityLevel::High => "High",
+            SeverityLevel::Important => "Important",
+            SeverityLevel::Moderate => "Moderate",
+            SeverityLevel::Medium => "Medium",
+            SeverityLevel::Low => "Low",
+            SeverityLevel::None => "None",
+        };
+        f.write_str(s)
     }
 }
 
