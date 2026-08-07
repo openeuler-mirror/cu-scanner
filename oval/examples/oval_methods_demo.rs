@@ -119,9 +119,9 @@ fn main() -> Result<()> {
     // 创建对象
     println!("【6. 创建 RPM 信息对象】");
     let object = RpmInfoObject::new()
-        .with_id("oval:cn.chinaunicom.culinux.cusa:obj:20241001".to_string())
+        .with_id("oval:cn.chinaunicom.culinux.cusa:obj:20241001")
         .with_ver(1)
-        .with_rpm_name("nginx".to_string());
+        .with_rpm_name("nginx");
 
     println!("  对象 ID: {}", object.id);
     println!("  对象版本: {}", object.ver);
@@ -143,8 +143,8 @@ fn main() -> Result<()> {
     println!("  EVR 值: {}", evr.evr);
 
     let state = RpmInfoState::new()
-        .with_id("oval:cn.chinaunicom.culinux.cusa:ste:20241001".to_string())
-        .with_version("1".to_string())
+        .with_id("oval:cn.chinaunicom.culinux.cusa:ste:20241001")
+        .with_version("1")
         .with_evr(Some(evr));
 
     println!("  状态 ID: {}", state.id);

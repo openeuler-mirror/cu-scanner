@@ -2100,8 +2100,8 @@ mod tests {
         assert!(!objects.has_rpm_info_objects());
 
         let obj = RpmInfoObject::new()
-            .with_id("obj1".to_string())
-            .with_rpm_name("test-package".to_string());
+            .with_id("obj1")
+            .with_rpm_name("test-package");
         objects.add_rpm_info(obj);
 
         assert_eq!(objects.len(), 1);
@@ -2116,9 +2116,9 @@ mod tests {
     #[test]
     fn test_rpminfo_object_builder() {
         let obj = RpmInfoObject::new()
-            .with_id("oval:test:obj:200".to_string())
+            .with_id("oval:test:obj:200")
             .with_ver(1)
-            .with_rpm_name("nginx".to_string());
+            .with_rpm_name("nginx");
 
         assert_eq!(obj.id, "oval:test:obj:200");
         assert_eq!(obj.ver, 1);
@@ -2132,8 +2132,8 @@ mod tests {
         assert_eq!(states.len(), 0);
 
         let state1 = RpmInfoState::new()
-            .with_id("state1".to_string())
-            .with_version("1".to_string());
+            .with_id("state1")
+            .with_version("1");
         states.add_rpminfo_state(state1);
 
         assert_eq!(states.len(), 1);
@@ -2150,8 +2150,8 @@ mod tests {
             .with_evr("0:1.2.3-4".to_string());
 
         let state = RpmInfoState::new()
-            .with_id("oval:test:ste:300".to_string())
-            .with_version("1".to_string())
+            .with_id("oval:test:ste:300")
+            .with_version("1")
             .with_evr(Some(evr.clone()));
 
         assert_eq!(state.id, "oval:test:ste:300");
@@ -2213,9 +2213,9 @@ mod tests {
 
         // 创建对象
         let object = RpmInfoObject::new()
-            .with_id("oval:test:obj:1".to_string())
+            .with_id("oval:test:obj:1")
             .with_ver(1)
-            .with_rpm_name("test-package".to_string());
+            .with_rpm_name("test-package");
 
         oval.add_rpm_info_object(object);
 
@@ -2226,8 +2226,8 @@ mod tests {
             .with_evr("0:1.0.0-1".to_string());
 
         let state = RpmInfoState::new()
-            .with_id("oval:test:ste:1".to_string())
-            .with_version("1".to_string())
+            .with_id("oval:test:ste:1")
+            .with_version("1")
             .with_evr(Some(evr));
 
         oval.add_rpminfo_state(state);
