@@ -85,7 +85,7 @@ pub async fn post_csaf_file(
     };
 
     // 连接数据库
-    let db_manager = match DatabaseManager::new(&db_config).await {
+    let mut db_manager = match DatabaseManager::new(&db_config).await {
         Ok(manager) => manager,
         Err(e) => {
             error!("数据库连接失败: {:?}", e);
@@ -108,7 +108,6 @@ pub async fn post_csaf_file(
         );
 
     // 保存到数据库
-    let mut db_manager = db_manager; // 重新绑定为可变引用
     match db_manager
         .save_full_oval_definition(
             &db_definition,
