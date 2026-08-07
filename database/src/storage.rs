@@ -57,7 +57,7 @@ impl DatabaseManager {
     /// 从RPM状态列表中提取dist并获取os_info_id
     async fn extract_os_info_id_from_states(
         &self,
-        rpminfo_states: &Vec<RpmInfoState>,
+        rpminfo_states: &[RpmInfoState],
     ) -> Result<Option<i64>, DatabaseError> {
         // 尝试从第一个RPM状态的EVR中提取dist
         if let Some(first_state) = rpminfo_states.first() {
