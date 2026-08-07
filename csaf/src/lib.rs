@@ -610,7 +610,7 @@ impl Tlp {
 
     /// 检查是否可以公开共享
     pub fn is_public(&self) -> bool {
-        self.label.to_uppercase() == "WHITE"
+        self.label.eq_ignore_ascii_case("WHITE")
     }
 }
 
