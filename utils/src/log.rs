@@ -79,7 +79,9 @@ impl CUScannerLogger {
 
 impl log::Log for CUScannerLogger {
     fn enabled(&self, metadata: &Metadata) -> bool {
-        metadata.level() <= Level::Info
+        // 完全依赖全局 max level（由各 init_* 函数通过 set_max_level 设置）进行过滤。
+        // 此前硬编码为 Level::Info，会导致即便配置为 debug 级别，debug 日志也被抑制。
+        metadata.level() <= log::max_level()
     }
 
     fn log(&self, record: &Record) {
