@@ -778,15 +778,13 @@ impl Vulnerabilitie {
     /// 检查是否为严重漏洞
     pub fn is_critical(&self) -> bool {
         self.get_severity()
-            .map(|s| s.eq_ignore_ascii_case("critical"))
-            .unwrap_or(false)
+            .is_some_and(|s| s.eq_ignore_ascii_case("critical"))
     }
 
     /// 检查是否为高危漏洞
     pub fn is_high(&self) -> bool {
         self.get_severity()
-            .map(|s| s.eq_ignore_ascii_case("high"))
-            .unwrap_or(false)
+            .is_some_and(|s| s.eq_ignore_ascii_case("high"))
     }
 }
 
