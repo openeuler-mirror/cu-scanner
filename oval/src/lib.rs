@@ -404,9 +404,6 @@ pub struct Generator {
     /// 时间戳（xs:dateTime格式，例如：2024-01-01T12:00:00Z）
     #[serde(rename = "oval:timestamp")]
     pub time_stamp: String,
-    // 内容版本
-    // #[serde(rename = "oval:content_version")]
-    // pub content_version: u64,
 }
 
 impl Default for Generator {
@@ -427,7 +424,6 @@ impl Generator {
             product_name: DEF_PRODUCT_NAME.into(),
             schema_version: DEF_SCHEMA_VERSION.into(),
             time_stamp: String::new(),
-            // content_version: 0,
         }
     }
 }
