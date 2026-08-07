@@ -569,16 +569,16 @@ impl DatabaseManager {
             &[&oval_definition_id]
         ).await?;
 
-        let mut cves = Vec::new();
-        for row in rows {
-            cves.push(Cve {
+        let cves: Vec<Cve> = rows
+            .iter()
+            .map(|row| Cve {
                 cve_id: row.get("cve_id"),
                 cvss3: row.get("cvss3"),
                 impact: row.get("impact"),
                 href: row.get("href"),
                 content: row.get("content"),
-            });
-        }
+            })
+            .collect();
 
         Ok(cves)
     }
