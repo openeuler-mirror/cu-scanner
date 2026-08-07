@@ -571,12 +571,12 @@ impl AggregateSeverity {
 
     /// 检查是否为严重级别
     pub fn is_critical(&self) -> bool {
-        self.text.to_lowercase() == "critical"
+        self.text.eq_ignore_ascii_case("critical")
     }
 
     /// 检查是否为高危级别
     pub fn is_high(&self) -> bool {
-        self.text.to_lowercase() == "high"
+        self.text.eq_ignore_ascii_case("high")
     }
 }
 
@@ -783,14 +783,14 @@ impl Vulnerabilitie {
     /// 检查是否为严重漏洞
     pub fn is_critical(&self) -> bool {
         self.get_severity()
-            .map(|s| s.to_lowercase() == "critical")
+            .map(|s| s.eq_ignore_ascii_case("critical"))
             .unwrap_or(false)
     }
 
     /// 检查是否为高危漏洞
     pub fn is_high(&self) -> bool {
         self.get_severity()
-            .map(|s| s.to_lowercase() == "high")
+            .map(|s| s.eq_ignore_ascii_case("high"))
             .unwrap_or(false)
     }
 }
@@ -854,24 +854,24 @@ impl CvssV3 {
 
     /// 检查是否为严重级别
     pub fn is_critical(&self) -> bool {
-        self.base_severity.to_lowercase() == "critical" || self.base_score >= 9.0
+        self.base_severity.eq_ignore_ascii_case("critical") || self.base_score >= 9.0
     }
 
     /// 检查是否为高危级别
     pub fn is_high(&self) -> bool {
-        self.base_severity.to_lowercase() == "high"
+        self.base_severity.eq_ignore_ascii_case("high")
             || (self.base_score >= 7.0 && self.base_score < 9.0)
     }
 
     /// 检查是否为中危级别
     pub fn is_medium(&self) -> bool {
-        self.base_severity.to_lowercase() == "medium"
+        self.base_severity.eq_ignore_ascii_case("medium")
             || (self.base_score >= 4.0 && self.base_score < 7.0)
     }
 
     /// 检查是否为低危级别
     pub fn is_low(&self) -> bool {
-        self.base_severity.to_lowercase() == "low"
+        self.base_severity.eq_ignore_ascii_case("low")
             || (self.base_score > 0.0 && self.base_score < 4.0)
     }
 }
