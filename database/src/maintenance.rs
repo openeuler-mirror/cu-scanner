@@ -88,7 +88,7 @@ impl DatabaseManager {
         info!("清空所有数据表");
 
         // 按依赖顺序删除数据
-        let clear_queries = vec![
+        let clear_queries = [
             "DELETE FROM rpminfo_states",
             "DELETE FROM rpminfo_objects",
             "DELETE FROM rpminfo_tests",
