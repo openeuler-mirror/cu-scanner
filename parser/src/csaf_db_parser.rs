@@ -116,19 +116,19 @@ pub async fn create_definition_from_sa_id(
 
     // 创建建议信息
     let mut advisory = Advisory::new();
-    if let Some(ref severity) = sa_info.severity {
+    if let Some(severity) = &sa_info.severity {
         advisory.severity = severity.clone();
     }
 
     // 设置发布和更新日期
     let mut issued = Issued::new();
-    if let Some(ref created_time) = sa_info.created_time {
+    if let Some(created_time) = &sa_info.created_time {
         issued.date = created_time.clone();
     }
     advisory.issued = issued;
 
     let mut updated = Updated::new();
-    if let Some(ref updated_time) = sa_info.updated_time {
+    if let Some(updated_time) = &sa_info.updated_time {
         updated.date = updated_time.clone();
     }
     advisory.updated = updated;
