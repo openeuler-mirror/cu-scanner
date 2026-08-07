@@ -147,7 +147,9 @@ impl CsafFetcher {
         }
 
         error!("所有重试均失败");
-        Err(last_error.unwrap())
+        Err(last_error.unwrap_or_else(|| {
+            FetchError::Other(format!("未执行任何获取尝试 (max_retries=0): {}", url))
+        }))
     }
 
     /// 单次获取（不重试）
@@ -441,7 +443,9 @@ impl AsyncCsafFetcher {
         }
 
         error!("所有异步重试均失败");
-        Err(last_error.unwrap())
+        Err(last_error.unwrap_or_else(|| {
+            FetchError::Other(format!("未执行任何异步获取尝试 (max_retries=0): {}", url))
+        }))
     }
 
     /// 单次异步获取（不重试）
