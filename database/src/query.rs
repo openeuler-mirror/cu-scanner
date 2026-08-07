@@ -848,9 +848,9 @@ impl DatabaseManager {
             &[]
         ).await?;
 
-        let mut os_infos = Vec::new();
-        for row in rows {
-            os_infos.push(OsInfo {
+        let os_infos: Vec<OsInfo> = rows
+            .iter()
+            .map(|row| OsInfo {
                 id: Some(row.get("id")),
                 os_type: row.get("os_type"),
                 os_version: row.get("os_version"),
@@ -859,8 +859,8 @@ impl DatabaseManager {
                 verify_pattern: row.get("verify_pattern"),
                 dist: row.get("dist"),
                 description: row.get("description"),
-            });
-        }
+            })
+            .collect();
 
         Ok(os_infos)
     }
