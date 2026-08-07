@@ -427,7 +427,7 @@ impl Generator {
         Self {
             product_name: DEF_PRODUCT_NAME.into(),
             schema_version: DEF_SCHEMA_VERSION.into(),
-            time_stamp: "".to_string(),
+            time_stamp: String::new(),
             // content_version: 0,
         }
     }
@@ -515,7 +515,7 @@ impl Definition {
         debug!("创建新的Definition实例");
         Self {
             class: "patch".to_string(),
-            id: "".to_string(),
+            id: String::new(),
             version: 0,
             metadata: Metadata::new(),
             criteria: Criteria::new(),
@@ -600,10 +600,10 @@ impl Metadata {
     pub fn new() -> Self {
         debug!("创建新的Metadata实例");
         Self {
-            title: "".to_string(),
+            title: String::new(),
             affected: Affected::new(),
             references: None,
-            description: "".to_string(),
+            description: String::new(),
             advisory: Advisory::new(),
         }
     }
@@ -654,9 +654,9 @@ impl Reference {
     pub fn new() -> Self {
         debug!("创建新的Reference实例");
         Self {
-            ref_id: "".to_string(),
-            ref_url: "".to_string(),
-            source: "".to_string(),
+            ref_id: String::new(),
+            ref_url: String::new(),
+            source: String::new(),
         }
     }
 }
@@ -689,7 +689,7 @@ impl Affected {
         debug!("创建新的Affected实例");
         Self {
             family: "unix".to_string(),
-            platform: "".to_string(),
+            platform: String::new(),
         }
     }
 }
@@ -746,7 +746,7 @@ impl Advisory {
         Self {
             from: ADVISORY_FROM.to_string(),
             rights: CU_LINUX_COPY_RIGHT.to_string(),
-            severity: "".to_string(),
+            severity: String::new(),
             issued: Issued::new(),
             updated: Updated::new(),
             cve: Vec::new(),
@@ -798,7 +798,7 @@ impl Issued {
     pub fn new() -> Self {
         debug!("创建新的Issued实例");
         Self {
-            date: "".to_string(),
+            date: String::new(),
         }
     }
 }
@@ -826,7 +826,7 @@ impl Updated {
     pub fn new() -> Self {
         debug!("创建新的Updated实例");
         Self {
-            date: "".to_string(),
+            date: String::new(),
         }
     }
 }
@@ -866,10 +866,10 @@ impl CVE {
     pub fn new() -> Self {
         debug!("创建新的CVE实例");
         Self {
-            cvss3: "".to_string(),
-            href: "".to_string(),
-            impact: "".to_string(),
-            content: "".to_string(),
+            cvss3: String::new(),
+            href: String::new(),
+            impact: String::new(),
+            content: String::new(),
         }
     }
 
@@ -958,7 +958,7 @@ impl SeverityLevel {
 pub fn calculate_max_severity(cves: &[CVE]) -> String {
     if cves.is_empty() {
         debug!("CVE列表为空，返回默认严重性级别");
-        return "".to_string();
+        return String::new();
     }
 
     let max_level = cves
@@ -1023,7 +1023,7 @@ impl Criteria {
     pub fn new() -> Self {
         debug!("创建新的Criteria实例");
         Self {
-            operator: "".to_string(),
+            operator: String::new(),
             criterion: Vec::new(),
             sub_criteria: None,
         }
@@ -1087,8 +1087,8 @@ impl Criterion {
     pub fn new() -> Self {
         debug!("创建新的Criterion实例");
         Self {
-            comment: "".to_string(),
-            test_ref: "".to_string(),
+            comment: String::new(),
+            test_ref: String::new(),
         }
     }
 }
@@ -1188,9 +1188,9 @@ impl RpmInfoTest {
     pub fn new() -> Self {
         debug!("创建新的RpmInfoTest实例");
         Self {
-            check: "".to_string(),
-            comment: "".to_string(),
-            id: "".to_string(),
+            check: String::new(),
+            comment: String::new(),
+            id: String::new(),
             version: 0,
             object: ObjectReference::new(),
             state: StateReference::new(),
@@ -1272,9 +1272,9 @@ impl RpmVerifyFileTest {
     /// 创建新的RpmVerifyFileTest实例
     pub fn new() -> Self {
         Self {
-            check: "".to_string(),
-            comment: "".to_string(),
-            id: "".to_string(),
+            check: String::new(),
+            comment: String::new(),
+            id: String::new(),
             version: 0,
             object: ObjectReference::new(),
             state: StateReference::new(),
@@ -1305,7 +1305,7 @@ impl ObjectReference {
     pub fn new() -> Self {
         debug!("创建新的ObjectReference实例");
         Self {
-            object_ref: "".to_string(),
+            object_ref: String::new(),
         }
     }
 }
@@ -1333,7 +1333,7 @@ impl StateReference {
     pub fn new() -> Self {
         debug!("创建新的StateReference实例");
         Self {
-            state_ref: "".to_string(),
+            state_ref: String::new(),
         }
     }
 }
@@ -1479,9 +1479,9 @@ impl RpmInfoObject {
     pub fn new() -> Self {
         debug!("创建新的RpmInfoObject实例");
         Self {
-            id: "".to_string(),
+            id: String::new(),
             ver: 0,
-            rpm_name: "".to_string(),
+            rpm_name: String::new(),
         }
     }
 
@@ -1581,7 +1581,7 @@ impl RpmVerifyFileObject {
     /// 创建新的RpmVerifyFileObject实例
     pub fn new() -> Self {
         Self {
-            id: "".to_string(),
+            id: String::new(),
             ver: 0,
             behaviors: Behaviors::new(),
             name: Data::new(),
@@ -1589,7 +1589,7 @@ impl RpmVerifyFileObject {
             version: Data::new(),
             release: Data::new(),
             arch: Data::new(),
-            filepath: "".to_string(),
+            filepath: String::new(),
         }
     }
 }
@@ -1681,7 +1681,7 @@ impl Data {
     pub fn new() -> Self {
         debug!("创建新的Data实例");
         Self {
-            operation: "".to_string(),
+            operation: String::new(),
         }
     }
 }
@@ -1782,8 +1782,8 @@ impl RpmInfoState {
     pub fn new() -> Self {
         debug!("创建新的RpmInfoState实例");
         Self {
-            id: "".to_string(),
-            version: "".to_string(),
+            id: String::new(),
+            version: String::new(),
             evr: None,
         }
     }
@@ -1865,9 +1865,9 @@ impl Evr {
     pub fn new() -> Self {
         debug!("创建新的Evr实例");
         Self {
-            datatype: "".to_string(),
-            operation: "".to_string(),
-            evr: "".to_string(),
+            datatype: String::new(),
+            operation: String::new(),
+            evr: String::new(),
         }
     }
 
@@ -1911,8 +1911,8 @@ impl StateData {
     /// 创建新的StateData实例
     pub fn new() -> Self {
         Self {
-            operation: "".to_string(),
-            content: "".to_string(),
+            operation: String::new(),
+            content: String::new(),
         }
     }
 }
@@ -1947,8 +1947,8 @@ impl RpmVerifyFileState {
     /// 创建新的RpmVerifyFileState实例
     pub fn new() -> Self {
         Self {
-            id: "".to_string(),
-            version: "".to_string(),
+            id: String::new(),
+            version: String::new(),
             name: StateData::new(),
             os_version: None,
         }
