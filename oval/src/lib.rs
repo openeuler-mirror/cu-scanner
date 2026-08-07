@@ -1200,26 +1200,31 @@ impl RpmInfoTest {
         self
     }
 
+    /// 设置检查方式
     pub fn with_check(mut self, check: String) -> Self {
         self.check = check;
         self
     }
 
+    /// 设置注释说明
     pub fn with_comment(mut self, comment: String) -> Self {
         self.comment = comment;
         self
     }
 
+    /// 设置版本号
     pub fn with_version(mut self, version: u32) -> Self {
         self.version = version;
         self
     }
 
+    /// 设置对象引用ID
     pub fn with_object_ref(mut self, object_ref: String) -> Self {
         self.object.object_ref = object_ref;
         self
     }
 
+    /// 设置状态引用ID
     pub fn with_state_ref(mut self, state_ref: String) -> Self {
         self.state.state_ref = state_ref;
         self
