@@ -969,27 +969,6 @@ pub fn calculate_max_severity(cves: &[CVE]) -> String {
     severity_str
 }
 
-/*
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Bugzilla {
-    #[serde(rename = "@href")]
-    pub href: String,
-
-    #[serde(rename = "@id")]
-    pub id: String,
-
-    #[serde(rename = "#text")]
-    pub content: String,
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(rename = "cpe")]
-pub struct CPE {
-    #[serde(rename = "#text")]
-    pub content: String,
-}
-*/
-
 /// 检查条件结构体
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Criteria {
