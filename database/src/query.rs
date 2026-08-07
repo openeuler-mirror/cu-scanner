@@ -761,20 +761,16 @@ impl DatabaseManager {
             &[&dist]
         ).await?;
 
-        if let Some(row) = row {
-            Ok(Some(OsInfo {
-                id: Some(row.get("id")),
-                os_type: row.get("os_type"),
-                os_version: row.get("os_version"),
-                package_name: row.get("package_name"),
-                verify_file: row.get("verify_file"),
-                verify_pattern: row.get("verify_pattern"),
-                dist: row.get("dist"),
-                description: row.get("description"),
-            }))
-        } else {
-            Ok(None)
-        }
+        Ok(row.map(|row| OsInfo {
+            id: Some(row.get("id")),
+            os_type: row.get("os_type"),
+            os_version: row.get("os_version"),
+            package_name: row.get("package_name"),
+            verify_file: row.get("verify_file"),
+            verify_pattern: row.get("verify_pattern"),
+            dist: row.get("dist"),
+            description: row.get("description"),
+        }))
     }
 
     /// 根据ID查找OS信息
@@ -786,20 +782,16 @@ impl DatabaseManager {
             &[&id]
         ).await?;
 
-        if let Some(row) = row {
-            Ok(Some(OsInfo {
-                id: Some(row.get("id")),
-                os_type: row.get("os_type"),
-                os_version: row.get("os_version"),
-                package_name: row.get("package_name"),
-                verify_file: row.get("verify_file"),
-                verify_pattern: row.get("verify_pattern"),
-                dist: row.get("dist"),
-                description: row.get("description"),
-            }))
-        } else {
-            Ok(None)
-        }
+        Ok(row.map(|row| OsInfo {
+            id: Some(row.get("id")),
+            os_type: row.get("os_type"),
+            os_version: row.get("os_version"),
+            package_name: row.get("package_name"),
+            verify_file: row.get("verify_file"),
+            verify_pattern: row.get("verify_pattern"),
+            dist: row.get("dist"),
+            description: row.get("description"),
+        }))
     }
 
     /// 从软件包版本字符串中提取dist并匹配OS信息
