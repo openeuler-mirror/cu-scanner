@@ -239,7 +239,7 @@ fn convert_rpminfo_object(object: &oval::RpmInfoObject) -> RpmInfoObject {
 ///
 /// * `states` - OVAL状态信息
 ///
-/// # 返回값
+/// # 返回值
 ///
 /// 返回转换后的数据库RpmInfoState列表
 pub fn convert_rpminfo_states(states: &oval::States) -> Vec<RpmInfoState> {
