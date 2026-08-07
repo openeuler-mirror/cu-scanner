@@ -298,14 +298,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     Ok(oval) => {
                         log::info!("CSAF到OVAL转换成功");
 
-                        // 如果提供了输出路径，则保存转换结果
-                        if let Some(output_path) = args.output {
-                            log::info!("转换结果将保存到: {}", output_path);
-
-                            // 将OVAL转换为XML字符串
-                            match oval.to_oval_string() {
-                                Ok(xml_content) => {
-                                    // 保存到文件
+                        // 将OVAL转换为XML字符串
+                        match oval.to_oval_string() {
+                            Ok(xml_content) => {
+                                if let Some(output_path) = args.output {
+                                    log::info!("转换结果将保存到: {}", output_path);
                                     match fs::write(&output_path, xml_content) {
                                         Ok(_) => {
                                             log::info!("OVAL XML文件保存成功: {}", output_path);
@@ -315,23 +312,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                                             return Ok(());
                                         }
                                     }
-                                }
-                                Err(e) => {
-                                    log::error!("将OVAL转换为XML字符串失败: {}", e);
-                                    return Ok(());
-                                }
-                            }
-                        } else {
-                            // 如果没有指定输出文件，则输出到标准输出
-                            match oval.to_oval_string() {
-                                Ok(xml_content) => {
+                                } else {
                                     println!("{}", xml_content);
                                     log::info!("OVAL XML内容已输出到标准输出");
                                 }
-                                Err(e) => {
-                                    log::error!("将OVAL转换为XML字符串失败: {}", e);
-                                    return Ok(());
-                                }
+                            }
+                            Err(e) => {
+                                log::error!("将OVAL转换为XML字符串失败: {}", e);
+                                return Ok(());
                             }
                         }
                     }
