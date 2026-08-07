@@ -153,8 +153,8 @@ fn create_cve_from_cve_info(cve_info: &CveInfo) -> CVE {
         cve_info.cve_id
     );
     // 设置默认值
-    cve.cvss3 = "".to_string();
-    cve.impact = "".to_string();
+    cve.cvss3 = String::new();
+    cve.impact = String::new();
 
     debug!("成功为CVE {} 创建CVE条目", cve_info.cve_id);
     cve
