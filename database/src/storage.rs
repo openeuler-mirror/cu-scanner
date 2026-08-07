@@ -61,7 +61,7 @@ impl DatabaseManager {
     ) -> Result<Option<i64>, DatabaseError> {
         // 尝试从第一个RPM状态的EVR中提取dist
         if let Some(first_state) = rpminfo_states.first() {
-            if let Some(ref evr_value) = first_state.evr_value {
+            if let Some(evr_value) = &first_state.evr_value {
                 if let Some(dist) = Self::extract_dist_from_package(evr_value) {
                     return self.get_os_info_id_by_dist(&dist).await;
                 }
@@ -70,7 +70,7 @@ impl DatabaseManager {
 
         // 如果第一个状态无法提取,尝试其他状态
         for state in rpminfo_states {
-            if let Some(ref evr_value) = state.evr_value {
+            if let Some(evr_value) = &state.evr_value {
                 if let Some(dist) = Self::extract_dist_from_package(evr_value) {
                     return self.get_os_info_id_by_dist(&dist).await;
                 }
