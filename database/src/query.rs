@@ -671,15 +671,15 @@ impl DatabaseManager {
             )
             .await?;
 
-        let mut rpm_info_objects = Vec::new();
-        for row in rows {
-            rpm_info_objects.push(RpmInfoObject {
+        let rpm_info_objects: Vec<RpmInfoObject> = rows
+            .iter()
+            .map(|row| RpmInfoObject {
                 id: Some(row.get("id")), // 数据库自增ID
                 object_id: row.get("object_id"),
                 ver: row.get::<_, i64>("ver") as u64,
                 rpm_name: row.get("rpm_name"),
-            });
-        }
+            })
+            .collect();
 
         Ok(rpm_info_objects)
     }
