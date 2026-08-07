@@ -825,7 +825,7 @@ pub fn build_oval_criteria(
                 let rpm_info_object = RpmInfoObject::new()
                     .with_id(&id)
                     .with_ver(1)
-                    .with_rpm_name(pkg_name.clone());
+                    .with_rpm_name(&pkg_name);
                 rpminfo_object.push(rpm_info_object);
                 object_map.insert(pkg_name.clone(), id.clone());
                 debug!("创建新的RPM对象: {} -> {}", pkg_name, id);
