@@ -85,10 +85,10 @@ impl DatabaseManager {
     pub async fn save_full_oval_definition(
         &mut self,
         definition: &OvalDefinition,
-        references: &Vec<Reference>,
-        cves: &Vec<Cve>,
-        rpminfo_tests: &Vec<RpmInfoTest>,
-        rpminfo_objects: &Vec<RpmInfoObject>,
+        references: &[Reference],
+        cves: &[Cve],
+        rpminfo_tests: &[RpmInfoTest],
+        rpminfo_objects: &[RpmInfoObject],
         rpminfo_states: &Vec<RpmInfoState>,
     ) -> Result<(), DatabaseError> {
         info!("正在保存OVAL定义到数据库: {}", definition.id);
