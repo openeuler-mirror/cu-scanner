@@ -301,7 +301,7 @@ impl OvalDefinitions {
 
         // 4. 合并 states（去重）
         if let Some(other_states) = other.states.rpminfo_states {
-            let mut existing_state_ids: HashSet<String> = if let Some(ref states) = self.states.rpminfo_states {
+            let mut existing_state_ids: HashSet<String> = if let Some(states) = &self.states.rpminfo_states {
                 states.iter().map(|s| s.id.clone()).collect()
             } else {
                 HashSet::new()
@@ -324,7 +324,7 @@ impl OvalDefinitions {
 
         // 合并 rpmverifyfile_states
         if let Some(other_verify_states) = other.states.rpmverifyfile_states {
-            let mut existing_verify_state_ids: HashSet<String> = if let Some(ref states) = self.states.rpmverifyfile_states {
+            let mut existing_verify_state_ids: HashSet<String> = if let Some(states) = &self.states.rpmverifyfile_states {
                 states.iter().map(|s| s.id.clone()).collect()
             } else {
                 HashSet::new()
