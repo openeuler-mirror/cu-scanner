@@ -11,7 +11,7 @@ impl DatabaseManager {
         info!("正在清空并重新创建数据库表结构");
 
         // 删除现有表（按依赖顺序）
-        let drop_tables = vec![
+        let drop_tables = [
             "DROP TABLE IF EXISTS rpminfo_states CASCADE",
             "DROP TABLE IF EXISTS rpminfo_objects CASCADE",
             "DROP TABLE IF EXISTS rpminfo_tests CASCADE",
