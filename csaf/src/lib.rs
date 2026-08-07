@@ -467,17 +467,12 @@ impl CSAF {
     pub fn to_file(self, path: &str) -> Result<()> {
         info!("将CSAF数据保存到文件: {}", path);
         let data = serde_json::to_string_pretty(&self)?;
-        let res = std::fs::write(path, &data);
-        match res {
-            Ok(_) => {
-                info!("成功保存CSAF数据到文件: {}", path);
-                Ok(())
-            }
-            Err(e) => {
-                error!("保存CSAF数据到文件失败: {}", e);
-                Err(e.into())
-            }
+        if let Err(e) = std::fs::write(path, &data) {
+            error!("保存CSAF数据到文件失败: {}", e);
+            return Err(e.into());
         }
+        info!("成功保存CSAF数据到文件: {}", path);
+        Ok(())
     }
 
     /// 从URL加载CSAF数据
