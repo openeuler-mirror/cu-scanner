@@ -48,6 +48,15 @@ pub struct DatabaseConfig {
 }
 
 impl DatabaseConfig {
+    /// 创建新的数据库配置
+    ///
+    /// # 参数
+    ///
+    /// * `host` - 数据库主机地址
+    /// * `port` - 数据库端口
+    /// * `database` - 数据库名称
+    /// * `username` - 用户名
+    /// * `password` - 密码
     pub fn new(host: &str, port: u16, database: &str, username: &str, password: &str) -> Self {
         Self {
             host: host.to_string(),
