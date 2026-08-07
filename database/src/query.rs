@@ -607,13 +607,13 @@ impl DatabaseManager {
                 )
                 .await?;
 
-            let mut criterion = Vec::new();
-            for row in criterion_rows {
-                criterion.push(Criterion {
+            let criterion: Vec<Criterion> = criterion_rows
+                .iter()
+                .map(|row| Criterion {
                     comment: row.get("comment"),
                     test_ref: row.get("test_ref"),
-                });
-            }
+                })
+                .collect();
 
             // 简化处理，实际应该递归获取子条件
             Ok(Criteria {
