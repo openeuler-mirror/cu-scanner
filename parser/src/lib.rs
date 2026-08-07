@@ -834,7 +834,7 @@ pub fn build_oval_criteria(
                 };
                 let rpm_info_state = RpmInfoState::new()
                     .with_id(&id)
-                    .with_version("1".to_string())
+                    .with_version("1")
                     .with_evr(Some(evr));
                 rpminfo_states.push(rpm_info_state);
                 state_map.insert(evr_full.clone(), id.clone());
