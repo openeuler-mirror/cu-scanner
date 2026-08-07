@@ -654,7 +654,7 @@ pub fn fill_definition(sa: &CSAF, definition: &mut Definition) -> Result<()> {
     // 设置definition的version为CSAF文档的版本号
     definition.version = sa.document.tracking.version.parse().unwrap_or(1);
 
-    let mut references = Vec::<oval::Reference>::new();
+    let mut references: Vec<oval::Reference> = Vec::new();
     let mut map_cve_url = HashMap::new();
     for reference in &sa.document.references {
         let mut oval_ref = oval::Reference::new();
