@@ -449,7 +449,7 @@ impl CSAF {
     pub fn from_file(path: &str) -> Result<Self> {
         info!("从文件加载CSAF数据: {}", path);
         let data = std::fs::read_to_string(path)?;
-        let csaf: Self = serde_json::from_str::<Self>(&data)?;
+        let csaf: Self = serde_json::from_str(&data)?;
         info!("成功加载CSAF数据，漏洞数量: {}", csaf.vulnerabilities.len());
         Ok(csaf)
     }
@@ -494,7 +494,7 @@ impl CSAF {
         let response = get(url)?;
         if response.status().is_success() {
             let body = response.text()?;
-            let csaf: Self = serde_json::from_str::<Self>(&body)?;
+            let csaf: Self = serde_json::from_str(&body)?;
             info!(
                 "成功从URL加载CSAF数据，漏洞数量: {}",
                 csaf.vulnerabilities.len()
