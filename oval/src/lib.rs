@@ -1788,9 +1788,9 @@ impl RpmInfoState {
     /// # 返回值
     ///
     /// 返回修改后的RpmInfoState实例
-    pub fn with_version(mut self, version: String) -> Self {
+    pub fn with_version(mut self, version: &str) -> Self {
         debug!("设置RpmInfoState版本: {}", version);
-        self.version = version;
+        self.version = version.to_string();
         self
     }
 
