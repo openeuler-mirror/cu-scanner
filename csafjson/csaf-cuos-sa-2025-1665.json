@@ -1,0 +1,545 @@
+{
+  "document": {
+    "title": "openssh security update",
+    "csaf_version": "2.0",
+    "category": "csaf_vex",
+    "publisher": {
+      "name": "ChinaUnicom",
+      "category": "vendor",
+      "namespace": "https://www.chinaunicom.com",
+      "contact_details": "security@chinaunicom.com",
+      "issuing_authority": "ChinaUnicom Security Committee"
+    },
+    "tracking": {
+      "id": "CUOS-SA-2025-1665",
+      "version": "1.0.0",
+      "status": "final",
+      "initial_release_date": "2025-11-10T12:03:14+08:00",
+      "current_release_date": "2025-11-10T12:03:14+08:00",
+      "revision_history": [
+        {
+          "date": "2025-11-10T12:03:14+08:00",
+          "number": "1.0.0",
+          "summary": "Initial"
+        }
+      ],
+      "generator": {
+        "engine": {
+          "name": "CUOS CSAF Tool",
+          "version": "1.0"
+        },
+        "date": "2025-11-10T12:03:14+08:00"
+      }
+    },
+    "aggregate_severity": {
+      "text": "Low",
+      "namespace": "https://nvd.nist.gov/vuln-metrics/cvss"
+    },
+    "distribution": {
+      "tlp": {
+        "label": "WHITE",
+        "url": "https://www.first.org/tlp/"
+      }
+    },
+    "lang": "en",
+    "notes": [
+      {
+        "text": "openssh security update",
+        "category": "general",
+        "title": "Synopsis"
+      },
+      {
+        "text": "An update for openssh is now available for openEuler-24.03-LTS-SP1",
+        "category": "summary",
+        "title": "Summary"
+      },
+      {
+        "text": "OpenSSH is the premier connectivity tool for remote login with the SSH protocol. \\ It encrypts all traffic to eliminate eavesdropping, connection hijacking, and \\ other attacks. In addition, OpenSSH provides a large suite of secure tunneling \\ capabilities, several authentication methods, and sophisticated configuration options.\n\nSecurity Fix(es):\n\nOpenSSH (OpenBSD Secure Shell) is a set of connection tools for secure access to remote computers in the Canadian OpenBSD program group. This tool is an open source implementation of the SSH protocol, supports encryption of all transmissions, and can effectively prevent eavesdropping, connection hijacking, and other network-level attacks.\n OpenSSH (OpenBSD Secure Shell) versions before 10.0 have a security vulnerability that originated from the DisableForwarding directive that does not correctly disable X11 and proxy forwarding.(CVE-2025-32728)",
+        "category": "description",
+        "title": "Description"
+      },
+      {
+        "text": "An update for openssh is now available for openEuler-24.03-LTS-SP1.\n\nopenEuler Security has rated this update as having a security impact of low. A Common Vunlnerability Scoring System(CVSS)base score,which gives a detailed severity rating, is available for each vulnerability from the CVElink(s) in the References section.",
+        "category": "general",
+        "title": "Topic"
+      }
+    ],
+    "references": [
+      {
+        "summary": "CUOS-SA-2025-1665",
+        "url": "https://www.chinaunicom.com/security/advisories/CUOS-SA-2025-1665",
+        "category": "self"
+      },
+      {
+        "summary": "CVE-2025-32728",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-32728",
+        "category": "external"
+      }
+    ]
+  },
+  "product_tree": {
+    "branches": [
+      {
+        "name": "ChinaUnicom",
+        "category": "vendor",
+        "branches": [
+          {
+            "name": "CUOS",
+            "category": "product_name",
+            "branches": [
+              {
+                "name": "4.0",
+                "category": "product_version",
+                "product": {
+                  "name": "CUOS 4.0",
+                  "product_id": "CUOS-4.0",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "aarch64",
+            "category": "architecture",
+            "branches": [
+              {
+                "name": "openssh-9.6p1-6.ule4.aarch64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-9.6p1-6.ule4.aarch64.rpm",
+                  "product_id": "openssh-9.6p1-6.ule4.aarch64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-askpass-9.6p1-6.ule4.aarch64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-askpass-9.6p1-6.ule4.aarch64.rpm",
+                  "product_id": "openssh-askpass-9.6p1-6.ule4.aarch64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-clients-9.6p1-6.ule4.aarch64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-clients-9.6p1-6.ule4.aarch64.rpm",
+                  "product_id": "openssh-clients-9.6p1-6.ule4.aarch64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-keycat-9.6p1-6.ule4.aarch64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-keycat-9.6p1-6.ule4.aarch64.rpm",
+                  "product_id": "openssh-keycat-9.6p1-6.ule4.aarch64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-server-9.6p1-6.ule4.aarch64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-server-9.6p1-6.ule4.aarch64.rpm",
+                  "product_id": "openssh-server-9.6p1-6.ule4.aarch64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "noarch",
+            "category": "architecture",
+            "branches": [
+              {
+                "name": "openssh-help-9.6p1-6.ule4.noarch.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-help-9.6p1-6.ule4.noarch.rpm",
+                  "product_id": "openssh-help-9.6p1-6.ule4.noarch.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "loongarch64",
+            "category": "architecture",
+            "branches": [
+              {
+                "name": "openssh-9.6p1-6.ule4.loongarch64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-9.6p1-6.ule4.loongarch64.rpm",
+                  "product_id": "openssh-9.6p1-6.ule4.loongarch64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-askpass-9.6p1-6.ule4.loongarch64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-askpass-9.6p1-6.ule4.loongarch64.rpm",
+                  "product_id": "openssh-askpass-9.6p1-6.ule4.loongarch64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-clients-9.6p1-6.ule4.loongarch64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-clients-9.6p1-6.ule4.loongarch64.rpm",
+                  "product_id": "openssh-clients-9.6p1-6.ule4.loongarch64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-keycat-9.6p1-6.ule4.loongarch64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-keycat-9.6p1-6.ule4.loongarch64.rpm",
+                  "product_id": "openssh-keycat-9.6p1-6.ule4.loongarch64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-server-9.6p1-6.ule4.loongarch64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-server-9.6p1-6.ule4.loongarch64.rpm",
+                  "product_id": "openssh-server-9.6p1-6.ule4.loongarch64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "x86_64",
+            "category": "architecture",
+            "branches": [
+              {
+                "name": "openssh-9.6p1-6.ule4.x86_64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-9.6p1-6.ule4.x86_64.rpm",
+                  "product_id": "openssh-9.6p1-6.ule4.x86_64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-askpass-9.6p1-6.ule4.x86_64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-askpass-9.6p1-6.ule4.x86_64.rpm",
+                  "product_id": "openssh-askpass-9.6p1-6.ule4.x86_64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-clients-9.6p1-6.ule4.x86_64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-clients-9.6p1-6.ule4.x86_64.rpm",
+                  "product_id": "openssh-clients-9.6p1-6.ule4.x86_64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-keycat-9.6p1-6.ule4.x86_64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-keycat-9.6p1-6.ule4.x86_64.rpm",
+                  "product_id": "openssh-keycat-9.6p1-6.ule4.x86_64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              },
+              {
+                "name": "openssh-server-9.6p1-6.ule4.x86_64.rpm",
+                "category": "product_version",
+                "product": {
+                  "name": "openssh-server-9.6p1-6.ule4.x86_64.rpm",
+                  "product_id": "openssh-server-9.6p1-6.ule4.x86_64.rpm",
+                  "product_identification_helper": {
+                    "cpe": "cpe:/o:chinaunicom:cuos:4.0"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-9.6p1-6.ule4.aarch64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-9.6p1-6.ule4.aarch64"
+        },
+        "product_reference": "openssh-9.6p1-6.ule4.aarch64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-askpass-9.6p1-6.ule4.aarch64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.aarch64"
+        },
+        "product_reference": "openssh-askpass-9.6p1-6.ule4.aarch64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-clients-9.6p1-6.ule4.aarch64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-clients-9.6p1-6.ule4.aarch64"
+        },
+        "product_reference": "openssh-clients-9.6p1-6.ule4.aarch64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-keycat-9.6p1-6.ule4.aarch64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.aarch64"
+        },
+        "product_reference": "openssh-keycat-9.6p1-6.ule4.aarch64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-server-9.6p1-6.ule4.aarch64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-server-9.6p1-6.ule4.aarch64"
+        },
+        "product_reference": "openssh-server-9.6p1-6.ule4.aarch64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-help-9.6p1-6.ule4.noarch as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-help-9.6p1-6.ule4.noarch"
+        },
+        "product_reference": "openssh-help-9.6p1-6.ule4.noarch.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-9.6p1-6.ule4.loongarch64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-9.6p1-6.ule4.loongarch64"
+        },
+        "product_reference": "openssh-9.6p1-6.ule4.loongarch64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-askpass-9.6p1-6.ule4.loongarch64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.loongarch64"
+        },
+        "product_reference": "openssh-askpass-9.6p1-6.ule4.loongarch64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-clients-9.6p1-6.ule4.loongarch64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-clients-9.6p1-6.ule4.loongarch64"
+        },
+        "product_reference": "openssh-clients-9.6p1-6.ule4.loongarch64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-keycat-9.6p1-6.ule4.loongarch64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.loongarch64"
+        },
+        "product_reference": "openssh-keycat-9.6p1-6.ule4.loongarch64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-server-9.6p1-6.ule4.loongarch64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-server-9.6p1-6.ule4.loongarch64"
+        },
+        "product_reference": "openssh-server-9.6p1-6.ule4.loongarch64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-9.6p1-6.ule4.x86_64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-9.6p1-6.ule4.x86_64"
+        },
+        "product_reference": "openssh-9.6p1-6.ule4.x86_64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-askpass-9.6p1-6.ule4.x86_64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.x86_64"
+        },
+        "product_reference": "openssh-askpass-9.6p1-6.ule4.x86_64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-clients-9.6p1-6.ule4.x86_64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-clients-9.6p1-6.ule4.x86_64"
+        },
+        "product_reference": "openssh-clients-9.6p1-6.ule4.x86_64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-keycat-9.6p1-6.ule4.x86_64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.x86_64"
+        },
+        "product_reference": "openssh-keycat-9.6p1-6.ule4.x86_64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      },
+      {
+        "category": "default_component_of",
+        "full_product_name": {
+          "name": "openssh-server-9.6p1-6.ule4.x86_64 as a component of CUOS 4.0",
+          "product_id": "CUOS-4.0:openssh-server-9.6p1-6.ule4.x86_64"
+        },
+        "product_reference": "openssh-server-9.6p1-6.ule4.x86_64.rpm",
+        "relates_to_product_reference": "CUOS-4.0"
+      }
+    ]
+  },
+  "vulnerabilities": [
+    {
+      "cve": "CVE-2025-32728",
+      "notes": [
+        {
+          "text": "OpenSSH (OpenBSD Secure Shell) is a set of connection tools for secure access to remote computers in the Canadian OpenBSD program group. This tool is an open source implementation of the SSH protocol, supports encryption of all transmissions, and can effectively prevent eavesdropping, connection hijacking, and other network-level attacks.\n OpenSSH (OpenBSD Secure Shell) versions before 10.0 have a security vulnerability that originated from the DisableForwarding directive that does not correctly disable X11 and proxy forwarding.",
+          "category": "description",
+          "title": "Vulnerability Description"
+        }
+      ],
+      "product_status": {
+        "fixed": [
+          "CUOS-4.0:openssh-9.6p1-6.ule4.aarch64",
+          "CUOS-4.0:openssh-9.6p1-6.ule4.loongarch64",
+          "CUOS-4.0:openssh-9.6p1-6.ule4.x86_64",
+          "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.aarch64",
+          "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.loongarch64",
+          "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.x86_64",
+          "CUOS-4.0:openssh-clients-9.6p1-6.ule4.aarch64",
+          "CUOS-4.0:openssh-clients-9.6p1-6.ule4.loongarch64",
+          "CUOS-4.0:openssh-clients-9.6p1-6.ule4.x86_64",
+          "CUOS-4.0:openssh-help-9.6p1-6.ule4.noarch",
+          "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.aarch64",
+          "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.loongarch64",
+          "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.x86_64",
+          "CUOS-4.0:openssh-server-9.6p1-6.ule4.aarch64",
+          "CUOS-4.0:openssh-server-9.6p1-6.ule4.loongarch64",
+          "CUOS-4.0:openssh-server-9.6p1-6.ule4.x86_64"
+        ]
+      },
+      "remediations": [
+        {
+          "category": "vendor_fix",
+          "details": "Update to the fixed version for CVE-2025-32728",
+          "product_ids": [
+            "CUOS-4.0:openssh-9.6p1-6.ule4.aarch64",
+            "CUOS-4.0:openssh-9.6p1-6.ule4.loongarch64",
+            "CUOS-4.0:openssh-9.6p1-6.ule4.x86_64",
+            "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.aarch64",
+            "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.loongarch64",
+            "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.x86_64",
+            "CUOS-4.0:openssh-clients-9.6p1-6.ule4.aarch64",
+            "CUOS-4.0:openssh-clients-9.6p1-6.ule4.loongarch64",
+            "CUOS-4.0:openssh-clients-9.6p1-6.ule4.x86_64",
+            "CUOS-4.0:openssh-help-9.6p1-6.ule4.noarch",
+            "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.aarch64",
+            "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.loongarch64",
+            "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.x86_64",
+            "CUOS-4.0:openssh-server-9.6p1-6.ule4.aarch64",
+            "CUOS-4.0:openssh-server-9.6p1-6.ule4.loongarch64",
+            "CUOS-4.0:openssh-server-9.6p1-6.ule4.x86_64"
+          ],
+          "url": "https://www.chinaunicom.com/security/advisories/CVE-2025-32728"
+        }
+      ],
+      "scores": [
+        {
+          "products": [
+            "CUOS-4.0:openssh-9.6p1-6.ule4.aarch64",
+            "CUOS-4.0:openssh-9.6p1-6.ule4.loongarch64",
+            "CUOS-4.0:openssh-9.6p1-6.ule4.x86_64",
+            "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.aarch64",
+            "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.loongarch64",
+            "CUOS-4.0:openssh-askpass-9.6p1-6.ule4.x86_64",
+            "CUOS-4.0:openssh-clients-9.6p1-6.ule4.aarch64",
+            "CUOS-4.0:openssh-clients-9.6p1-6.ule4.loongarch64",
+            "CUOS-4.0:openssh-clients-9.6p1-6.ule4.x86_64",
+            "CUOS-4.0:openssh-help-9.6p1-6.ule4.noarch",
+            "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.aarch64",
+            "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.loongarch64",
+            "CUOS-4.0:openssh-keycat-9.6p1-6.ule4.x86_64",
+            "CUOS-4.0:openssh-server-9.6p1-6.ule4.aarch64",
+            "CUOS-4.0:openssh-server-9.6p1-6.ule4.loongarch64",
+            "CUOS-4.0:openssh-server-9.6p1-6.ule4.x86_64"
+          ],
+          "cvss_v3": {
+            "version": "3.1",
+            "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:N/I:L/A:N",
+            "baseScore": 3.8,
+            "baseSeverity": "LOW"
+          }
+        }
+      ],
+      "threats": [
+        {
+          "category": "impact",
+          "details": "Low"
+        }
+      ],
+      "title": "CVE-2025-32728"
+    }
+  ]
+}
