@@ -1,0 +1,246 @@
+.TH CU\-SCANNER 1 "July 2026" "cu\-scanner 1.0.0" "User Commands"
+.SH NAME
+cu\-scanner \- security vulnerability scanning and analysis tool
+.SH SYNOPSIS
+.B cu\-scanner
+[\fB\-c\fR \fIconfig\-file\fR]
+[\fB\-f\fR \fIcsaf\-file\fR]
+.br
+.B cu\-scanner
+[\fB\-c\fR \fIconfig\-file\fR]
+[\fB\-D\fR \fIcsaf\-dir\fR]
+.br
+.B cu\-scanner
+[\fB\-c\fR \fIconfig\-file\fR]
+\fB\-F\fR
+.br
+.B cu\-scanner
+[\fB\-c\fR \fIconfig\-file\fR]
+\fB\-d\fR
+.br
+.B cu\-scanner
+[\fB\-c\fR \fIconfig\-file\fR]
+\fB\-\-init\-db\fR
+.br
+.B cu\-scanner
+[\fB\-h\fR|\fB\-V\fR]
+.SH DESCRIPTION
+.B cu\-scanner
+is a cybersecurity vulnerability scanning and analysis tool. It processes security advisories in CSAF (Common Security Advisory Framework) format and converts them into OVAL (Open Vulnerability and Assessment Language) XML files.
+.PP
+Key capabilities:
+.IP \(bu 2
+Read and parse CSAF security advisory files.
+.IP \(bu 2
+Convert CSAF advisories into OVAL definitions.
+.IP \(bu 2
+Save conversion results to a file or print them to standard output.
+.IP \(bu 2
+Persist OVAL definitions and related data to a PostgreSQL database.
+.IP \(bu 2
+Batch process CSAF files in a local directory, automatically skipping definitions already present in the database.
+.IP \(bu 2
+Periodically fetch CSAF indexes from a remote server and synchronize them to the database.
+.IP \(bu 2
+Run as a daemon providing an HTTP API service.
+.SH OPTIONS
+.TP
+.BR \-c ", " \-\-config " " \fIconfig\-file\fR
+Path to the configuration file. Defaults to \fI/etc/cu\-scanner/cu\-scanner.toml\fR. If loading fails, the program falls back to default settings.
+.TP
+.BR \-f ", " \-\-csaf\-file " " \fIcsaf\-file\fR
+Path to a single CSAF file to process. The conversion result can be saved via \fB\-o\fR or printed to standard output.
+.TP
+.BR \-D ", " \-\-csaf\-dir " " \fIcsaf\-dir\fR
+Path to a directory containing CSAF files. The program scans all \fB.json\fR files, extracts an OVAL ID from each filename, skips definitions already in the database, and writes new definitions to the database.
+.TP
+.BR \-F ", " \-\-fetch\-csaf
+Fetch CSAF files from the network. Requires the \fB[csaf_url]\fR section with a \fBurl\fR value (typically the URL of an \fIindex.txt\fR file). The program parses the index, downloads new advisories in bulk, and converts them.
+.TP
+.BR \-o ", " \-\-output " " \fIoutput\-file\fR
+Output path for the OVAL XML result of a single CSAF file conversion. Can only be used with \fB\-f\fR and is incompatible with \fB\-d\fR.
+.TP
+.BR \-d ", " \-\-daemon
+Run as an HTTP service daemon. The listen address and port are taken from the \fB[server]\fR section of the configuration file. In daemon mode, if \fB[csaf_url]\fR is configured, a background task periodically fetches CSAF files.
+.TP
+.BR \-\-init\-db
+Initialize the database. The program drops and recreates all tables, then inserts default operating-system information. Ensure the database connection is correctly configured before running this.
+.TP
+.BR \-h ", " \-\-help
+Display help information and exit.
+.TP
+.BR \-V ", " \-\-version
+Display version information and exit.
+.SH OPERATING MODES
+.B cu\-scanner
+selects an operating mode based on the command-line arguments. The modes are evaluated in the following priority order:
+.PP
+.RS
+.IP 1. 3
+If \fB\-\-init\-db\fR is specified, the program initializes the database and exits.
+.IP 2. 3
+If \fB\-d\fR is specified, the program enters daemon mode, starts the HTTP service, and starts the periodic CSAF fetch task if configured.
+.IP 3. 3
+If \fB\-F\fR is specified, the program fetches CSAF files from the network in batch and writes them to the database.
+.IP 4. 3
+If \fB\-D\fR is specified, the program batch processes CSAF files in a local directory.
+.IP 5. 3
+If \fB\-f\fR is specified, the program processes a single CSAF file.
+.RE
+.SH CONFIGURATION FILE
+.B cu\-scanner
+uses a TOML configuration file. The default path is \fI/etc/cu\-scanner/cu\-scanner.toml\fR. The file contains the following sections:
+.SS [database]
+PostgreSQL connection settings used to store OVAL definitions.
+.TP
+.BR host
+Database host address.
+.TP
+.BR port
+Database port; defaults to 5432.
+.TP
+.BR database
+Database name.
+.TP
+.BR username
+Database username.
+.TP
+.BR password
+Database password.
+.SS [csaf_url]
+Remote CSAF fetch configuration.
+.TP
+.BR url
+URL of the CSAF index file (usually \fIindex.txt\fR).
+.TP
+.BR fetch_interval_secs
+Interval in seconds between periodic CSAF fetches in daemon mode; defaults to 3600 (one hour).
+.SS [csaf_db]
+CSAF database connection settings used by the network synchronization module.
+.SS [logging]
+Logging configuration.
+.TP
+.BR level
+Log level; one of \fBdebug\fR, \fBinfo\fR, \fBwarn\fR, or \fBerror\fR.
+.TP
+.BR file
+Log file path, e.g. \fI/var/log/cu\-scanner.log\fR.
+.TP
+.BR stdout
+When set to \fBtrue\fR, logs are written to standard output and \fBfile\fR is ignored.
+.SS [api]
+API grouping configuration.
+.TP
+.BR group_name
+API route group name; defaults to \fBapi\fR.
+.SS [server]
+Daemon HTTP service configuration.
+.TP
+.BR port
+Service listen port; defaults to 8093.
+.TP
+.BR address
+Service listen address; defaults to \fB0.0.0.0\fR.
+.SS [package]
+Package-related configuration.
+.TP
+.BR epoch_file
+Path to the epoch data file, e.g. \fI/etc/cu\-scanner/epoch_data.json\fR.
+.TP
+.BR use_yum
+Whether to use yum as a package source.
+.TP
+.BR use_extra_yum
+Whether to use an additional yum source.
+.SH FILES
+.TP
+.I /etc/cu\-scanner/cu\-scanner.toml
+Default configuration file.
+.TP
+.I /etc/cu\-scanner/epoch_data.json
+Default epoch data file.
+.TP
+.I /var/log/cu\-scanner.log
+Default log file path (when \fB[logging].stdout\fR is \fBfalse\fR).
+.SH EXAMPLES
+The examples below assume \fBcu\-scanner\fR is installed in the system PATH. When running from source, replace \fBcu\-scanner\fR with \fBcargo run --bin cu\-scanner --\fR.
+.SS Convert a single CSAF file and save to a file
+.RS
+.nf
+cu-scanner -f test/csaf/csaf-openeuler-sa-2025-1004.json -o output.xml
+.fi
+.RE
+.SS Convert a single CSAF file to standard output
+.RS
+.nf
+cu-scanner -f test/csaf/csaf-openeuler-sa-2025-1004.json
+.fi
+.RE
+.SS Batch process CSAF files in a directory
+.RS
+.nf
+cu-scanner -D test/csaf/
+.fi
+.RE
+.SS Batch process with a custom configuration file
+.RS
+.nf
+cu-scanner -c /path/to/config.toml -D /path/to/csaf/files/
+.fi
+.RE
+.SS Fetch CSAF files from the network
+.RS
+.nf
+cu-scanner -F
+.fi
+.RE
+.SS Initialize the database
+.RS
+.nf
+cu-scanner --init-db
+.fi
+.RE
+.SS Run in daemon mode
+.RS
+.nf
+cu-scanner -d
+.fi
+.RE
+.SH EXIT STATUS
+.TP
+.B 0
+Successful execution.
+.TP
+.B Non-zero
+An error occurred, such as a file read failure, database connection failure, or conversion failure.
+.SH ENVIRONMENT
+.B cu\-scanner
+requires Rust 1.56 or later. PostgreSQL is optional but required for persistence features.
+.SH PROJECT STRUCTURE
+.B cu\-scanner
+is organized as a Rust workspace. Major modules include:
+.TP
+.I csaf/
+CSAF data structures and processing.
+.TP
+.I database/
+Database operations.
+.TP
+.I oval/
+OVAL data structures and processing.
+.TP
+.I parser/
+CSAF-to-OVAL conversion logic.
+.TP
+.I utils/
+Utility modules, including configuration parsing and logging.
+.TP
+.I cu\-scanner/
+Main program entry point.
+.TP
+.I networking/
+Network service and remote CSAF fetching.
+.SH AUTHORS
+Cao Jingbo
+.SH LICENSE
+MulanPSL\-2.0.

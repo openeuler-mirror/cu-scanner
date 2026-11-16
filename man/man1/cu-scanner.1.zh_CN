@@ -1,0 +1,248 @@
+.TH CU\-SCANNER 1 "2026年7月" "cu\-scanner 1.0.0" "用户命令"
+.SH NAME
+cu\-scanner \- 安全漏洞扫描与分析工具
+.SH SYNOPSIS
+.B cu\-scanner
+[\fB\-c\fR \fI配置文件\fR]
+[\fB\-f\fR \fIcsaf文件\fR]
+.br
+.B cu\-scanner
+[\fB\-c\fR \fI配置文件\fR]
+[\fB\-D\fR \fIcsaf目录\fR]
+.br
+.B cu\-scanner
+[\fB\-c\fR \fI配置文件\fR]
+\fB\-F\fR
+.br
+.B cu\-scanner
+[\fB\-c\fR \fI配置文件\fR]
+\fB\-d\fR
+.br
+.B cu\-scanner
+[\fB\-c\fR \fI配置文件\fR]
+\fB\-\-init\-db\fR
+.br
+.B cu\-scanner
+[\fB\-h\fR|\fB\-V\fR]
+.SH 描述
+.B cu\-scanner
+是一款网络安全漏洞扫描与分析工具。它处理 CSAF（通用安全公告框架，Common Security Advisory Framework）格式的安全公告，并将其转换为 OVAL（开放漏洞与评估语言，Open Vulnerability and Assessment Language）XML 文件。
+.PP
+主要功能：
+.IP \(bu 2
+读取并解析 CSAF 安全公告文件。
+.IP \(bu 2
+将 CSAF 公告转换为 OVAL 定义。
+.IP \(bu 2
+将转换结果保存到文件或输出到标准输出。
+.IP \(bu 2
+将 OVAL 定义及相关数据持久化到 PostgreSQL 数据库。
+.IP \(bu 2
+批量处理本地目录中的 CSAF 文件，自动跳过数据库中已有的定义。
+.IP \(bu 2
+定期从远程服务器获取 CSAF 索引并同步到数据库。
+.IP \(bu 2
+以守护进程方式运行，提供 HTTP API 服务。
+.SH 选项
+.TP
+.BR \-c ", " \-\-config " " \fI配置文件\fR
+配置文件路径。默认为 \fI/etc/cu\-scanner/cu\-scanner.toml\fR。如果加载失败，程序将回退到默认设置。
+.TP
+.BR \-f ", " \-\-csaf\-file " " \fIcsaf文件\fR
+要处理的单个 CSAF 文件路径。转换结果可通过 \fB\-o\fR 保存，或输出到标准输出。
+.TP
+.BR \-D ", " \-\-csaf\-dir " " \fIcsaf目录\fR
+包含 CSAF 文件的目录路径。程序扫描所有 \fB.json\fR 文件，从每个文件名中提取 OVAL ID，跳过数据库中已有的定义，并将新定义写入数据库。
+.TP
+.BR \-F ", " \-\-fetch\-csaf
+从网络获取 CSAF 文件。需要配置 \fB[csaf_url]\fR 段中的 \fBurl\fR 值（通常为 \fIindex.txt\fR 文件的 URL）。程序解析索引，批量下载新的公告并进行转换。
+.TP
+.BR \-o ", " \-\-output " " \fI输出文件\fR
+单个 CSAF 文件转换结果（OVAL XML）的输出路径。只能与 \fB\-f\fR 一起使用，且与 \fB\-d\fR 不兼容。
+.TP
+.BR \-d ", " \-\-daemon
+以 HTTP 服务守护进程方式运行。监听地址和端口取自配置文件的 \fB[server]\fR 段。在守护进程模式下，如果配置了 \fB[csaf_url]\fR，后台任务会定期获取 CSAF 文件。
+.TP
+.BR \-\-init\-db
+初始化数据库。程序删除并重建所有表，然后插入默认的操作系统信息。
+
+运行前请确保数据库连接已正确配置。
+.TP
+.BR \-h ", " \-\-help
+显示帮助信息并退出。
+.TP
+.BR \-V ", " \-\-version
+显示版本信息并退出。
+.SH 运行模式
+.B cu\-scanner
+根据命令行参数选择运行模式。模式按以下优先级顺序判定：
+.PP
+.RS
+.IP 1. 3
+如果指定了 \fB\-\-init\-db\fR，程序初始化数据库后退出。
+.IP 2. 3
+如果指定了 \fB\-d\fR，程序进入守护进程模式，启动 HTTP 服务，并在已配置的情况下启动周期性的 CSAF 获取任务。
+.IP 3. 3
+如果指定了 \fB\-F\fR，程序从网络批量获取 CSAF 文件并写入数据库。
+.IP 4. 3
+如果指定了 \fB\-D\fR，程序批量处理本地目录中的 CSAF 文件。
+.IP 5. 3
+如果指定了 \fB\-f\fR，程序处理单个 CSAF 文件。
+.RE
+.SH 配置文件
+.B cu\-scanner
+使用 TOML 格式的配置文件。默认路径为 \fI/etc/cu\-scanner/cu\-scanner.toml\fR。文件包含以下配置段：
+.SS [database]
+用于存储 OVAL 定义的 PostgreSQL 连接设置。
+.TP
+.BR host
+数据库主机地址。
+.TP
+.BR port
+数据库端口；默认为 5432。
+.TP
+.BR database
+数据库名称。
+.TP
+.BR username
+数据库用户名。
+.TP
+.BR password
+数据库密码。
+.SS [csaf_url]
+远程 CSAF 获取配置。
+.TP
+.BR url
+CSAF 索引文件的 URL（通常为 \fIindex.txt\fR）。
+.TP
+.BR fetch_interval_secs
+守护进程模式下周期性获取 CSAF 的间隔秒数；默认为 3600（一小时）。
+.SS [csaf_db]
+网络同步模块使用的 CSAF 数据库连接设置。
+.SS [logging]
+日志配置。
+.TP
+.BR level
+日志级别；可选值为 \fBdebug\fR、\fBinfo\fR、\fBwarn\fR 或 \fBerror\fR。
+.TP
+.BR file
+日志文件路径，例如 \fI/var/log/cu\-scanner.log\fR。
+.TP
+.BR stdout
+设置为 \fBtrue\fR 时，日志写入标准输出，\fBfile\fR 配置将被忽略。
+.SS [api]
+API 分组配置。
+.TP
+.BR group_name
+API 路由组名称；默认为 \fBapi\fR。
+.SS [server]
+守护进程 HTTP 服务配置。
+.TP
+.BR port
+服务监听端口；默认为 8093。
+.TP
+.BR address
+服务监听地址；默认为 \fB0.0.0.0\fR。
+.SS [package]
+软件包相关配置。
+.TP
+.BR epoch_file
+epoch 数据文件路径，例如 \fI/etc/cu\-scanner/epoch_data.json\fR。
+.TP
+.BR use_yum
+是否使用 yum 作为软件包来源。
+.TP
+.BR use_extra_yum
+是否使用额外的 yum 源。
+.SH 文件
+.TP
+.I /etc/cu\-scanner/cu\-scanner.toml
+默认配置文件。
+.TP
+.I /etc/cu\-scanner/epoch_data.json
+默认 epoch 数据文件。
+.TP
+.I /var/log/cu\-scanner.log
+默认日志文件路径（当 \fB[logging].stdout\fR 为 \fBfalse\fR 时）。
+.SH 示例
+以下示例假定 \fBcu\-scanner\fR 已安装在系统 PATH 中。从源码运行时，请将 \fBcu\-scanner\fR 替换为 \fBcargo run --bin cu\-scanner --\fR。
+.SS 转换单个 CSAF 文件并保存到文件
+.RS
+.nf
+cu-scanner -f test/csaf/csaf-openeuler-sa-2025-1004.json -o output.xml
+.fi
+.RE
+.SS 将单个 CSAF 文件转换输出到标准输出
+.RS
+.nf
+cu-scanner -f test/csaf/csaf-openeuler-sa-2025-1004.json
+.fi
+.RE
+.SS 批量处理目录中的 CSAF 文件
+.RS
+.nf
+cu-scanner -D test/csaf/
+.fi
+.RE
+.SS 使用自定义配置文件进行批量处理
+.RS
+.nf
+cu-scanner -c /path/to/config.toml -D /path/to/csaf/files/
+.fi
+.RE
+.SS 从网络获取 CSAF 文件
+.RS
+.nf
+cu-scanner -F
+.fi
+.RE
+.SS 初始化数据库
+.RS
+.nf
+cu-scanner --init-db
+.fi
+.RE
+.SS 以守护进程模式运行
+.RS
+.nf
+cu-scanner -d
+.fi
+.RE
+.SH 退出状态
+.TP
+.B 0
+执行成功。
+.TP
+.B 非零
+发生错误，例如文件读取失败、数据库连接失败或转换失败。
+.SH 环境
+.B cu\-scanner
+需要 Rust 1.56 或更高版本。PostgreSQL 为可选项，但持久化功能需要它。
+.SH 项目结构
+.B cu\-scanner
+以 Rust 工作区（workspace）形式组织。主要模块包括：
+.TP
+.I csaf/
+CSAF 数据结构与处理。
+.TP
+.I database/
+数据库操作。
+.TP
+.I oval/
+OVAL 数据结构与处理。
+.TP
+.I parser/
+CSAF 到 OVAL 的转换逻辑。
+.TP
+.I utils/
+工具模块，包括配置解析和日志。
+.TP
+.I cu\-scanner/
+主程序入口。
+.TP
+.I networking/
+网络服务与远程 CSAF 获取。
+.SH 作者
+Cao Jingbo
+.SH 许可证
+MulanPSL\-2.0
